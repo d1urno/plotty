@@ -1,10 +1,30 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core'
+import { getPaginationPolicy } from '@/functions'
 import type { AppModule } from '@/types/local'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 
 const httpLink = new HttpLink({ uri: 'https://rickandmortyapi.com/graphql' })
 
-const cache = new InMemoryCache()
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        characters: getPaginationPolicy(['filter', ['name', 'gender']]),
+        character: (_, { args, toReference, canRead }) => {
+          const ref = toReference({ __typename: 'Character', id: args?.id })
+          return canRead(ref) ? ref : undefined
+        },
+        charactersByIds: (_, { args, toReference, canRead }) => {
+          const results = args?.ids.map((id: number) => {
+            const ref = toReference({ __typename: 'Character', id })
+            return canRead(ref) ? ref : undefined
+          })
+          return results.every(Boolean) ? results : undefined
+        }
+      }
+    }
+  }
+})
 
 const apolloClient = new ApolloClient({
   link: httpLink,
