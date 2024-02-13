@@ -10,15 +10,26 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
+    "@apollo/client": "^3.9.4",
+    "@vue/apollo-composable": "^4.0.1",
     "@vueuse/core": "^10.7.2",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
     "pinia": "^2.1.7",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@graphql-codegen/add": "^5.0.2",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/schema-ast": "^4.0.2",
+    "@graphql-codegen/typescript": "^4.0.4",
+    "@graphql-codegen/typescript-operations": "^4.1.2",
+    "@graphql-codegen/typescript-vue-apollo": "^4.1.1",
     "@rushstack/eslint-patch": "^1.7.2",
     "@tsconfig/node20": "^20.1.2",
     "@types/node": "^20.11.16",
