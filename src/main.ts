@@ -1,14 +1,21 @@
 import './assets/main.css'
-
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-
+import type { AppModule } from '@/types/local'
+import HomeView from '@/views/HomeView.vue'
 import App from './App.vue'
-import router from './router'
 
 const app = createApp(App)
 
-app.use(createPinia())
-app.use(router)
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView
+  }
+]
+
+Object.values(import.meta.glob('./plugins/*.ts', { eager: true })).map((i) =>
+  (i as { install?: AppModule }).install?.({ app, routes, baseUrl: import.meta.env.BASE_URL })
+)
 
 app.mount('#app')
