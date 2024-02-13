@@ -21,6 +21,7 @@
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
     "pinia": "^2.1.7",
+    "uuid": "^9.0.1",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
   },
@@ -36,6 +37,7 @@
     "@tailwindcss/typography": "^0.5.10",
     "@tsconfig/node20": "^20.1.2",
     "@types/node": "^20.11.16",
+    "@types/uuid": "^9.0.8",
     "@vitejs/plugin-vue": "^5.0.3",
     "@vue/eslint-config-airbnb-with-typescript": "^8.0.0",
     "@vue/eslint-config-prettier": "^8.0.0",
