@@ -3,6 +3,7 @@ import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { getFileBasedRouteName } from 'unplugin-vue-router'
+import Layouts from 'vite-plugin-vue-layouts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,7 +16,8 @@ export default defineConfig({
         route.path = route.fullPath.replace('-page', '')
       }
     }),
-    vue()
+    vue(),
+    Layouts({ defaultLayout: 'default-layout' })
   ],
   resolve: {
     alias: {
