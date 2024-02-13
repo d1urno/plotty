@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue'
 import { getFileBasedRouteName } from 'unplugin-vue-router'
 import Layouts from 'vite-plugin-vue-layouts'
 import { webfontDownload } from 'vite-plugin-webfont-dl'
+import VueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -19,7 +20,8 @@ export default defineConfig({
     }),
     vue(),
     Layouts({ defaultLayout: 'default-layout' }),
-    webfontDownload()
+    webfontDownload(),
+    VueDevTools()
   ],
   resolve: {
     alias: {
