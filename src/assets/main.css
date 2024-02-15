@@ -19,7 +19,7 @@
 }
 
 .list-leave-active {
-  @apply absolute hidden;
+  @apply absolute !hidden; /* This is marked as important to override drag and drop leave animation */
 }
 
 .list-leave-to {

@@ -3,7 +3,7 @@ import type { QueriedCharacterListItem } from '@/composables/useCharacterList'
 
 const props = defineProps<{
   character: QueriedCharacterListItem
-  selected?: boolean
+  selected?: boolean // Not in use
   horizontal?: boolean
 }>()
 
@@ -46,11 +46,12 @@ function onClick() {
           class="flex h-full items-center justify-center"
           :class="{ 'mb-4 w-full': !horizontal }"
         >
+          <!-- 👇🏼 pointer-events-none not to open the image on touch events -->
           <img
             :src="character.image"
             :alt="character.name"
             draggable="false"
-            class="rounded-full object-cover"
+            class="pointer-events-none rounded-full object-cover"
             :class="{ 'h-32 w-32': !horizontal, 'h-20 w-20': horizontal }"
           />
         </div>

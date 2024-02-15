@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import DropZone from '@/components/DropZone.vue'
 import DraggableItem from '@/components/DraggableItem.vue'
+import { Container } from 'vue3-dndrop'
 import CharacterThumb from '@/components/CharacterThumb.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import type { Character } from '@/types/generated'
+import useStore from '@/stores'
+import { storeToRefs } from 'pinia'
 
 const props = defineProps<{
   selectedCharacterIds: string[]
@@ -21,6 +23,9 @@ const emit = defineEmits<{
   click: [Pick<Character, 'id' | 'name' | 'image' | 'species'>]
 }>()
 
+const { isDragging } = storeToRefs(useStore())
+const draggingInto = ref(false)
+
 const variables = computed(() => ({ ids: props.selectedCharacterIds }))
 
 // Cache only as selection queries can be grouped on a parent component query
@@ -30,24 +35,33 @@ const selectedCharacters = computed(() =>
   characterList.value?.filter((cd) => props.selectedCharacterIds.includes(cd.id))
 )
 
-function onDrop(payload: { item: unknown; from?: string }) {
-  emit('drop', payload as { item: Character; from?: string })
+function onDrop(data: { payload: { item: Character; from?: string } }) {
+  draggingInto.value = false
+  emit('drop', data.payload)
 }
 
 function onCardClick(character: Pick<Character, 'id' | 'name' | 'image' | 'species'>) {
   emit('click', character)
+}
+
+function onDragEnter() {
+  draggingInto.value = true
+}
+
+function onDragLeave() {
+  draggingInto.value = false
 }
 </script>
 
 <template>
   <div>
     <h1 class="mb-4 hidden text-2xl font-bold lg:block">{{ label }}</h1>
-    <DropZone
+    <div
       class="relative h-full min-h-[8rem] lg:h-auto"
       :class="{
-        'box-content rounded border-2 border-dashed border-blue-700/65': !readonly
+        'box-content rounded border-2 border-dashed border-blue-700/65': !readonly,
+        'bg-blue-300/50': draggingInto
       }"
-      @item-dropped="onDrop"
     >
       <p class="m-2 text-left font-bold lg:hidden">{{ label }}</p>
       <div v-if="loading" class="flex h-full items-center justify-center">
@@ -58,13 +72,12 @@ function onCardClick(character: Pick<Character, 'id' | 'name' | 'image' | 'speci
         v-else-if="!selectedCharacters?.length && !readonly"
         class="absolute inset-0 flex h-full items-center justify-center p-4 text-center text-blue-700/65"
       >
-        <p class="hidden w-48 select-none lg:block">Drag and drop characters here...</p>
-        <p class="w-48 select-none lg:hidden">Select your characters...</p>
+        <p class="w-48 select-none">Drag and drop characters here...</p>
       </div>
 
       <ul
         v-else-if="selectedCharacters?.length"
-        class="flex flex-wrap sm:grid-cols-2 md:grid-cols-3"
+        class="relative z-10 flex flex-wrap sm:grid sm:grid-cols-2 md:grid-cols-3"
         :class="{
           'justify-start': readonly,
           'justify-center': !readonly
@@ -82,7 +95,20 @@ function onCardClick(character: Pick<Character, 'id' | 'name' | 'image' | 'speci
           </DraggableItem>
         </transition-group>
       </ul>
-    </DropZone>
+      <Container
+        :group-name="selectionName"
+        :should-accept-drop="() => true"
+        :should-animate-drop="() => false"
+        class="!absolute inset-0 h-full w-full"
+        :class="{ 'z-10': isDragging }"
+        orientation="horizontal"
+        @drop="onDrop"
+        @drag-enter="onDragEnter"
+        @drag-leave="onDragLeave"
+      >
+        <div></div>
+      </Container>
+    </div>
   </div>
 </template>
 

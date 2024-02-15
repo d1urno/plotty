@@ -38,6 +38,9 @@ dependencies:
   vue-router:
     specifier: ^4.2.5
     version: 4.2.5(vue@3.4.15)
+  vue3-dndrop:
+    specifier: github:novikov-dv/vue3-dndrop
+    version: github.com/novikov-dv/vue3-dndrop/1fd0539070dc54890a7062f55bc1458eed2d8786(typescript@5.3.3)
 
 devDependencies:
   '@graphql-codegen/add':
@@ -7470,4 +7473,15 @@ packages:
 
   /zen-observable@0.8.15:
     resolution: {integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==}
+    dev: false
+
+  github.com/novikov-dv/vue3-dndrop/1fd0539070dc54890a7062f55bc1458eed2d8786(typescript@5.3.3):
+    resolution: {tarball: https://codeload.github.com/novikov-dv/vue3-dndrop/tar.gz/1fd0539070dc54890a7062f55bc1458eed2d8786}
+    id: github.com/novikov-dv/vue3-dndrop/1fd0539070dc54890a7062f55bc1458eed2d8786
+    name: vue3-dndrop
+    version: 0.0.3
+    dependencies:
+      vue: 3.4.15(typescript@5.3.3)
+    transitivePeerDependencies:
+      - typescript
     dev: false

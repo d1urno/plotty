@@ -11,6 +11,7 @@ const useStore = defineStore('store', () => {
   const appModal = ref<AppModal>()
   const appToasts = ref<GenericToast[]>()
 
+  const isDragging = ref(false)
   const isPromptLoading = ref(false)
   const isAiLoading = ref(false)
   const apiKey: Ref<string | undefined> = useLocalStorage<string | undefined>('apiKey', undefined)
@@ -26,6 +27,7 @@ const useStore = defineStore('store', () => {
   return {
     apiKey,
     stories,
+    isDragging,
     isPromptLoading,
     isAiLoading,
     appModal,

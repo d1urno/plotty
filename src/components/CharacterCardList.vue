@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import CharacterCard from '@/components/CharacterCard.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
-import DraggableItem from '@/components/DraggableItem.vue'
 import { storeToRefs } from 'pinia'
 import useStore from '@/stores'
 import { computed } from 'vue'
 import useInfiniteScroll from '@/composables/useInfiniteScroll'
+import { Container, Draggable } from 'vue3-dndrop'
 import type { QueriedCharacterList, QueriedCharacterListItem } from '@/composables/useCharacterList'
 
 const props = defineProps<{
@@ -19,7 +19,7 @@ const emit = defineEmits<{
   click: [character: QueriedCharacterListItem]
 }>()
 
-const { storyFormData } = storeToRefs(useStore())
+const { storyFormData, isDragging } = storeToRefs(useStore())
 const { infiniteScrollTrigger, infiniteScrollRoot } = useInfiniteScroll(() => emit('fetchNext'))
 
 const selectedIds = computed(() => [
@@ -33,6 +33,18 @@ const filteredCharacterList = computed(() =>
 function onCardClick(character: QueriedCharacterListItem) {
   emit('click', character)
 }
+
+function getChildPayload(index: number) {
+  return { item: filteredCharacterList.value?.[index] }
+}
+
+function onDragStart() {
+  isDragging.value = true
+}
+
+function onDragEnd() {
+  isDragging.value = false
+}
 </script>
 
 <template>
@@ -42,21 +54,27 @@ function onCardClick(character: QueriedCharacterListItem) {
     <div v-else-if="!filteredCharacterList?.length" class="pt-8">No results found...</div>
 
     <div v-else class="relative pb-[80px]">
-      <ul class="grid lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-6">
+      <Container
+        class="grid lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-6"
+        behaviour="copy"
+        :drag-class="'rotate-12 transform transition'"
+        :drop-class="'rotate-0'"
+        :get-child-payload="getChildPayload"
+        :drag-begin-delay="100"
+        fire-related-events-only
+        @drag-start="onDragStart"
+        @drag-end="onDragEnd"
+      >
         <transition-group name="list" appear>
-          <DraggableItem
+          <Draggable
             v-for="character in filteredCharacterList"
             :key="character.id"
             :item="character"
           >
-            <CharacterCard
-              :character="character"
-              :selected="selectedIds?.some((id) => id === character.id)"
-              @click="onCardClick(character)"
-            />
-          </DraggableItem>
+            <CharacterCard :character="character" @click="onCardClick(character)" />
+          </Draggable>
         </transition-group>
-      </ul>
+      </Container>
 
       <span ref="infiniteScrollTrigger"></span>
 
