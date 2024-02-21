@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { StoryStyle } from '@/constants/rules'
 import { computed } from 'vue'
+import CogIcon from '@/components/icons/CogIcon.vue'
 
 const props = defineProps<{
   disabled: boolean
@@ -34,19 +35,22 @@ function onGenerateStory() {
       class="flex w-full justify-center gap-8 bg-blue-300/20 py-4 lg:flex-col lg:items-center lg:gap-2"
     >
       <button
-        class="block w-32 whitespace-pre p-2 font-bold text-blue-500 underline"
-        type="button"
-        @click="onOpenSettings"
-      >
-        <span>Additional settings</span>
-      </button>
-      <button
-        class="block rounded-full bg-blue-500 px-6 py-2 text-lg font-bold text-white shadow-lg ring-2 ring-white transition-transform duration-200 ease-out disabled:bg-gray-300 lg:w-max lg:text-2xl"
+        class="flex items-center gap-3 overflow-hidden rounded-full bg-blue-500 pr-6 text-lg font-bold text-white shadow-lg ring-2 ring-white transition-transform duration-200 ease-out disabled:bg-gray-300 lg:w-max lg:text-2xl"
         :class="{ 'hover:scale-105': !disabled && !loading && !isAiLoading }"
         type="button"
         :disabled="disabled || loading || isAiLoading"
         @click="onGenerateStory"
       >
+        <button
+          type="button"
+          :disabled="disabled || loading || isAiLoading"
+          :class="{ group: !disabled && !loading && !isAiLoading }"
+          class="-mr-3 bg-black/20 py-3 pl-4 pr-3"
+          @click.stop="onOpenSettings"
+        >
+          <CogIcon class="transition-transform group-hover:scale-125" />
+        </button>
+        <span class="block h-12 w-[2px] bg-white"></span>
         <span>{{ isAiLoading ? 'Generating...' : generateButtonLabel }}</span>
       </button>
     </div>
