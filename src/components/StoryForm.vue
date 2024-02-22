@@ -140,6 +140,8 @@ async function onGenerateStory() {
         cache-only
         :loading="loading"
         :selected-character-ids="storyFormData.mainCharacters"
+        :highlighted-character-ids="storyFormData.decisionMakers"
+        highlight-color="orange"
         @drop="onRoleDrop($event, 'main')"
         @click="onRoleRemove($event.id, 'main')"
       />

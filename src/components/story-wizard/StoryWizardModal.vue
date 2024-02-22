@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import GenericModal from '@/components/GenericModal.vue'
-import { StoryStructure } from '@/constants/rules'
+import { StoryMode, StoryStructure } from '@/constants/rules'
 import { computed, ref } from 'vue'
 import { useRefHistory } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
@@ -12,6 +12,7 @@ import StoryWizardChaptersStep from '@/components/story-wizard/StoryWizardChapte
 import StoryWizardLengthStep from '@/components/story-wizard/StoryWizardLengthStep.vue'
 import StoryWizardModeStep from '@/components/story-wizard/StoryWizardModeStep.vue'
 import StoryWizardSpecialInstructionsStep from '@/components/story-wizard/StoryWizardSpecialInstructionsStep.vue'
+import StoryWizardCharacterStep from '@/components/story-wizard/StoryWizardCharacterStep.vue'
 
 const model = defineModel<{ visible: boolean }>()
 
@@ -32,6 +33,13 @@ const transitionName = computed(() => {
   return ''
 })
 
+function needsToSelectWhoDecides() {
+  return (
+    storyFormData.value.storyMode === StoryMode.DECISION_MAKING &&
+    storyFormData.value.mainCharacters.length > 1
+  )
+}
+
 const percentage = computed(() => {
   let base: number
   if (storyFormData.value.storyStructure === StoryStructure.SIMPLE) base = 5
@@ -39,11 +47,13 @@ const percentage = computed(() => {
   else if (storyFormData.value.storyStructure === StoryStructure.MULTI_CHAPTER) base = 7
   else base = 8
 
+  if (needsToSelectWhoDecides()) base += 1
+
   return `${Math.round((step.value / base) * 100)}%`
 })
 
 function onNextStep() {
-  if (step.value < 7) step.value += 1
+  if (step.value < 8) step.value += 1
 }
 
 function onPrevStep() {
@@ -82,6 +92,7 @@ function getSixthStepComponent() {
     case StoryStructure.MULTI_CHAPTER:
       return StoryWizardModeStep
     case StoryStructure.OPEN_ENDING:
+      if (needsToSelectWhoDecides()) return StoryWizardCharacterStep
       return StoryWizardSpecialInstructionsStep
     default:
       return StoryWizardSpecialInstructionsStep
@@ -91,6 +102,7 @@ function getSixthStepComponent() {
 function getSeventhStepComponent() {
   switch (storyFormData.value.storyStructure) {
     case StoryStructure.MULTI_CHAPTER:
+      if (needsToSelectWhoDecides()) return StoryWizardCharacterStep
       return StoryWizardSpecialInstructionsStep
     case StoryStructure.OPEN_ENDING:
       return StoryWizardSpecialInstructionsStep
@@ -152,6 +164,7 @@ const stepComponent = computed(() => {
             v-model:story-style-model="storyFormData.storyStyle"
             v-model:story-structure-model="storyFormData.storyStructure"
             v-model:story-mode-model="storyFormData.storyMode"
+            v-model:story-decision-makers-model="storyFormData.decisionMakers"
             v-model:story-length-model="storyFormData.storyLength"
             v-model:story-genres-model="storyFormData.storyGenres"
             v-model:total-chapters-model="storyFormData.totalChapters"

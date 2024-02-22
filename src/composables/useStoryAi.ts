@@ -44,6 +44,9 @@ function useStoryAi() {
         secondaryCharacters: characters.filter((cd) =>
           storyFormData.value.secondaryCharacters.includes(cd.id)
         ),
+        decisionMakers: characters.filter((cd) =>
+          storyFormData.value.decisionMakers.includes(cd.id)
+        ),
         totalChapters: storyFormData.value.totalChapters,
         storyLength: storyFormData.value.storyLength,
         storyMode: storyFormData.value.storyMode,
@@ -110,7 +113,7 @@ function useStoryAi() {
         content?: string
         chapters?: { title: string; content: string }[]
         nextChapterSuggestions?: string[]
-        nextChapterActionDecisions?: string[]
+        nextChapterActionDecisions?: { characterName: string; actions: string[] }
       } = JSON.parse(result.choices[0].message.content)
 
       const chapters: Chapter[] = aiResult.chapters?.map((c) => ({
@@ -118,7 +121,9 @@ function useStoryAi() {
         created: new Date().toISOString(),
         title: c.title,
         content: c.content,
-        nextChapterChoices: aiResult.nextChapterSuggestions ?? aiResult.nextChapterActionDecisions
+        decidingCharacterName: aiResult.nextChapterActionDecisions?.characterName,
+        nextChapterChoices:
+          aiResult.nextChapterSuggestions ?? aiResult.nextChapterActionDecisions?.actions
       })) ?? [
         {
           id: generateUniqueId(),

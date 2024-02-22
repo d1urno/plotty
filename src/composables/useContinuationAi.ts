@@ -63,6 +63,9 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
         secondaryCharacters: characters.filter(
           (cd) => story.value && story.value.secondaryCharacters.includes(cd.id)
         ),
+        decisionMakers: characters.filter(
+          (cd) => story.value && story.value.decisionMakers.includes(cd.id)
+        ),
         story: story.value,
         continuationInstruction
       })
@@ -130,7 +133,7 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
       const aiResult: {
         chapter: Chapter
         nextChapterSuggestions?: string[]
-        nextChapterActionDecisions?: string[]
+        nextChapterActionDecisions?: { characterName: string; actions: string[] }
       } = JSON.parse(result.choices[0].message.content)
 
       // Have the result, so we can save the choice made in the previous chapter
@@ -152,7 +155,9 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
           created: new Date().toISOString(),
           title: aiResult.chapter.title,
           content: aiResult.chapter.content,
-          nextChapterChoices: aiResult.nextChapterSuggestions || aiResult.nextChapterActionDecisions
+          decidingCharacterName: aiResult.nextChapterActionDecisions?.characterName,
+          nextChapterChoices:
+            aiResult.nextChapterSuggestions || aiResult.nextChapterActionDecisions?.actions
         })
       }
       // Persist both

@@ -1,6 +1,6 @@
 import type { Chapter, GetContinuationPromptOptions, Story } from '@/types/local'
 import { StoryMode, StoryStyle } from '@/constants/rules'
-import { getBlock, getLineIf } from '@/utils'
+import { getBlock, getBlockIf, getLineIf } from '@/utils'
 import storyChecks from '@/functions/storyChecks'
 
 const omittedFields: (keyof Story)[] | (keyof Chapter)[] = [
@@ -9,6 +9,7 @@ const omittedFields: (keyof Story)[] | (keyof Chapter)[] = [
   'updated',
   '__typename',
   'nextChapterChoices',
+  'decidingCharacterName'
 ]
 
 export default function buildContinuationPrompt(options: GetContinuationPromptOptions) {
@@ -44,6 +45,13 @@ export default function buildContinuationPrompt(options: GetContinuationPromptOp
     omittedFields
   )
 
+  const decisionMakersCharactersBlock = getBlockIf(
+    checks.requiresActions() || checks.requiresLastChapterActions(),
+    'Given only these characters that need to make the decisions',
+    options.decisionMakers?.map((c) => c.name).join(', '),
+    omittedFields
+  )
+
   const nextChapterBlock = getBlock(
     'Given this choice for the continuation of the story coming from user input',
     options.continuationInstruction
@@ -62,7 +70,7 @@ export default function buildContinuationPrompt(options: GetContinuationPromptOp
     title: string
     content: string
   }
-  ${getLineIf(checks.requiresActions() || checks.requiresLastChapterActions(), 'nextChapterActionDecisions: string[]')}
+  ${getLineIf(checks.requiresActions() || checks.requiresLastChapterActions(), 'nextChapterActionDecisions: { characterName: string, actions: string[] }')}
   ${getLineIf(checks.requiresSuggestions() || checks.requiresLastChapterSuggestions(), 'nextChapterSuggestions: string[]')}
 }`
   )
@@ -87,6 +95,7 @@ ${genreBlock}
 ${chaptersBlock}
 ${mainCharactersBlock}
 ${secondaryCharactersBlock}
+${decisionMakersCharactersBlock}
 ${nextChapterBlock}
 ${userInstructionsBlock}
 ${structureBlock}

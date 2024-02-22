@@ -14,6 +14,7 @@ export type AppModule = (context: { app: App; routes: RouteRecordRaw[]; baseUrl:
 export interface GetStoryPromptOptions {
   mainCharacters?: QueriedCharacterItemsByIdsItem[]
   secondaryCharacters?: QueriedCharacterItemsByIdsItem[]
+  decisionMakers?: QueriedCharacterItemsByIdsItem[]
   specialInstructions?: string
   totalChapters: number
   storyMode: StoryMode
@@ -26,6 +27,7 @@ export interface GetStoryPromptOptions {
 export interface GetContinuationPromptOptions {
   mainCharacters?: QueriedCharacterItemsByIdsItem[]
   secondaryCharacters?: QueriedCharacterItemsByIdsItem[]
+  decisionMakers?: QueriedCharacterItemsByIdsItem[]
   story: Story
   continuationInstruction: string
 }
@@ -38,6 +40,7 @@ export interface Chapter {
   title: string
   content: string
   customInstructions?: string
+  decidingCharacterName?: string
   nextChapterChoices?: string[]
   selectedChoiceIndex?: number
   customChoice?: string
@@ -51,6 +54,7 @@ export interface Story {
   title: string
   mainCharacters: string[]
   secondaryCharacters: string[]
+  decisionMakers: string[]
   chapters: Chapter[]
   totalChapters: number
   storyStyle: StoryStyle

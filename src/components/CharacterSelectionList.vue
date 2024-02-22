@@ -8,9 +8,12 @@ import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import type { Character } from '@/types/generated'
 import useStore from '@/stores'
 import { storeToRefs } from 'pinia'
+import type { Color } from '@/functions/getColorClasses'
 
 const props = defineProps<{
   selectedCharacterIds: string[]
+  highlightedCharacterIds?: string[]
+  highlightColor?: Color
   label?: string
   loading?: boolean
   selectionName?: string
@@ -91,7 +94,12 @@ function onDragLeave() {
             :from="selectionName"
             :disabled="readonly"
           >
-            <CharacterThumb :character="item" @click="onCardClick(item)" />
+            <CharacterThumb
+              :character="item"
+              :selected="highlightedCharacterIds?.includes(item.id)"
+              :selected-color="highlightColor"
+              @click="onCardClick(item)"
+            />
           </DraggableItem>
         </transition-group>
       </ul>

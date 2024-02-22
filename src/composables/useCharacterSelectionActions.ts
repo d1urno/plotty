@@ -55,6 +55,14 @@ export default function useCharacterSelectionActions() {
   }
 
   async function onMainRoleRemove(id: string) {
+    if (storyFormData.value.decisionMakers.includes(id)) {
+      showToast({
+        content: 'That character is selected to make decisions in your story and cannot be removed',
+        closable: true,
+        type: 'info'
+      })
+      return false
+    }
     return !!(await replaceQuery({
       mainIds: storyFormData.value.mainCharacters.filter((mId) => mId !== id)
     }))

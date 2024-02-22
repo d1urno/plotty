@@ -15,8 +15,10 @@ import NumberInput from '@/components/form/NumberInput.vue'
 import TextInput from '@/components/form/TextInput.vue'
 import CheckInput from '@/components/form/CheckInput.vue'
 import MultiSelectInput from '@/components/form/MultiSelectInput.vue'
+import WhoDecidesModal from '@/components/WhoDecidesModal.vue'
 import { storeToRefs } from 'pinia'
 import useStore from '@/stores'
+import { ref } from 'vue'
 
 const model = defineModel<{ visible: boolean }>()
 
@@ -26,6 +28,8 @@ const emit = defineEmits<{
 }>()
 
 const { storyFormData, apiKey } = storeToRefs(useStore())
+
+const whoDecidesModal = ref<{ visible: boolean }>()
 
 function isGenreDisabled(genre: StoryGenre) {
   if (
@@ -51,6 +55,15 @@ function onStoryStructureChange(mode: StoryStructure) {
   if (mode === StoryStructure.OPEN_ENDING) storyFormData.value.totalChapters = 0
   else if (mode === StoryStructure.SIMPLE) storyFormData.value.totalChapters = 1
   else storyFormData.value.totalChapters = 3
+}
+
+function onStoryModeChange(mode: StoryMode) {
+  if (mode === StoryMode.DECISION_MAKING) {
+    storyFormData.value.decisionMakers = [storyFormData.value.mainCharacters[0]]
+    if (storyFormData.value.mainCharacters.length > 1) whoDecidesModal.value = { visible: true }
+  } else {
+    storyFormData.value.decisionMakers = []
+  }
 }
 
 function onGenerateStory(close: () => void) {
@@ -138,8 +151,10 @@ function onGenerateStory(close: () => void) {
         v-model="storyFormData.storyMode"
         label="Decision Making Mode"
         tag-style
+        color="orange"
         class="col-span-4 mx-auto mb-1 mt-auto md:col-span-2"
         :options="[StoryMode.NORMAL, StoryMode.DECISION_MAKING]"
+        @update:model-value="onStoryModeChange"
       />
 
       <TextInput
@@ -186,5 +201,7 @@ function onGenerateStory(close: () => void) {
         </button>
       </div>
     </template>
+
+    <WhoDecidesModal v-if="whoDecidesModal" v-model="whoDecidesModal" />
   </GenericModal>
 </template>

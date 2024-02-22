@@ -1,6 +1,6 @@
 import type { Chapter, GetStoryPromptOptions, Story } from '@/types/local'
 import { StoryMode, StoryStyle } from '@/constants/rules'
-import { getBlock, getLineIf } from '@/utils'
+import { getBlock, getBlockIf, getLineIf } from '@/utils'
 import storyChecks from '@/functions/storyChecks'
 
 const omittedFields: (keyof Story)[] | (keyof Chapter)[] = [
@@ -9,6 +9,7 @@ const omittedFields: (keyof Story)[] | (keyof Chapter)[] = [
   'updated',
   '__typename',
   'nextChapterChoices',
+  'decidingCharacterName'
 ]
 
 export default function buildStoryPrompt(options: GetStoryPromptOptions) {
@@ -39,6 +40,13 @@ export default function buildStoryPrompt(options: GetStoryPromptOptions) {
     omittedFields
   )
 
+  const decisionMakersCharactersBlock = getBlockIf(
+    checks.requiresActions() || checks.requiresLastChapterActions(),
+    'Given only these characters that need to make the decisions',
+    options.decisionMakers?.map((c) => c.name).join(', '),
+    omittedFields
+  )
+
   const userInstructionsBlock = getBlock(
     'Given these special instructions coming from the user',
     options.specialInstructions
@@ -50,7 +58,7 @@ export default function buildStoryPrompt(options: GetStoryPromptOptions) {
 {
   title: string
   ${!checks.isSingleChapter() ? 'chapters: { title: string, content: string }[]' : 'content: string'}
-  ${getLineIf(checks.requiresActions(), 'nextChapterActionDecisions: string[]')}
+  ${getLineIf(checks.requiresActions(), 'nextChapterActionDecisions: { characterName: string, actions: string[] }')}
   ${getLineIf(checks.requiresSuggestions(), 'nextChapterSuggestions: string[]')}
 }`
   )
@@ -80,6 +88,7 @@ ${getLineIf(!checks.isSingleChapter(), `- IMPORTANT: Do not include the number o
 ${genreBlock}
 ${mainCharactersBlock}
 ${secondaryCharactersBlock}
+${decisionMakersCharactersBlock}
 ${userInstructionsBlock}
 ${structureBlock}
 ${instructionsBlock}`

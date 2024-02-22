@@ -16,6 +16,7 @@ import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { StoryMode, StoryStructure } from '@/constants/rules'
 import type { Story } from '@/types/local'
 import getGenreImg from '@/functions/getGenreImg'
+import CharacterThumb from '@/components/CharacterThumb.vue'
 
 const router = useRouter()
 const route = useRoute<'/story/[storyId]'>()
@@ -31,7 +32,7 @@ const variables = computed(() =>
       }
     : undefined
 )
-const { loading } = useCharacterListByIds(variables)
+const { characterList, loading } = useCharacterListByIds(variables)
 const { getContinuationPrompt, generateContinuation, isPromptLoading, isAiLoading } =
   useContinuationAi(storyId)
 const { showModal } = useModal()
@@ -50,6 +51,12 @@ const characterModal = ref<{
   visible: boolean
   character: QueriedCharacterListItem
 }>()
+
+const nextDecidingCharacter = computed(() => {
+  if (!story.value) return undefined
+  const lastChapter = story.value.chapters[story.value.chapters.length - 1]
+  return characterList.value?.find((c) => c.name === lastChapter.decidingCharacterName)
+})
 
 function onCardClick(character: QueriedCharacterListItem) {
   characterModal.value = { visible: true, character }
@@ -158,6 +165,8 @@ function onDecisionRevert(chapterIndex: number) {
             cache-only
             :loading="loading"
             :selected-character-ids="story.mainCharacters"
+            :highlighted-character-ids="story.decisionMakers"
+            highlight-color="orange"
             readonly
             @click="onCardClick"
           />
@@ -199,7 +208,9 @@ function onDecisionRevert(chapterIndex: number) {
               <div
                 class="mx-auto mb-2 mt-10 max-w-xs rounded bg-blue-500 p-3 text-sm font-semibold text-blue-100 opacity-50 shadow-md ring-2 ring-white"
               >
-                <span class="mb-3 block text-center text-white">You have chosen</span>
+                <span class="mb-3 flex items-center justify-center gap-5 text-white">
+                  {{ chapter.decidingCharacterName }} has chosen
+                </span>
                 <span v-if="typeof chapter.selectedChoiceIndex === 'number'" class="italic">
                   {{ chapter.nextChapterChoices[chapter.selectedChoiceIndex] }}
                 </span>
@@ -220,11 +231,20 @@ function onDecisionRevert(chapterIndex: number) {
           "
         >
           <h2 class="mb-4 mt-10 text-center font-garamond text-xl font-bold">
-            <span v-if="story.storyMode === StoryMode.DECISION_MAKING">
+            <span
+              v-if="story.storyMode === StoryMode.DECISION_MAKING"
+              class="flex flex-col items-center justify-center gap-2"
+            >
+              <CharacterThumb
+                v-if="nextDecidingCharacter"
+                mini
+                :character="nextDecidingCharacter"
+                @click="onCardClick"
+              />
               {{
                 story.chapters.length + 1 === story.totalChapters
-                  ? '...make a last decision'
-                  : '...make a decision to continue'
+                  ? `...${nextDecidingCharacter?.name} makes a last decision`
+                  : `...${nextDecidingCharacter?.name} makes a decision to continue`
               }}
             </span>
             <span v-else>
