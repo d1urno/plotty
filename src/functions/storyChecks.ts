@@ -1,9 +1,10 @@
 import type { Chapter } from '@/types/local'
-import { StoryMode, StoryStructure } from '@/constants/rules'
+import { StoryGenre, StoryMode, StoryStructure } from '@/constants/rules'
 
 interface StoryChecksOptions {
   storyMode: StoryMode
   storyStructure: StoryStructure
+  storyGenres: StoryGenre[]
   totalChapters: number
   chapters?: Chapter[]
 }
@@ -47,6 +48,10 @@ export default function storyChecks(options: StoryChecksOptions) {
     return !requiresLastChapterActions() && isNextLastChapter() && !isSingleChapter()
   }
 
+  function requiresGenre() {
+    return options.storyGenres.length === 1 && options.storyGenres[0] === StoryGenre.AI
+  }
+
   return {
     requiresActions,
     requiresSuggestions,
@@ -56,6 +61,7 @@ export default function storyChecks(options: StoryChecksOptions) {
     requiresLastChapterActions,
     isSingleChapter,
     isMultiChapter,
-    isOpenEnding
+    isOpenEnding,
+    requiresGenre
   }
 }

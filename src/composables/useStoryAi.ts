@@ -11,6 +11,7 @@ import { generateUniqueId } from '@/utils'
 import useCharacterItemsByIds from '@/composables/useCharacterItemsByIds'
 import type { GetCharacterItemsByIdsQueryVariables } from '@/types/generated'
 import useStoryForm from '@/composables/useStoryForm'
+import type { StoryGenre } from '@/constants/rules'
 
 function useStoryAi() {
   const { stories, isPromptLoading, isAiLoading, apiKey } = storeToRefs(useStore())
@@ -116,6 +117,7 @@ function useStoryAi() {
         chapters?: { title: string; content: string }[]
         nextChapterSuggestions?: string[]
         nextChapterActionDecisions?: { characterName: string; actions: string[] }
+        genre?: StoryGenre
       } = JSON.parse(result.choices[0].message.content)
 
       const chapters: Chapter[] = aiResult.chapters?.map((c) => ({
@@ -136,6 +138,7 @@ function useStoryAi() {
       ]
 
       const newStory: Story = { ...payload, title: aiResult.title, chapters }
+      if (aiResult.genre) newStory.storyGenres = [aiResult.genre]
       stories.value = [newStory, ...stories.value]
       if (toastId) hideToast(toastId)
 

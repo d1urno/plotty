@@ -16,8 +16,8 @@ import CheckInput from '@/components/form/CheckInput.vue'
 import MultiSelectInput from '@/components/form/MultiSelectInput.vue'
 import WhoDecidesModal from '@/components/WhoDecidesModal.vue'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
 import { useStore } from '@/stores'
+import { computed, ref } from 'vue'
 import useStoryForm from '@/composables/useStoryForm'
 import useStoryFormActions from '@/composables/useStoryFormActions'
 
@@ -35,6 +35,9 @@ const { onStoryStructureSelect, onStoryModeSelect, onGenreSelect, isGenreDisable
 
 const whoDecidesModal = ref<{ visible: boolean }>()
 
+const filteredGenres = computed(() =>
+  Object.values(StoryGenre).filter((genre) => genre !== StoryGenre.AI)
+)
 
 function onStoryModeChange(mode: StoryMode) {
   onStoryModeSelect(mode)
@@ -109,8 +112,9 @@ function onGenerateStory(close: () => void) {
 
         <MultiSelectInput
           :model-value="storyFormData.storyGenres"
+          :placeholder-value="StoryGenre.AI"
           :options="
-            Object.values(StoryGenre).map((genre) => ({
+            filteredGenres.map((genre) => ({
               label: genre,
               value: genre,
               disabled: isGenreDisabled(genre)

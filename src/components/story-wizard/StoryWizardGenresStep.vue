@@ -4,10 +4,14 @@ import { StoryGenre } from '@/constants/rules'
 import useStoryForm from '@/composables/useStoryForm'
 import useStoryFormActions from '@/composables/useStoryFormActions'
 import getGenreImg from '@/functions/getGenreImg'
+import { computed } from 'vue'
 
 const { formData: storyFormData } = useStoryForm()
 const { isGenreDisabled, onGenreSelect } = useStoryFormActions()
 
+const filteredGenres = computed(() =>
+  Object.values(StoryGenre).filter((genre) => genre !== StoryGenre.AI)
+)
 </script>
 
 <template>
@@ -19,7 +23,7 @@ const { isGenreDisabled, onGenreSelect } = useStoryFormActions()
       class="scrollbar-hidden -mx-6 mt-4 grid grid-flow-col grid-rows-2 overflow-auto px-6 py-2 md:grid md:grid-flow-row md:grid-cols-5"
     >
       <GenericCard
-        v-for="genre in StoryGenre"
+        v-for="genre in filteredGenres"
         :key="genre"
         :disabled="isGenreDisabled(genre)"
         :item="{ id: genre, title: genre, img: getGenreImg(genre) }"

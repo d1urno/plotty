@@ -36,5 +36,6 @@ export enum StoryGenre {
   COMEDY = 'Comedy',
   ACTION = 'Action',
   ADVENTURE = 'Adventure',
-  DRAMA = 'Drama'
+  DRAMA = 'Drama',
+  AI = 'Let AI decide',
 }

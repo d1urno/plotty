@@ -1,5 +1,5 @@
 import type { Chapter, GetStoryPromptOptions, Story } from '@/types/local'
-import { StoryMode, StoryStyle } from '@/constants/rules'
+import { StoryGenre, StoryMode, StoryStyle } from '@/constants/rules'
 import { getBlock, getBlockIf, getLineIf } from '@/utils'
 import storyChecks from '@/functions/storyChecks'
 
@@ -60,6 +60,13 @@ export default function buildStoryPrompt(options: GetStoryPromptOptions) {
   ${!checks.isSingleChapter() ? 'chapters: { title: string, content: string }[]' : 'content: string'}
   ${getLineIf(checks.requiresActions(), 'nextChapterActionDecisions: { characterName: string, actions: string[] }')}
   ${getLineIf(checks.requiresSuggestions(), 'nextChapterSuggestions: string[]')}
+  ${getLineIf(
+    checks.requiresGenre(),
+    `genre: ${Object.values(StoryGenre)
+      .filter((g) => g !== StoryGenre.AI)
+      .map((g) => `'${g}'`)
+      .join(' | ')}`
+  )}
 }`
   )
 
