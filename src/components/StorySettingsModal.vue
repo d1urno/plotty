@@ -21,6 +21,7 @@ import useStore from '@/stores'
 const model = defineModel<{ visible: boolean }>()
 
 const emit = defineEmits<{
+  openWizard: []
   generateStory: []
 }>()
 
@@ -66,7 +67,16 @@ function onGenerateStory(close: () => void) {
     @close="model = undefined"
   >
     <template #title>
-      <h1 class="text-lg font-bold">Story settings</h1>
+      <div class="flex items-center justify-between">
+        <h1 class="text-lg font-bold">Story settings</h1>
+        <button
+          class="text-sm font-bold text-blue-500 underline"
+          type="button"
+          @click="$emit('openWizard')"
+        >
+          Use story wizard
+        </button>
+      </div>
     </template>
 
     <div class="grid grid-cols-4 gap-6 py-2 md:grid-cols-6">

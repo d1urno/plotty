@@ -6,6 +6,7 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ApiKeyModal from '@/components/ApiKeyModal.vue'
 import StorySettingsModal from '@/components/StorySettingsModal.vue'
+import StoryWizardModal from '@/components/story-wizard/StoryWizardModal.vue'
 import StoryFormStickyButtons from '@/components/StoryFormStickyButtons.vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import useCharacterSelectionActions from '@/composables/useCharacterSelectionActions'
@@ -16,11 +17,12 @@ import defaultStoryFormData from '@/constants/defaultStoryFormData'
 
 const route = useRoute()
 const router = useRouter()
-const { apiKey, storyFormData } = storeToRefs(useStore())
+const { isFirstTimeSettings, apiKey, storyFormData } = storeToRefs(useStore())
 const { onRoleDrop, onRoleRemove } = useCharacterSelectionActions()
 const { getStoryPrompt, generateStory, isPromptLoading, isAiLoading } = useStoryAi()
 const { showModal } = useModal()
 const settingsModal = ref<{ visible: boolean }>()
+const wizardModal = ref<{ visible: boolean }>()
 const apiKeyModal = ref<{ visible: boolean }>()
 
 const variables = computed(() => ({
@@ -51,8 +53,39 @@ watch(
   }
 )
 
+function openWizard() {
+  setTimeout(() => {
+    wizardModal.value = { visible: true }
+  }, 100)
+}
+
+function openFirstTimeModal() {
+  isFirstTimeSettings.value = false
+  showModal({
+    title: `<p class="text-blue-500">Welcome to Plot In! 🥳</p>`,
+    content: `<p class="font-semibold text-gray-800 text-lg">Your character selection looks great. Now, let's set up your story settings for the very first time...</p>`,
+    maxWidthClass: 'max-w-xl',
+    buttons: [
+      {
+        label: 'Ok',
+        type: 'success',
+        callback: (close) => {
+          close()
+          openWizard()
+        }
+      }
+    ]
+  })
+}
+
 function onOpenSettings() {
-  settingsModal.value = { visible: true }
+  if (isFirstTimeSettings.value) openFirstTimeModal()
+  else settingsModal.value = { visible: true }
+}
+
+function onOpenWizard() {
+  if (settingsModal.value) settingsModal.value.visible = false
+  openWizard()
 }
 
 async function navigateToStory(newStory: Story) {
@@ -61,6 +94,11 @@ async function navigateToStory(newStory: Story) {
 }
 
 async function onGenerateStory() {
+  if (isFirstTimeSettings.value) {
+    openFirstTimeModal()
+    return
+  }
+
   try {
     const prompt = await getStoryPrompt()
     if (!prompt) return
@@ -130,7 +168,10 @@ async function onGenerateStory() {
       v-if="settingsModal"
       v-model="settingsModal"
       @generate-story="onGenerateStory"
+      @open-wizard="onOpenWizard"
     />
+
+    <StoryWizardModal v-if="wizardModal" v-model="wizardModal" @generate-story="onGenerateStory" />
 
     <ApiKeyModal v-if="apiKeyModal" v-model="apiKeyModal" v-model:api-key-model="apiKey" />
   </div>

@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .scrollbar-gutter {
+    scrollbar-gutter: stable;
+  }
+
+  .scrollbar-hidden {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+}
+
 .list-enter-active,
 .list-leave-active,
 .list-move {
@@ -24,4 +39,24 @@
 
 .list-leave-to {
   @apply origin-center scale-50 opacity-0;
+}
+
+.slide-left-enter-active,
+.slide-right-enter-active {
+  @apply transition-all duration-300 ease-out;
+}
+
+.slide-left-leave-active,
+.slide-right-leave-active {
+  @apply transition-all duration-300 ease-out;
+}
+
+.slide-left-enter-from,
+.slide-right-leave-to {
+  @apply translate-x-20 opacity-0;
+}
+
+.slide-right-enter-from,
+.slide-left-leave-to {
+  @apply -translate-x-20 opacity-0;
 }
