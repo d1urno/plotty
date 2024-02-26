@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { useStore } from '@/stores'
-import { storeToRefs } from 'pinia'
 import GenericModal from '@/components/GenericModal.vue'
 import CharacterBio from '@/components/CharacterBio.vue'
 import { useBreakpoints } from '@vueuse/core'
 import { computed } from 'vue'
 import useCharacterSelectionActions from '@/composables/useCharacterSelectionActions'
 import type { QueriedCharacterListItem } from '@/composables/useCharacterList'
+import useStoryForm from '@/composables/useStoryForm'
 
 const props = defineProps<{
   character: QueriedCharacterListItem
@@ -15,7 +14,7 @@ const props = defineProps<{
 
 const model = defineModel<{ visible: boolean }>()
 
-const { storyFormData } = storeToRefs(useStore())
+const { formData: storyFormData } = useStoryForm()
 const { onRoleAdd, isRoleFull } = useCharacterSelectionActions()
 const breakpoints = useBreakpoints({ lg: 992 })
 const lgAndLarger = breakpoints.greaterOrEqual('lg')

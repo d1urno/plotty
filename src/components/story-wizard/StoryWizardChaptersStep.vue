@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { MAX_CHAPTERS } from '@/constants/rules'
 import NumberInput from '@/components/form/NumberInput.vue'
+import useStoryForm from '@/composables/useStoryForm'
 
-const totalChaptersModel = defineModel<number>('totalChaptersModel', { default: 3 })
+const { formData: storyFormData } = useStoryForm()
 </script>
 
 <template>
@@ -12,7 +13,7 @@ const totalChaptersModel = defineModel<number>('totalChaptersModel', { default: 
     </h1>
     <div class="mb-12 mt-6 flex items-baseline justify-center gap-2 text-3xl text-gray-800">
       <NumberInput
-        v-model="totalChaptersModel"
+        v-model="storyFormData.totalChapters"
         label="Chapters"
         :show-label="false"
         class="w-20 pt-1 text-center text-3xl font-semibold"

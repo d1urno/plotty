@@ -19,6 +19,8 @@ import WhoDecidesModal from '@/components/WhoDecidesModal.vue'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useStore } from '@/stores'
+import useStoryForm from '@/composables/useStoryForm'
+import useStoryFormActions from '@/composables/useStoryFormActions'
 
 const model = defineModel<{ visible: boolean }>()
 
@@ -27,7 +29,10 @@ const emit = defineEmits<{
   generateStory: []
 }>()
 
-const { storyFormData, apiKey } = storeToRefs(useStore())
+const { apiKey } = storeToRefs(useStore())
+const { formData: storyFormData } = useStoryForm()
+const { onStoryStructureSelect, onStoryModeSelect, onGenreSelect, isGenreDisabled } =
+  useStoryFormActions()
 
 const whoDecidesModal = ref<{ visible: boolean }>()
 
@@ -94,7 +99,7 @@ function onGenerateStory(close: () => void) {
 
     <div class="grid grid-cols-4 gap-6 py-2 md:grid-cols-6">
       <SwitcherInput
-        v-model="storyFormData.storyStructure"
+        :model-value="storyFormData.storyStructure"
         label="Structure"
         :options="
           Object.values(StoryStructure).map((structure) => ({ label: structure, value: structure }))
@@ -132,7 +137,7 @@ function onGenerateStory(close: () => void) {
         />
 
         <MultiSelectInput
-          v-model="storyFormData.storyGenres"
+          :model-value="storyFormData.storyGenres"
           :options="
             Object.values(StoryGenre).map((genre) => ({
               label: genre,
@@ -148,7 +153,7 @@ function onGenerateStory(close: () => void) {
 
       <CheckInput
         v-if="storyFormData.storyStructure !== StoryStructure.SIMPLE"
-        v-model="storyFormData.storyMode"
+        :model-value="storyFormData.storyMode"
         label="Decision Making Mode"
         tag-style
         color="orange"

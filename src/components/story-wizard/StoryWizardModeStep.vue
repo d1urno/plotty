@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import GenericCard from '@/components/GenericCard.vue'
 import { StoryMode } from '@/constants/rules'
-import { useStore } from '@/stores'
-import { storeToRefs } from 'pinia'
-
-const storyModeModel = defineModel<StoryMode>('storyModeModel')
-const storyDecisionMakersModel = defineModel<string[]>('storyDecisionMakersModel')
-
-const { storyFormData } = storeToRefs(useStore())
+import useStoryForm from '@/composables/useStoryForm'
 
 function onStoryModeChange() {
   if (storyModeModel.value === StoryMode.DECISION_MAKING) {
@@ -18,6 +12,7 @@ function onStoryModeChange() {
     storyDecisionMakersModel.value = [storyFormData.value.mainCharacters[0]]
   }
 }
+const { formData: storyFormData } = useStoryForm()
 </script>
 
 <template>
@@ -28,7 +23,7 @@ function onStoryModeChange() {
     <div class="mx-auto mb-12 mt-6 w-full max-w-xs">
       <GenericCard
         :item="{ id: StoryMode.DECISION_MAKING, title: 'Decision Making Mode' }"
-        :selected="storyModeModel === StoryMode.DECISION_MAKING"
+        :selected="storyFormData.storyMode === StoryMode.DECISION_MAKING"
         selected-color="orange"
         class="w-full"
         @click="onStoryModeChange"

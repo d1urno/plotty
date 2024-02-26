@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import GenericCard from '@/components/GenericCard.vue'
 import { StoryStructure } from '@/constants/rules'
+import useStoryForm from '@/composables/useStoryForm'
 
-const storyStructureModel = defineModel<StoryStructure>('storyStructureModel')
-const totalChaptersModel = defineModel<number>('totalChaptersModel', { default: 3 })
+const { formData: storyFormData } = useStoryForm()
 
 function getStoryStructureText(structure: StoryStructure) {
   switch (structure) {
@@ -42,7 +42,7 @@ function onStoryStructureChange(structure: StoryStructure) {
         v-for="structure in StoryStructure"
         :key="structure"
         :item="{ id: structure }"
-        :selected="storyStructureModel === structure"
+        :selected="storyFormData.storyStructure === structure"
         class="w-full"
         @click="onStoryStructureChange(structure)"
       >

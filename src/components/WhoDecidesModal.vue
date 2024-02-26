@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import GenericModal from '@/components/GenericModal.vue'
-import { storeToRefs } from 'pinia'
-import { useStore } from '@/stores'
 import StoryWizardCharacterStep from '@/components/story-wizard/StoryWizardCharacterStep.vue'
+import useStoryForm from '@/composables/useStoryForm'
 
 const model = defineModel<{ visible: boolean }>()
 
-const { storyFormData } = storeToRefs(useStore())
+const { formData: storyFormData } = useStoryForm()
 </script>
 
 <template>

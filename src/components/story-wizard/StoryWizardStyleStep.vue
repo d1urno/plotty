@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import GenericCard from '@/components/GenericCard.vue'
 import { StoryStyle } from '@/constants/rules'
+import useStoryForm from '@/composables/useStoryForm'
 
-const storyStyleModel = defineModel<StoryStyle>('storyStyleModel')
+const { formData: storyFormData } = useStoryForm()
 
 function getStoryStyleText(style: StoryStyle) {
   switch (style) {
@@ -28,9 +29,9 @@ function getStoryStyleText(style: StoryStyle) {
         v-for="style in StoryStyle"
         :key="style"
         :item="{ id: style }"
-        :selected="storyStyleModel === style"
+        :selected="storyFormData.storyStyle === style"
         class="w-full"
-        @click="storyStyleModel = style"
+        @click="storyFormData.storyStyle = style"
       >
         <p v-html="getStoryStyleText(style)"></p>
       </GenericCard>

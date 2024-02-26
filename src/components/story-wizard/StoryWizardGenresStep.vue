@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import GenericCard from '@/components/GenericCard.vue'
 import { MAX_GENRES, StoryGenre } from '@/constants/rules'
+import useStoryForm from '@/composables/useStoryForm'
 import getGenreImg from '@/functions/getGenreImg'
 
-const storyGenresModel = defineModel<StoryGenre[]>('storyGenresModel')
+const { formData: storyFormData } = useStoryForm()
 
 function isGenreDisabled(genre: StoryGenre) {
   if (storyGenresModel.value?.length === MAX_GENRES && !storyGenresModel.value?.includes(genre))
@@ -43,7 +44,7 @@ function onGenreSelect(genre: StoryGenre) {
         :key="genre"
         :disabled="isGenreDisabled(genre)"
         :item="{ id: genre, title: genre, img: getGenreImg(genre) }"
-        :selected="storyGenresModel?.includes(genre)"
+        :selected="storyFormData.storyGenres.includes(genre)"
         class="m-auto h-48 w-40 md:w-full"
         @click="onGenreSelect(genre)"
       />

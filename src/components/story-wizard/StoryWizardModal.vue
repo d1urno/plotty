@@ -3,8 +3,6 @@ import GenericModal from '@/components/GenericModal.vue'
 import { StoryMode, StoryStructure } from '@/constants/rules'
 import { computed, ref } from 'vue'
 import { useRefHistory } from '@vueuse/core'
-import { storeToRefs } from 'pinia'
-import { useStore } from '@/stores'
 import StoryWizardGenresStep from '@/components/story-wizard/StoryWizardGenresStep.vue'
 import StoryWizardStyleStep from '@/components/story-wizard/StoryWizardStyleStep.vue'
 import StoryWizardStructureStep from '@/components/story-wizard/StoryWizardStructureStep.vue'
@@ -13,6 +11,7 @@ import StoryWizardLengthStep from '@/components/story-wizard/StoryWizardLengthSt
 import StoryWizardModeStep from '@/components/story-wizard/StoryWizardModeStep.vue'
 import StoryWizardSpecialInstructionsStep from '@/components/story-wizard/StoryWizardSpecialInstructionsStep.vue'
 import StoryWizardCharacterStep from '@/components/story-wizard/StoryWizardCharacterStep.vue'
+import useStoryForm from '@/composables/useStoryForm'
 
 const model = defineModel<{ visible: boolean }>()
 
@@ -20,7 +19,7 @@ const emit = defineEmits<{
   generateStory: []
 }>()
 
-const { storyFormData } = storeToRefs(useStore())
+const { formData: storyFormData } = useStoryForm()
 
 const step = ref(1)
 
@@ -158,18 +157,7 @@ const stepComponent = computed(() => {
     <div class="flex flex-col items-center justify-center">
       <div class="w-full">
         <transition :name="transitionName" mode="out-in">
-          <component
-            :is="stepComponent"
-            :key="step"
-            v-model:story-style-model="storyFormData.storyStyle"
-            v-model:story-structure-model="storyFormData.storyStructure"
-            v-model:story-mode-model="storyFormData.storyMode"
-            v-model:story-decision-makers-model="storyFormData.decisionMakers"
-            v-model:story-length-model="storyFormData.storyLength"
-            v-model:story-genres-model="storyFormData.storyGenres"
-            v-model:total-chapters-model="storyFormData.totalChapters"
-            v-model:special-instructions-model="storyFormData.customInstructions"
-          />
+          <component :is="stepComponent" :key="step" />
         </transition>
       </div>
     </div>

@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import type { Character } from '@/types/generated'
-import { useStore } from '@/stores'
-import { storeToRefs } from 'pinia'
 import CharacterThumb from '@/components/CharacterThumb.vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import { computed } from 'vue'
 import GenericCard from '@/components/GenericCard.vue'
+import useStoryForm from '@/composables/useStoryForm'
 
-const storyDecisionMakersModel = defineModel<string[]>('storyDecisionMakersModel', { default: [] })
-
-const { storyFormData } = storeToRefs(useStore())
+const { formData: storyFormData } = useStoryForm()
 
 const variables = computed(() => ({ ids: storyFormData.value.mainCharacters }))
 
@@ -34,7 +31,7 @@ function onCharacterClick({ id }: { id: Character['id'] }) {
       <GenericCard
         v-for="character in characterList"
         :key="character.id"
-        :selected="storyDecisionMakersModel.includes(character.id)"
+        :selected="storyFormData.decisionMakers.includes(character.id)"
         selected-color="orange"
         :item="{ id: character.id }"
         @click="onCharacterClick(character)"

@@ -7,6 +7,7 @@ import { computed } from 'vue'
 import useInfiniteScroll from '@/composables/useInfiniteScroll'
 import { Container, Draggable } from 'vue3-dndrop'
 import type { QueriedCharacterList, QueriedCharacterListItem } from '@/composables/useCharacterList'
+import useStoryForm from '@/composables/useStoryForm'
 
 const props = defineProps<{
   characterList: QueriedCharacterList
@@ -19,7 +20,8 @@ const emit = defineEmits<{
   click: [character: QueriedCharacterListItem]
 }>()
 
-const { storyFormData, isDragging } = storeToRefs(useStore())
+const { isDragging } = storeToRefs(useStore())
+const { formData: storyFormData } = useStoryForm()
 const { infiniteScrollTrigger, infiniteScrollRoot } = useInfiniteScroll(() => emit('fetchNext'))
 
 const selectedIds = computed(() => [

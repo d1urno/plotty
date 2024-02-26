@@ -2,8 +2,8 @@
 import CharacterSelectionList from '@/components/CharacterSelectionList.vue'
 import { useStore } from '@/stores'
 import { storeToRefs } from 'pinia'
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import ApiKeyModal from '@/components/ApiKeyModal.vue'
 import StorySettingsModal from '@/components/StorySettingsModal.vue'
 import StoryWizardModal from '@/components/story-wizard/StoryWizardModal.vue'
@@ -13,14 +13,15 @@ import useCharacterSelectionActions from '@/composables/useCharacterSelectionAct
 import useStoryAi from '@/composables/useStoryAi'
 import type { Story } from '@/types/local'
 import useModal from '@/composables/useModal'
-import defaultStoryFormData from '@/constants/defaultStoryFormData'
+import useStoryForm from '@/composables/useStoryForm'
 
-const route = useRoute()
 const router = useRouter()
-const { isFirstTimeSettings, apiKey, storyFormData } = storeToRefs(useStore())
+const { isFirstTimeSettings, apiKey } = storeToRefs(useStore())
 const { onRoleDrop, onRoleRemove } = useCharacterSelectionActions()
 const { getStoryPrompt, generateStory, isPromptLoading, isAiLoading } = useStoryAi()
 const { showModal } = useModal()
+const { formData: storyFormData } = useStoryForm()
+
 const settingsModal = ref<{ visible: boolean }>()
 const wizardModal = ref<{ visible: boolean }>()
 const apiKeyModal = ref<{ visible: boolean }>()
@@ -30,28 +31,6 @@ const variables = computed(() => ({
 }))
 
 const { loading } = useCharacterListByIds(variables) // To load both selections into one query
-
-onBeforeUnmount(() => {
-  storyFormData.value = { ...defaultStoryFormData }
-})
-
-// Initialize id selections from the URL parameters
-onMounted(() => {
-  const { mainIds, secondaryIds } = route.query
-  storyFormData.value.mainCharacters = mainIds?.toString().split(',') ?? []
-  storyFormData.value.secondaryCharacters = secondaryIds?.toString().split(',') ?? []
-})
-
-// Watch for changes on id selections and update the URL
-watch(
-  () => route.query,
-  ({ mainIds, secondaryIds }) => {
-    storyFormData.value.mainCharacters = mainIds?.length ? mainIds.toString().split(',') : []
-    storyFormData.value.secondaryCharacters = secondaryIds?.length
-      ? secondaryIds.toString().split(',')
-      : []
-  }
-)
 
 function openWizard() {
   setTimeout(() => {

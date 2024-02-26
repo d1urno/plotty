@@ -10,9 +10,11 @@ import { useStore } from '@/stores'
 import { generateUniqueId } from '@/utils'
 import useCharacterItemsByIds from '@/composables/useCharacterItemsByIds'
 import type { GetCharacterItemsByIdsQueryVariables } from '@/types/generated'
+import useStoryForm from '@/composables/useStoryForm'
 
 function useStoryAi() {
-  const { stories, isPromptLoading, isAiLoading, apiKey, storyFormData } = storeToRefs(useStore())
+  const { stories, isPromptLoading, isAiLoading, apiKey } = storeToRefs(useStore())
+  const { formData: storyFormData } = useStoryForm()
   const { showModal } = useModal()
   const { showToast, hideToast } = useToast()
 

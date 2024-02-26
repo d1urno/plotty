@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import TextInput from '@/components/form/TextInput.vue'
+import useStoryForm from '@/composables/useStoryForm'
 
-const specialInstructionsModel = defineModel<string>('specialInstructionsModel')
+const { formData: storyFormData } = useStoryForm()
 </script>
 
 <template>
@@ -11,7 +12,7 @@ const specialInstructionsModel = defineModel<string>('specialInstructionsModel')
     </h1>
     <div class="mx-auto mb-12 mt-6 w-full max-w-md">
       <TextInput
-        v-model="specialInstructionsModel"
+        v-model="storyFormData.customInstructions"
         label="Special instructions"
         :show-label="false"
         type="textarea"
