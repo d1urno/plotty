@@ -1,5 +1,5 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core'
-import { getPaginationPolicy } from '@/functions'
+import getPaginationPolicy from '@/functions/getPaginationPolicy'
 import type { AppModule } from '@/types/local'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 
