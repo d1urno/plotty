@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import GenericModal from '@/components/GenericModal.vue'
 import { storeToRefs } from 'pinia'
-import useStore from '@/stores'
+import { useStore } from '@/stores'
 
 export interface AppModal {
   visible?: boolean

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CharacterSelectionList from '@/components/CharacterSelectionList.vue'
-import useStore from '@/stores'
+import { useStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'

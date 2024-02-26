@@ -17,8 +17,8 @@ import CheckInput from '@/components/form/CheckInput.vue'
 import MultiSelectInput from '@/components/form/MultiSelectInput.vue'
 import WhoDecidesModal from '@/components/WhoDecidesModal.vue'
 import { storeToRefs } from 'pinia'
-import useStore from '@/stores'
 import { ref } from 'vue'
+import { useStore } from '@/stores'
 
 const model = defineModel<{ visible: boolean }>()
 

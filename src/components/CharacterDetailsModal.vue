@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useStore from '@/stores'
+import { useStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import GenericModal from '@/components/GenericModal.vue'
 import CharacterBio from '@/components/CharacterBio.vue'

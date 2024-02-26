@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import GenericToast from '@/components/GenericToast.vue'
 import { storeToRefs } from 'pinia'
-import useStore from '@/stores'
+import { useStore } from '@/stores'
 import { computed } from 'vue'
 
 const { appToasts } = storeToRefs(useStore())

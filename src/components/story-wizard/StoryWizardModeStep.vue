@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import GenericCard from '@/components/GenericCard.vue'
 import { StoryMode } from '@/constants/rules'
-import useStore from '@/stores'
+import { useStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 
 const storyModeModel = defineModel<StoryMode>('storyModeModel')

@@ -6,7 +6,7 @@ import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { computed, ref } from 'vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import type { Character } from '@/types/generated'
-import useStore from '@/stores'
+import { useStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import type { Color } from '@/functions/getColorClasses'
 

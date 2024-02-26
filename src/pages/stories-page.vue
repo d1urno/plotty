@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useStore from '@/stores'
+import { useStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'

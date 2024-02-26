@@ -7,7 +7,8 @@ import defaultStories from '@/constants/defaultStories'
 import defaultStoryFormData from '@/constants/defaultStoryFormData'
 import type { AppModal } from '@/components/AppModal.vue'
 
-const useStore = defineStore('store', () => {
+// eslint-disable-next-line import/prefer-default-export
+export const useStore = defineStore('store', () => {
   const appModal = ref<AppModal>()
   const appToasts = ref<GenericToast[]>()
 
@@ -37,5 +38,3 @@ const useStore = defineStore('store', () => {
     storyFormData
   }
 })
-
-export default useStore

@@ -2,7 +2,7 @@
 import CharacterCard from '@/components/CharacterCard.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { storeToRefs } from 'pinia'
-import useStore from '@/stores'
+import { useStore } from '@/stores'
 import { Container, Draggable } from 'vue3-dndrop'
 import { computed } from 'vue'
 import useInfiniteScroll from '@/composables/useInfiniteScroll'

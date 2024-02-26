@@ -1,5 +1,5 @@
 import { storeToRefs } from 'pinia'
-import useStore from '@/stores'
+import { useStore } from '@/stores'
 import type { GenericToast } from '@/components/GenericToast.vue'
 import { generateUniqueId } from '@/utils'
 

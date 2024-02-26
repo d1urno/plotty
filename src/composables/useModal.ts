@@ -1,5 +1,5 @@
 import { storeToRefs } from 'pinia'
-import useStore from '@/stores'
+import { useStore } from '@/stores'
 import type { AppModal } from '@/components/AppModal.vue'
 
 export default function useModal() {

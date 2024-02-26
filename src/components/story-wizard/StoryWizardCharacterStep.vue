@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Character } from '@/types/generated'
-import useStore from '@/stores'
+import { useStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import CharacterThumb from '@/components/CharacterThumb.vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'
