@@ -2,7 +2,6 @@
 import GenericModal from '@/components/GenericModal.vue'
 import {
   MAX_CHAPTERS,
-  MAX_GENRES,
   StoryGenre,
   StoryLength,
   StoryMode,
@@ -36,39 +35,11 @@ const { onStoryStructureSelect, onStoryModeSelect, onGenreSelect, isGenreDisable
 
 const whoDecidesModal = ref<{ visible: boolean }>()
 
-function isGenreDisabled(genre: StoryGenre) {
-  if (
-    storyFormData.value.storyGenres.length === MAX_GENRES &&
-    !storyFormData.value.storyGenres.includes(genre)
-  )
-    return true
-  switch (genre) {
-    case StoryGenre.FANTASY:
-      return storyFormData.value.storyGenres.includes(StoryGenre.SCI_FI)
-    case StoryGenre.SCI_FI:
-      return storyFormData.value.storyGenres.includes(StoryGenre.FANTASY)
-    case StoryGenre.HISTORICAL:
-      return storyFormData.value.storyGenres.includes(StoryGenre.FUTURISTIC)
-    case StoryGenre.FUTURISTIC:
-      return storyFormData.value.storyGenres.includes(StoryGenre.HISTORICAL)
-    default:
-      return false
-  }
-}
-
-function onStoryStructureChange(mode: StoryStructure) {
-  if (mode === StoryStructure.OPEN_ENDING) storyFormData.value.totalChapters = 0
-  else if (mode === StoryStructure.SIMPLE) storyFormData.value.totalChapters = 1
-  else storyFormData.value.totalChapters = 3
-}
 
 function onStoryModeChange(mode: StoryMode) {
-  if (mode === StoryMode.DECISION_MAKING) {
-    storyFormData.value.decisionMakers = [storyFormData.value.mainCharacters[0]]
-    if (storyFormData.value.mainCharacters.length > 1) whoDecidesModal.value = { visible: true }
-  } else {
-    storyFormData.value.decisionMakers = []
-  }
+  onStoryModeSelect(mode)
+  if (mode === StoryMode.DECISION_MAKING && storyFormData.value.mainCharacters.length > 1)
+    whoDecidesModal.value = { visible: true }
 }
 
 function onGenerateStory(close: () => void) {
@@ -105,7 +76,7 @@ function onGenerateStory(close: () => void) {
           Object.values(StoryStructure).map((structure) => ({ label: structure, value: structure }))
         "
         class="col-span-4 mx-auto w-full md:col-span-3"
-        @update:model-value="onStoryStructureChange"
+        @update:model-value="onStoryStructureSelect"
       />
 
       <SwitcherInput
@@ -148,6 +119,7 @@ function onGenerateStory(close: () => void) {
           class="col-span-1 w-full"
           multiple
           label="Genres"
+          @update:model-value="onGenreSelect"
         />
       </div>
 

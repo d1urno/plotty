@@ -2,8 +2,10 @@
 import GenericCard from '@/components/GenericCard.vue'
 import { StoryStructure } from '@/constants/rules'
 import useStoryForm from '@/composables/useStoryForm'
+import useStoryFormActions from '@/composables/useStoryFormActions'
 
 const { formData: storyFormData } = useStoryForm()
+const { onStoryStructureSelect } = useStoryFormActions()
 
 function getStoryStructureText(structure: StoryStructure) {
   switch (structure) {
@@ -23,13 +25,6 @@ function getStoryStructureText(structure: StoryStructure) {
       return ''
   }
 }
-
-function onStoryStructureChange(structure: StoryStructure) {
-  storyStructureModel.value = structure
-  if (structure === StoryStructure.OPEN_ENDING) totalChaptersModel.value = 0
-  else if (structure === StoryStructure.SIMPLE) totalChaptersModel.value = 1
-  else totalChaptersModel.value = 3
-}
 </script>
 
 <template>
@@ -44,7 +39,7 @@ function onStoryStructureChange(structure: StoryStructure) {
         :item="{ id: structure }"
         :selected="storyFormData.storyStructure === structure"
         class="w-full"
-        @click="onStoryStructureChange(structure)"
+        @click="onStoryStructureSelect(structure)"
       >
         <p v-html="getStoryStructureText(structure)"></p>
       </GenericCard>

@@ -2,17 +2,10 @@
 import GenericCard from '@/components/GenericCard.vue'
 import { StoryMode } from '@/constants/rules'
 import useStoryForm from '@/composables/useStoryForm'
+import useStoryFormActions from '@/composables/useStoryFormActions'
 
-function onStoryModeChange() {
-  if (storyModeModel.value === StoryMode.DECISION_MAKING) {
-    storyModeModel.value = StoryMode.NORMAL
-    storyDecisionMakersModel.value = []
-  } else {
-    storyModeModel.value = StoryMode.DECISION_MAKING
-    storyDecisionMakersModel.value = [storyFormData.value.mainCharacters[0]]
-  }
-}
 const { formData: storyFormData } = useStoryForm()
+const { onStoryModeSelect } = useStoryFormActions()
 </script>
 
 <template>
@@ -26,7 +19,13 @@ const { formData: storyFormData } = useStoryForm()
         :selected="storyFormData.storyMode === StoryMode.DECISION_MAKING"
         selected-color="orange"
         class="w-full"
-        @click="onStoryModeChange"
+        @click="
+          onStoryModeSelect(
+            storyFormData.storyMode === StoryMode.DECISION_MAKING
+              ? StoryMode.NORMAL
+              : StoryMode.DECISION_MAKING
+          )
+        "
       />
     </div>
     <p class="mx-auto mb-8 max-w-xl">

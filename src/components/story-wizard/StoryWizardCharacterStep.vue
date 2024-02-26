@@ -1,25 +1,18 @@
 <script setup lang="ts">
-import type { Character } from '@/types/generated'
 import CharacterThumb from '@/components/CharacterThumb.vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import { computed } from 'vue'
 import GenericCard from '@/components/GenericCard.vue'
 import useStoryForm from '@/composables/useStoryForm'
+import useStoryFormActions from '@/composables/useStoryFormActions'
 
 const { formData: storyFormData } = useStoryForm()
+const { onDecisionMakersSelect } = useStoryFormActions()
 
 const variables = computed(() => ({ ids: storyFormData.value.mainCharacters }))
 
 // Cache only as selection queries can be grouped on a parent component query
 const { characterList } = useCharacterListByIds(variables, true)
-
-function onCharacterClick({ id }: { id: Character['id'] }) {
-  if (storyDecisionMakersModel.value.length === 1 && storyDecisionMakersModel.value[0] === id)
-    return
-  const index = storyDecisionMakersModel.value.indexOf(id)
-  if (index === -1) storyDecisionMakersModel.value.push(id)
-  else storyDecisionMakersModel.value.splice(index, 1)
-}
 </script>
 
 <template>
@@ -34,7 +27,7 @@ function onCharacterClick({ id }: { id: Character['id'] }) {
         :selected="storyFormData.decisionMakers.includes(character.id)"
         selected-color="orange"
         :item="{ id: character.id }"
-        @click="onCharacterClick(character)"
+        @click="onDecisionMakersSelect(character.id)"
       >
         <CharacterThumb :character="character" class="!p-0" tabindex="-1" />
       </GenericCard>

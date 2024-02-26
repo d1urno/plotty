@@ -9,7 +9,7 @@ import StorySettingsModal from '@/components/StorySettingsModal.vue'
 import StoryWizardModal from '@/components/story-wizard/StoryWizardModal.vue'
 import StoryFormStickyButtons from '@/components/StoryFormStickyButtons.vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'
-import useCharacterSelectionActions from '@/composables/useCharacterSelectionActions'
+import useStoryFormActions from '@/composables/useStoryFormActions'
 import useStoryAi from '@/composables/useStoryAi'
 import type { Story } from '@/types/local'
 import useModal from '@/composables/useModal'
@@ -17,7 +17,7 @@ import useStoryForm from '@/composables/useStoryForm'
 
 const router = useRouter()
 const { isFirstTimeSettings, apiKey } = storeToRefs(useStore())
-const { onRoleDrop, onRoleRemove } = useCharacterSelectionActions()
+const { onRoleDrop, onRoleRemove } = useStoryFormActions()
 const { getStoryPrompt, generateStory, isPromptLoading, isAiLoading } = useStoryAi()
 const { showModal } = useModal()
 const { formData: storyFormData } = useStoryForm()

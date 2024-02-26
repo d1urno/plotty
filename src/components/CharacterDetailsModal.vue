@@ -3,7 +3,7 @@ import GenericModal from '@/components/GenericModal.vue'
 import CharacterBio from '@/components/CharacterBio.vue'
 import { useBreakpoints } from '@vueuse/core'
 import { computed } from 'vue'
-import useCharacterSelectionActions from '@/composables/useCharacterSelectionActions'
+import useStoryFormActions from '@/composables/useStoryFormActions'
 import type { QueriedCharacterListItem } from '@/composables/useCharacterList'
 import useStoryForm from '@/composables/useStoryForm'
 
@@ -15,7 +15,7 @@ const props = defineProps<{
 const model = defineModel<{ visible: boolean }>()
 
 const { formData: storyFormData } = useStoryForm()
-const { onRoleAdd, isRoleFull } = useCharacterSelectionActions()
+const { onRoleAdd, isRoleFull } = useStoryFormActions()
 const breakpoints = useBreakpoints({ lg: 992 })
 const lgAndLarger = breakpoints.greaterOrEqual('lg')
 
