@@ -17,6 +17,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean }
   Int: { input: number; output: number }
   Float: { input: number; output: number }
+  /** The `Upload` scalar type represents a file upload. */
   Upload: { input: any; output: any }
 }
 
@@ -28,36 +29,36 @@ export enum CacheControlScope {
 export type Character = {
   __typename?: 'Character'
   /** Time at which the character was created in the database. */
-  created?: Maybe<Scalars['String']['output']>
+  created: Scalars['String']['output']
   /** Episodes in which this character appeared. */
-  episode: Array<Maybe<Episode>>
+  episode: Array<Episode>
   /** The gender of the character ('Female', 'Male', 'Genderless' or 'unknown'). */
-  gender?: Maybe<Scalars['String']['output']>
+  gender: Scalars['String']['output']
   /** The id of the character. */
-  id?: Maybe<Scalars['ID']['output']>
+  id: Scalars['ID']['output']
   /**
    * Link to the character's image.
    * All images are 300x300px and most are medium shots or portraits since they are intended to be used as avatars.
    */
-  image?: Maybe<Scalars['String']['output']>
+  image: Scalars['String']['output']
   /** The character's last known location */
-  location?: Maybe<Location>
+  location: Location
   /** The name of the character. */
-  name?: Maybe<Scalars['String']['output']>
+  name: Scalars['String']['output']
   /** The character's origin location */
-  origin?: Maybe<Location>
+  origin: Location
   /** The species of the character. */
-  species?: Maybe<Scalars['String']['output']>
+  species: Scalars['String']['output']
   /** The status of the character ('Alive', 'Dead' or 'unknown'). */
-  status?: Maybe<Scalars['String']['output']>
+  status: Scalars['String']['output']
   /** The type or subspecies of the character. */
-  type?: Maybe<Scalars['String']['output']>
+  type: Scalars['String']['output']
 }
 
 export type Characters = {
   __typename?: 'Characters'
-  info?: Maybe<Info>
-  results?: Maybe<Array<Maybe<Character>>>
+  info: Info
+  results: Array<Character>
 }
 
 export type Episode = {
@@ -71,7 +72,7 @@ export type Episode = {
   /** The code of the episode. */
   episode?: Maybe<Scalars['String']['output']>
   /** The id of the episode. */
-  id?: Maybe<Scalars['ID']['output']>
+  id: Scalars['ID']['output']
   /** The name of the episode. */
   name?: Maybe<Scalars['String']['output']>
 }
@@ -120,7 +121,7 @@ export type Location = {
   /** The dimension in which the location is located. */
   dimension?: Maybe<Scalars['String']['output']>
   /** The id of the location. */
-  id?: Maybe<Scalars['ID']['output']>
+  id: Scalars['ID']['output']
   /** The name of the location. */
   name?: Maybe<Scalars['String']['output']>
   /** List of characters who have been last seen in the location. */
@@ -138,11 +139,11 @@ export type Locations = {
 export type Query = {
   __typename?: 'Query'
   /** Get a specific character by ID */
-  character?: Maybe<Character>
+  character: Character
   /** Get the list of all characters */
-  characters?: Maybe<Characters>
+  characters: Characters
   /** Get a list of characters selected by ids */
-  charactersByIds?: Maybe<Array<Maybe<Character>>>
+  charactersByIds: Array<Character>
   /** Get a specific episode by ID */
   episode?: Maybe<Episode>
   /** Get the list of all episodes */
@@ -198,22 +199,22 @@ export type QueryLocationsByIdsArgs = {
 
 export type CharacterItemFragment = {
   __typename?: 'Character'
-  status?: string | null
-  created?: string | null
-  gender?: string | null
-  id?: string | null
-  name?: string | null
-  image?: string | null
-  species?: string | null
-  location?: { __typename?: 'Location'; id?: string | null; name?: string | null } | null
+  status: string
+  created: string
+  gender: string
+  id: string
+  name: string
+  image: string
+  species: string
+  location: { __typename?: 'Location'; id: string; name?: string | null }
 }
 
 export type CharacterListFragment = {
   __typename?: 'Character'
-  id?: string | null
-  name?: string | null
-  image?: string | null
-  species?: string | null
+  id: string
+  name: string
+  image: string
+  species: string
 }
 
 export type GetCharacterItemQueryVariables = Exact<{
@@ -222,17 +223,17 @@ export type GetCharacterItemQueryVariables = Exact<{
 
 export type GetCharacterItemQuery = {
   __typename?: 'Query'
-  character?: {
+  character: {
     __typename?: 'Character'
-    status?: string | null
-    created?: string | null
-    gender?: string | null
-    id?: string | null
-    name?: string | null
-    image?: string | null
-    species?: string | null
-    location?: { __typename?: 'Location'; id?: string | null; name?: string | null } | null
-  } | null
+    status: string
+    created: string
+    gender: string
+    id: string
+    name: string
+    image: string
+    species: string
+    location: { __typename?: 'Location'; id: string; name?: string | null }
+  }
 }
 
 export type GetCharacterItemsByIdsQueryVariables = Exact<{
@@ -241,17 +242,17 @@ export type GetCharacterItemsByIdsQueryVariables = Exact<{
 
 export type GetCharacterItemsByIdsQuery = {
   __typename?: 'Query'
-  charactersByIds?: Array<{
+  charactersByIds: Array<{
     __typename?: 'Character'
-    status?: string | null
-    created?: string | null
-    gender?: string | null
-    id?: string | null
-    name?: string | null
-    image?: string | null
-    species?: string | null
-    location?: { __typename?: 'Location'; id?: string | null; name?: string | null } | null
-  } | null> | null
+    status: string
+    created: string
+    gender: string
+    id: string
+    name: string
+    image: string
+    species: string
+    location: { __typename?: 'Location'; id: string; name?: string | null }
+  }>
 }
 
 export type GetCharacterListQueryVariables = Exact<{
@@ -261,23 +262,23 @@ export type GetCharacterListQueryVariables = Exact<{
 
 export type GetCharacterListQuery = {
   __typename?: 'Query'
-  characters?: {
+  characters: {
     __typename?: 'Characters'
-    info?: {
+    info: {
       __typename?: 'Info'
       count?: number | null
       pages?: number | null
       next?: number | null
       prev?: number | null
-    } | null
-    results?: Array<{
+    }
+    results: Array<{
       __typename?: 'Character'
-      id?: string | null
-      name?: string | null
-      image?: string | null
-      species?: string | null
-    } | null> | null
-  } | null
+      id: string
+      name: string
+      image: string
+      species: string
+    }>
+  }
 }
 
 export type GetCharacterListByIdsQueryVariables = Exact<{
@@ -286,11 +287,11 @@ export type GetCharacterListByIdsQueryVariables = Exact<{
 
 export type GetCharacterListByIdsQuery = {
   __typename?: 'Query'
-  charactersByIds?: Array<{
+  charactersByIds: Array<{
     __typename?: 'Character'
-    id?: string | null
-    name?: string | null
-    image?: string | null
-    species?: string | null
-  } | null> | null
+    id: string
+    name: string
+    image: string
+    species: string
+  }>
 }

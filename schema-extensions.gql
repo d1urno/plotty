@@ -1,0 +1,34 @@
+directive @client on FIELD
+
+extend type Character {
+  id: ID!
+  created: String!
+  episode: [Episode!]!
+  gender: String!
+  image: String!
+  location: Location!
+  name: String!
+  origin: Location!
+  species: String!
+  status: String!
+  type: String!
+}
+
+extend type Episode {
+  id: ID!
+}
+
+extend type Location {
+  id: ID!
+}
+
+type Characters {
+  info: Info!
+  results: [Character!]!
+}
+
+extend type Query {
+  character(id: ID!): Character!
+  characters(filter: FilterCharacter, page: Int): Characters!
+  charactersByIds(ids: [ID!]!): [Character!]!
+}

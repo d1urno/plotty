@@ -4,6 +4,8 @@ schema {
 
 directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | INTERFACE | OBJECT
 
+directive @client on FIELD
+
 enum CacheControlScope {
   PRIVATE
   PUBLIC
@@ -11,37 +13,37 @@ enum CacheControlScope {
 
 type Character {
   """Time at which the character was created in the database."""
-  created: String
+  created: String!
   """Episodes in which this character appeared."""
-  episode: [Episode]!
+  episode: [Episode!]!
   """
   The gender of the character ('Female', 'Male', 'Genderless' or 'unknown').
   """
-  gender: String
+  gender: String!
   """The id of the character."""
-  id: ID
+  id: ID!
   """
   Link to the character's image.
   All images are 300x300px and most are medium shots or portraits since they are intended to be used as avatars.
   """
-  image: String
+  image: String!
   """The character's last known location"""
-  location: Location
+  location: Location!
   """The name of the character."""
-  name: String
+  name: String!
   """The character's origin location"""
-  origin: Location
+  origin: Location!
   """The species of the character."""
-  species: String
+  species: String!
   """The status of the character ('Alive', 'Dead' or 'unknown')."""
-  status: String
+  status: String!
   """The type or subspecies of the character."""
-  type: String
+  type: String!
 }
 
 type Characters {
-  info: Info
-  results: [Character]
+  info: Info!
+  results: [Character!]!
 }
 
 type Episode {
@@ -54,7 +56,7 @@ type Episode {
   """The code of the episode."""
   episode: String
   """The id of the episode."""
-  id: ID
+  id: ID!
   """The name of the episode."""
   name: String
 }
@@ -100,7 +102,7 @@ type Location {
   """The dimension in which the location is located."""
   dimension: String
   """The id of the location."""
-  id: ID
+  id: ID!
   """The name of the location."""
   name: String
   """List of characters who have been last seen in the location."""
@@ -116,11 +118,11 @@ type Locations {
 
 type Query {
   """Get a specific character by ID"""
-  character(id: ID!): Character
+  character(id: ID!): Character!
   """Get the list of all characters"""
-  characters(filter: FilterCharacter, page: Int): Characters
+  characters(filter: FilterCharacter, page: Int): Characters!
   """Get a list of characters selected by ids"""
-  charactersByIds(ids: [ID!]!): [Character]
+  charactersByIds(ids: [ID!]!): [Character!]!
   """Get a specific episode by ID"""
   episode(id: ID!): Episode
   """Get the list of all episodes"""
