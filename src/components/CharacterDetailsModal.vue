@@ -51,7 +51,7 @@ async function onAddCharacter(role: 'main' | 'secondary') {
     </template>
 
     <div class="flex gap-6">
-      <CharacterBio :horizontal="lgAndLarger" :character-id="character.id" />
+      <CharacterBio :horizontal="lgAndLarger" :character="props.character" />
     </div>
 
     <template #footer="{ close }">
