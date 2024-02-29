@@ -6,7 +6,7 @@ import CharacterCardListHorizontal from '@/components/CharacterCardListHorizonta
 import { useBreakpoints } from '@vueuse/core'
 import CharacterDetailsModal from '@/components/CharacterDetailsModal.vue'
 import StoryForm from '@/components/StoryForm.vue'
-import CharacterFilters from '@/components/CharacterFilters.vue'
+import GroupActionsBar from '@/components/GroupActionsBar.vue'
 import type { BaseCharacter } from '@/types/local'
 import useCharacterForm from '@/composables/useCharacterForm'
 
@@ -34,10 +34,12 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
       class="lg:order-0 order-1 flex-1 bg-blue-300/20 px-4 pt-4 ring-4 ring-white lg:w-[30rem] lg:flex-none lg:px-8 lg:pt-10"
     />
 
-    <div
-      class="order-0 mx-auto flex h-96 w-full flex-col pt-8 lg:order-1 lg:h-auto lg:max-w-[130rem]"
-    >
-      <CharacterFilters v-model="variables.filter" class="mb-2 px-4 lg:mb-4 lg:pr-7" />
+    <div class="order-0 mx-auto flex w-full flex-col pt-8 lg:order-1 lg:max-w-[130rem]">
+      <GroupActionsBar
+        v-model:filter-model="variables.filter"
+        v-model:custom-filter-model="customVariables.filter"
+        class="mb-2 px-4 lg:pr-7"
+      />
 
       <CharacterCardListHorizontal
         v-if="!lgAndLarger"
