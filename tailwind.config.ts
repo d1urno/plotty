@@ -19,6 +19,13 @@ export default {
       xl: '1200px',
       '2xl': '1440px',
       '3xl': '1920px'
+    },
+    fontFamily() {
+      return {
+        sans: ['Montserrat', 'sans-serif'],
+        garamond: ['"EB Garamond"'],
+        bevellier: ['Bevellier', 'serif']
+      }
     }
   },
   plugins: [forms, typography]
