@@ -8,6 +8,9 @@ import CharacterDetailsModal from '@/components/CharacterDetailsModal.vue'
 import StoryForm from '@/components/StoryForm.vue'
 import CharacterFilters from '@/components/CharacterFilters.vue'
 import type { BaseCharacter } from '@/types/local'
+import useCharacterForm from '@/composables/useCharacterForm'
+
+useCharacterForm() // TODO: Remove the need to keep this in memory for the modal mutations to work
 
 const characterModal = ref<{ visible: boolean; character: BaseCharacter }>()
 const variables = ref<{ filter?: { name?: string; gender?: string } }>({})
