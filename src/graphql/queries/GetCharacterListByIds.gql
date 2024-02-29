@@ -1,0 +1,5 @@
+query GetCharacterListByIds($ids: [ID!]!) {
+  charactersByIds(ids: $ids) {
+    ...CharacterList
+  }
+}

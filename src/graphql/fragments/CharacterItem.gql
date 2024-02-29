@@ -1,0 +1,10 @@
+fragment CharacterItem on Character {
+  ...CharacterList
+  status
+  created
+  gender
+  location {
+    id
+    name
+  }
+}

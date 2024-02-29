@@ -1,0 +1,6 @@
+fragment CharacterList on Character {
+  id
+  name
+  image
+  species
+}

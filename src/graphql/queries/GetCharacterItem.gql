@@ -1,0 +1,5 @@
+query GetCharacterItem($id: ID!) {
+  character(id: $id) {
+    ...CharacterItem
+  }
+}
