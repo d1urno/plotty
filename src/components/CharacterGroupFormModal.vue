@@ -12,7 +12,7 @@ import { onBeforeUnmount } from 'vue'
 
 const model = defineModel<{ visible: boolean }>()
 
-const { selectedCharacterGroupId, customCharacterGroups } = storeToRefs(useStore())
+const { selectedCharacterGroup, customCharacterGroups } = storeToRefs(useStore())
 const { formData: characterGroupFormData, getPayload, resetFormData } = useCharacterGroupForm()
 
 function onUpdateKey(value: string, index: number) {
@@ -23,7 +23,7 @@ function onSaveNewCharacterGroup(close: () => void) {
   const payload = getPayload() as CustomCharacterGroup
   const newCharacterGroup = { ...payload, id: `${CUSTOM_CHARACTER_ID_PREFIX}${payload.id}` }
   customCharacterGroups.value = [newCharacterGroup, ...customCharacterGroups.value]
-  selectedCharacterGroupId.value = newCharacterGroup.id
+  selectedCharacterGroup.value = { selectedGroupId: newCharacterGroup.id }
   close()
 }
 

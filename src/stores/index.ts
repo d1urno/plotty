@@ -5,7 +5,8 @@ import { useLocalStorage } from '@vueuse/core'
 import type { GenericToast } from '@/components/GenericToast.vue'
 import defaultStories from '@/constants/defaultStories'
 import type { AppModal } from '@/components/AppModal.vue'
-import { PresetCharacterGroups } from '@/constants/rules'
+import { INITIAL_PRESET_GROUP_ID, PresetCharacterGroups } from '@/constants/rules'
+import useURLObjectRef from '@/composables/useURLObjectRef'
 
 // eslint-disable-next-line import/prefer-default-export
 export const useStore = defineStore('store', () => {
@@ -18,9 +19,14 @@ export const useStore = defineStore('store', () => {
   const isFirstTimeSettings: Ref<boolean> = useLocalStorage<boolean>('firstTimeSettings', true)
   const apiKey: Ref<string | undefined> = useLocalStorage<string | undefined>('apiKey', undefined)
 
-  const selectedCharacterGroupId: Ref<PresetCharacterGroups | string> = useLocalStorage<
-    PresetCharacterGroups | string
-  >('selectedCharacterGroupId', PresetCharacterGroups.RICK_AND_MORTY)
+  const baseSelectedCharacterGroup: Ref<{ selectedGroupId: PresetCharacterGroups | string }> =
+    useLocalStorage<{ selectedGroupId: PresetCharacterGroups | string }>('selectedGroupId', {
+      selectedGroupId: INITIAL_PRESET_GROUP_ID
+    })
+
+  const selectedCharacterGroup = useURLObjectRef(baseSelectedCharacterGroup, {
+    defaultValues: { selectedGroupId: INITIAL_PRESET_GROUP_ID }
+  })
 
   const stories: Ref<Story[]> = useLocalStorage<Story[]>('stories', defaultStories, {
     serializer: {
@@ -47,7 +53,7 @@ export const useStore = defineStore('store', () => {
     appModal,
     appToasts,
     isFirstTimeSettings,
-    selectedCharacterGroupId,
+    selectedCharacterGroup,
     customCharacterGroups
   }
 })

@@ -58,3 +58,5 @@ export enum StoryGenre {
 export enum PresetCharacterGroups {
   RICK_AND_MORTY = 'Rick and Morty'
 }
+
+export const INITIAL_PRESET_GROUP_ID = PresetCharacterGroups.RICK_AND_MORTY

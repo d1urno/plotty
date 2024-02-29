@@ -22,7 +22,7 @@ const customFilterModel = defineModel<{ [key: string]: string | undefined }>('cu
 const isUrlFilterLoadedModel = defineModel<boolean>('isUrlFilterLoadedModel')
 
 const filterURLModel = useURLObjectRef(filterModel)
-const { selectedCharacterGroupId, customCharacterGroups } = storeToRefs(useStore())
+const { selectedCharacterGroup, customCharacterGroups } = storeToRefs(useStore())
 
 const isSearchOpen = ref(false)
 const characterFormModal = ref<{ visible: boolean }>()
@@ -65,7 +65,7 @@ function onCharacterGroupChange(event: Event) {
     (option) => option.value === (event.target as HTMLSelectElement).value
   )
   if (!option) return
-  selectedCharacterGroupId.value = option.value
+  selectedCharacterGroup.value.selectedGroupId = option.value
 }
 
 function onSearchToggle() {
@@ -82,7 +82,7 @@ function onSearchToggle() {
       <DropdownInput
         label="Character group"
         :show-label="false"
-        :model-value="selectedCharacterGroupId"
+        :model-value="selectedCharacterGroup.selectedGroupId"
         :options="customCharacterGroupOptions"
         class="w-full"
         @input="onCharacterGroupChange"

@@ -21,7 +21,7 @@ import defaultCharacterGroupFormData from '@/constants/defaultCharacterGroupForm
 
 const model = defineModel<{ visible: boolean; isEditing?: boolean }>()
 
-const { selectedCharacterGroupId, customCharacterGroups } = storeToRefs(useStore())
+const { selectedCharacterGroup, customCharacterGroups } = storeToRefs(useStore())
 const { formData: characterFormData, getPayload, resetFormData } = useCharacterForm()
 
 const infoRows = ref<[string, string][]>([])
@@ -34,8 +34,8 @@ onMounted(() => {
 })
 
 const groupIdModel = ref(
-  customCharacterGroups.value.some((cl) => cl.id === selectedCharacterGroupId.value)
-    ? selectedCharacterGroupId.value
+  customCharacterGroups.value.some((cl) => cl.id === selectedCharacterGroup.value.selectedGroupId)
+    ? selectedCharacterGroup.value.selectedGroupId
     : CUSTOM_CHARACTER_GROUP_ID
 )
 
@@ -56,7 +56,9 @@ const groupOptions = computed(() => [
 ])
 
 const groupTitle = computed(
-  () => customCharacterGroups.value.find((cc) => cc.id === selectedCharacterGroupId.value)?.title
+  () =>
+    customCharacterGroups.value.find((cc) => cc.id === selectedCharacterGroup.value.selectedGroupId)
+      ?.title
 )
 
 const additionalData = computed(() =>
@@ -100,7 +102,7 @@ async function onSaveCharacter(close: () => void) {
       customCharacterGroup.characters = [payload, ...customCharacterGroup.characters]
 
       // Close and navigate to the new group
-      selectedCharacterGroupId.value = customCharacterGroup.id
+      selectedCharacterGroup.value = { selectedGroupId: customCharacterGroup.id }
       close()
       return
     }
@@ -127,9 +129,9 @@ async function onSaveCharacter(close: () => void) {
       characters: [payload]
     }
     customCharacterGroups.value = [customCharacterGroup, ...customCharacterGroups.value]
-    selectedCharacterGroupId.value = customCharacterGroup.id
+    selectedCharacterGroup.value.selectedGroupId = customCharacterGroup.id
   } else {
-    selectedCharacterGroupId.value = customCharacterGroup.id
+    selectedCharacterGroup.value.selectedGroupId = customCharacterGroup.id
     // Next tick just to see the animation
     await nextTick(() => {
       if (!customCharacterGroup) return

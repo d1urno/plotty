@@ -6,7 +6,7 @@ import { PresetCharacterGroups } from '@/constants/rules'
 
 const filterURLModel = defineModel<{ name?: string; gender?: string }>({ default: {} })
 
-const { selectedCharacterGroupId } = storeToRefs(useStore())
+const { selectedCharacterGroup } = storeToRefs(useStore())
 
 function onGenderChange(event: Event) {
   filterURLModel.value.gender = (event.target as HTMLSelectElement).value
@@ -16,7 +16,7 @@ function onGenderChange(event: Event) {
 <template>
   <div class="flex gap-4">
     <DropdownInput
-      v-if="selectedCharacterGroupId === PresetCharacterGroups.RICK_AND_MORTY"
+      v-if="selectedCharacterGroup.selectedGroupId === PresetCharacterGroups.RICK_AND_MORTY"
       label="Character gender"
       :show-label="false"
       mini

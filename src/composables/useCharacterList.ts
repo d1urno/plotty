@@ -18,10 +18,10 @@ export default function useCharacterList(
     | Omit<CustomCharacterListVariables, 'id'>,
   options: CharacterListOptions = {}
 ) {
-  const { selectedCharacterGroupId } = storeToRefs(useStore())
+  const { selectedCharacterGroup } = storeToRefs(useStore())
 
   const customListVariables = computed(() => ({
-    id: selectedCharacterGroupId.value,
+    id: selectedCharacterGroup.value.selectedGroupId,
     ...unref(customVariables),
     filter: { ...unref(customVariables)?.filter, name: unref(variables)?.filter?.name ?? '' } // As all groups share the name filter
   }))
@@ -41,7 +41,7 @@ export default function useCharacterList(
     unrefVariables,
     () => ({
       enabled:
-        selectedCharacterGroupId.value === PresetCharacterGroups.RICK_AND_MORTY &&
+        selectedCharacterGroup.value.selectedGroupId === PresetCharacterGroups.RICK_AND_MORTY &&
         unref(options.isReady)
     })
   )
@@ -53,7 +53,7 @@ export default function useCharacterList(
   const apiListInfo = computed(() => result.value?.characters.info)
 
   const characterList = computed(() => {
-    switch (selectedCharacterGroupId.value) {
+    switch (selectedCharacterGroup.value.selectedGroupId) {
       case PresetCharacterGroups.RICK_AND_MORTY:
         return apiCharacterList.value
       default:
