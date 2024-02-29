@@ -274,6 +274,7 @@ export type GetCharacterListQuery = {
     results: Array<{
       __typename?: 'Character'
       id: string
+      created: string
       name: string
       image: string
       species: string
@@ -290,6 +291,7 @@ export type GetCharacterListByIdsQuery = {
   charactersByIds: Array<{
     __typename?: 'Character'
     id: string
+    created: string
     name: string
     image: string
     species: string
