@@ -1,10 +1,26 @@
 import { computed, ref, type Ref, unref } from 'vue'
 import { useGetCharacterListQuery } from '@/graphql/operations'
 import type { GetCharacterListQueryVariables } from '@/types/generated'
+import { storeToRefs } from 'pinia'
+import { useStore } from '@/stores'
+import { PresetCharacterGroups } from '@/constants/rules'
+import type { CustomCharacterListVariables } from '@/composables/useCustomCharacterList'
+import useCustomCharacterList from '@/composables/useCustomCharacterList'
 
 export default function useCharacterList(
-  variables?: Ref<GetCharacterListQueryVariables | undefined> | GetCharacterListQueryVariables
+  variables?: Ref<GetCharacterListQueryVariables | undefined> | GetCharacterListQueryVariables,
+  customVariables?:
+    | Ref<Omit<CustomCharacterListVariables, 'id'> | undefined>
+    | Omit<CustomCharacterListVariables, 'id'>
 ) {
+  const { selectedCharacterGroupId } = storeToRefs(useStore())
+
+  const customListVariables = computed(() => ({
+    id: selectedCharacterGroupId.value,
+    ...unref(customVariables)
+  }))
+  const { customCharacterList } = useCustomCharacterList(customListVariables)
+
   const page = ref(1)
   const unrefVariables = computed(
     () =>
@@ -17,29 +33,39 @@ export default function useCharacterList(
 
   const { result, fetchMore, networkStatus, error } = useGetCharacterListQuery(
     unrefVariables,
-    () => ({ enabled: !!Object.keys(unrefVariables.value.filter ?? {}).length })
+    () => ({
+      enabled:
+        selectedCharacterGroupId.value === PresetCharacterGroups.RICK_AND_MORTY &&
+        !!Object.keys(unrefVariables.value.filter ?? {}).length
+    })
   )
 
   const loading = computed(() => networkStatus.value === 1)
   const loadingNext = computed(() => networkStatus.value === 3)
 
-  const characterList = computed(() => result.value?.characters.results)
-  const listInfo = computed(() => result.value?.characters.info)
+  const apiCharacterList = computed(() => result.value?.characters.results)
+  const apiListInfo = computed(() => result.value?.characters.info)
+
+  const characterList = computed(() => {
+    switch (selectedCharacterGroupId.value) {
+      case PresetCharacterGroups.RICK_AND_MORTY:
+        return apiCharacterList.value
+      default:
+        return customCharacterList.value
+    }
+  })
 
   function fetchNext() {
-    if (!listInfo.value?.next) return
-    fetchMore({ variables: { page: Number(listInfo.value.next) } })
+    if (!apiListInfo.value?.next) return
+    fetchMore({ variables: { page: Number(apiListInfo.value.next) } })
   }
 
   return {
     characterList,
-    listInfo,
+    apiListInfo,
     loading,
     loadingNext,
     error,
     fetchNext
   }
 }
-
-export type QueriedCharacterList = ReturnType<typeof useCharacterList>['characterList']['value']
-export type QueriedCharacterListItem = NonNullable<QueriedCharacterList>[number]

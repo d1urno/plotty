@@ -11,7 +11,11 @@ import type { BaseCharacter } from '@/types/local'
 
 const characterModal = ref<{ visible: boolean; character: BaseCharacter }>()
 const variables = ref<{ filter?: { name?: string; gender?: string } }>({})
-const { characterList, fetchNext, loading, loadingNext } = useCharacterList(variables)
+const customVariables = ref<{ filter?: { [key: string]: string | undefined } }>({})
+const { characterList, fetchNext, loading, loadingNext } = useCharacterList(
+  variables,
+  customVariables
+)
 
 function onCardClick(character: BaseCharacter) {
   characterModal.value = { visible: true, character }
