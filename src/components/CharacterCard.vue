@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="T extends BaseCharacter">
 import type { BaseCharacter } from '@/types/local'
+import { computed } from 'vue'
 import UserCircleIcon from '@/components/icons/UserCircleIcon.vue'
 
 const props = defineProps<{
@@ -15,6 +16,12 @@ const emit = defineEmits<{
 function onClick() {
   emit('click', props.character)
 }
+
+const additionalProperties = computed(() => {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const { id, created, updated, __typename, name, image, groupId, ...rest } = props.character
+  return rest as Record<string, string>
+})
 </script>
 
 <template>
@@ -70,8 +77,12 @@ function onClick() {
           >
             {{ props.character.name }}
           </h2>
-          <p class="text-sm" :class="selected ? 'text-white' : 'text-gray-600'">
-            {{ character.species }}
+          <p
+            v-if="Object.keys(additionalProperties)[0]"
+            class="text-sm"
+            :class="selected ? 'text-white' : 'text-gray-600'"
+          >
+            {{ additionalProperties[Object.keys(additionalProperties)[0]] }}
           </p>
         </div>
       </div>
