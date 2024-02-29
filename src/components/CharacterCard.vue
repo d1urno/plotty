@@ -2,6 +2,8 @@
 import type { BaseCharacter } from '@/types/local'
 import { computed } from 'vue'
 import UserCircleIcon from '@/components/icons/UserCircleIcon.vue'
+import CharacterActions from '@/components/CharacterActions.vue'
+import isCustomCharacter from '@/functions/isCustomCharacter'
 
 const props = defineProps<{
   character: T
@@ -33,7 +35,7 @@ const additionalProperties = computed(() => {
     }"
   >
     <button
-      class="flex h-full w-full flex-col items-center justify-center rounded-lg border border-gray-300 transition"
+      class="group relative flex h-full w-full flex-col items-center justify-center rounded-lg border border-gray-300 transition"
       type="button"
       :class="{
         'bg-blue-500': selected,
@@ -43,6 +45,11 @@ const additionalProperties = computed(() => {
       }"
       @click="onClick"
     >
+      <CharacterActions
+        v-if="isCustomCharacter(props.character)"
+        :character="props.character"
+        class="absolute bottom-0 right-0 m-3 transition group-hover:opacity-100 lg:right-auto lg:opacity-0"
+      />
       <div
         class="flex h-full w-full items-center justify-center p-4"
         :class="{

@@ -6,6 +6,8 @@ import { computed } from 'vue'
 import useStoryFormActions from '@/composables/useStoryFormActions'
 import useStoryForm from '@/composables/useStoryForm'
 import type { BaseCharacter } from '@/types/local'
+import CharacterActions from '@/components/CharacterActions.vue'
+import isCustomCharacter from '@/functions/isCustomCharacter'
 
 const props = defineProps<{
   character: T
@@ -43,11 +45,14 @@ async function onAddCharacter(role: 'main' | 'secondary') {
   <GenericModal
     v-if="model"
     v-model="model.visible"
-    max-width-class="max-w-xl"
+    max-width-class="max-w-2xl"
     @close="model = undefined"
   >
     <template #title>
-      <h1 class="text-lg font-bold">Character details</h1>
+      <div class="flex justify-between">
+        <h1 class="text-lg font-bold">Character details</h1>
+        <CharacterActions v-if="isCustomCharacter(props.character)" :character="props.character" />
+      </div>
     </template>
 
     <div class="flex gap-6">
