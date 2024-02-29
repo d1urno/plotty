@@ -5,10 +5,10 @@ import CharacterThumb from '@/components/CharacterThumb.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { computed, ref } from 'vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'
-import type { Character } from '@/types/generated'
 import { useStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import type { Color } from '@/functions/getColorClasses'
+import type { BaseCharacter } from '@/types/local'
 
 const props = defineProps<{
   selectedCharacterIds: string[]
@@ -22,8 +22,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  drop: [{ item: Character; from?: string }]
-  click: [Pick<Character, 'id' | 'name' | 'image' | 'species'>]
+  drop: [{ item: BaseCharacter; from?: string }]
+  click: [BaseCharacter]
 }>()
 
 const { isDragging } = storeToRefs(useStore())
@@ -38,12 +38,12 @@ const selectedCharacters = computed(() =>
   characterList.value?.filter((cd) => props.selectedCharacterIds.includes(cd.id))
 )
 
-function onDrop(data: { payload: { item: Character; from?: string } }) {
+function onDrop(data: { payload: { item: BaseCharacter; from?: string } }) {
   draggingInto.value = false
   emit('drop', data.payload)
 }
 
-function onCardClick(character: Pick<Character, 'id' | 'name' | 'image' | 'species'>) {
+function onCardClick(character: BaseCharacter) {
   emit('click', character)
 }
 

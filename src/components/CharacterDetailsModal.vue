@@ -1,14 +1,14 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends BaseCharacter">
 import GenericModal from '@/components/GenericModal.vue'
 import CharacterBio from '@/components/CharacterBio.vue'
 import { useBreakpoints } from '@vueuse/core'
 import { computed } from 'vue'
 import useStoryFormActions from '@/composables/useStoryFormActions'
-import type { QueriedCharacterListItem } from '@/composables/useCharacterList'
 import useStoryForm from '@/composables/useStoryForm'
+import type { BaseCharacter } from '@/types/local'
 
 const props = defineProps<{
-  character: QueriedCharacterListItem
+  character: T
   selectableCharacters?: boolean
 }>()
 

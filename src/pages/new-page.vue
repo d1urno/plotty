@@ -6,14 +6,14 @@ import CharacterCardListHorizontal from '@/components/CharacterCardListHorizonta
 import { useBreakpoints } from '@vueuse/core'
 import CharacterDetailsModal from '@/components/CharacterDetailsModal.vue'
 import StoryForm from '@/components/StoryForm.vue'
-import type { QueriedCharacterListItem } from '@/composables/useCharacterList'
 import CharacterFilters from '@/components/CharacterFilters.vue'
+import type { BaseCharacter } from '@/types/local'
 
-const characterModal = ref<{ visible: boolean; character: QueriedCharacterListItem }>()
+const characterModal = ref<{ visible: boolean; character: BaseCharacter }>()
 const variables = ref<{ filter?: { name?: string; gender?: string } }>({})
 const { characterList, fetchNext, loading, loadingNext } = useCharacterList(variables)
 
-function onCardClick(character: QueriedCharacterListItem) {
+function onCardClick(character: BaseCharacter) {
   characterModal.value = { visible: true, character }
 }
 

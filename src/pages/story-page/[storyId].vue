@@ -8,13 +8,12 @@ import CharacterDetailsModal from '@/components/CharacterDetailsModal.vue'
 import VueMarkdown from 'vue-markdown-render'
 import { useDateFormat } from '@vueuse/core'
 import { useRoute, useRouter } from 'vue-router'
-import type { QueriedCharacterListItem } from '@/composables/useCharacterList'
 import useContinuationAi from '@/composables/useContinuationAi'
 import useModal from '@/composables/useModal'
 import ApiKeyModal from '@/components/ApiKeyModal.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { StoryMode, StoryStructure } from '@/constants/rules'
-import type { Story } from '@/types/local'
+import type { BaseCharacter, Story } from '@/types/local'
 import getGenreImg from '@/functions/getGenreImg'
 import CharacterThumb from '@/components/CharacterThumb.vue'
 
@@ -47,10 +46,7 @@ const bgClass = computed(() => {
 const createdDate = useDateFormat(new Date(story.value?.created ?? ''), 'HH:mm, MMMM D, YYYY').value
 
 const apiKeyModal = ref<{ visible: boolean }>()
-const characterModal = ref<{
-  visible: boolean
-  character: QueriedCharacterListItem
-}>()
+const characterModal = ref<{ visible: boolean; character: BaseCharacter }>()
 
 const nextDecidingCharacter = computed(() => {
   if (!story.value) return undefined
@@ -58,7 +54,7 @@ const nextDecidingCharacter = computed(() => {
   return characterList.value?.find((c) => c.name === lastChapter.decidingCharacterName)
 })
 
-function onCardClick(character: QueriedCharacterListItem) {
+function onCardClick(character: BaseCharacter) {
   characterModal.value = { visible: true, character }
 }
 

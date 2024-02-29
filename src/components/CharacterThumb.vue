@@ -1,11 +1,11 @@
-<script setup lang="ts">
-import type { QueriedCharacterListItem } from '@/composables/useCharacterList'
+<script setup lang="ts" generic="T extends BaseCharacter">
 import { computed } from 'vue'
 import getColorClasses, { type Color } from '@/functions/getColorClasses'
+import type { BaseCharacter } from '@/types/local'
 
 const props = withDefaults(
   defineProps<{
-    character: QueriedCharacterListItem
+    character: T
     mini?: boolean
     selected?: boolean
     selectedColor?: Color
@@ -18,7 +18,7 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
-  click: [payload: QueriedCharacterListItem]
+  click: [payload: T]
 }>()
 
 const colorClasses = computed(() => getColorClasses(props.selectedColor))
@@ -48,7 +48,7 @@ function onClick() {
     />
 
     <h2 v-if="!mini" class="line-clamp-2 w-[6.58rem] max-w-full text-sm font-bold text-gray-800">
-      {{ character.name }}
+      {{ props.character.name }}
     </h2>
   </button>
 </template>

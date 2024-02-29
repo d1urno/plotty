@@ -1,14 +1,14 @@
-<script setup lang="ts">
-import type { QueriedCharacterListItem } from '@/composables/useCharacterList'
+<script setup lang="ts" generic="T extends BaseCharacter">
+import type { BaseCharacter } from '@/types/local'
 
 const props = defineProps<{
-  character: QueriedCharacterListItem
+  character: T
   selected?: boolean // Not in use
   horizontal?: boolean
 }>()
 
 const emit = defineEmits<{
-  click: [payload: QueriedCharacterListItem]
+  click: [payload: T]
 }>()
 
 function onClick() {
@@ -66,7 +66,7 @@ function onClick() {
             class="line-clamp-2 text-xl font-bold"
             :class="selected ? 'text-white' : 'text-gray-800'"
           >
-            {{ character.name }}
+            {{ props.character.name }}
           </h2>
           <p class="text-sm" :class="selected ? 'text-white' : 'text-gray-600'">
             {{ character.species }}
