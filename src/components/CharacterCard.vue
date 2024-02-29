@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="T extends BaseCharacter">
 import type { BaseCharacter } from '@/types/local'
+import UserCircleIcon from '@/components/icons/UserCircleIcon.vue'
 
 const props = defineProps<{
   character: T
@@ -42,17 +43,18 @@ function onClick() {
           'gap-6 text-left': horizontal
         }"
       >
-        <div
-          class="flex h-full items-center justify-center"
-          :class="{ 'mb-4 w-full': !horizontal }"
-        >
+        <div :class="{ 'mb-4 h-32 w-32': !horizontal, 'h-20 w-20': horizontal }">
           <!-- 👇🏼 pointer-events-none not to open the image on touch events -->
           <img
-            :src="character.image"
-            :alt="character.name"
+            v-if="props.character.image"
+            :src="props.character.image"
+            :alt="props.character.name"
             draggable="false"
-            class="pointer-events-none rounded-full object-cover"
-            :class="{ 'h-32 w-32': !horizontal, 'h-20 w-20': horizontal }"
+            class="pointer-events-none h-full w-full rounded-full object-cover"
+          />
+          <UserCircleIcon
+            v-else
+            class="pointer-events-none h-full w-full rounded-full object-cover text-gray-500"
           />
         </div>
         <div

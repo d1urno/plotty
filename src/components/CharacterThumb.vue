@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import getColorClasses, { type Color } from '@/functions/getColorClasses'
 import type { BaseCharacter } from '@/types/local'
+import UserCircleIcon from '@/components/icons/UserCircleIcon.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -35,17 +36,23 @@ function onClick() {
     type="button"
     @click="onClick"
   >
-    <img
-      :src="character.image"
-      :alt="character.name"
-      draggable="false"
-      class="mb-1 rounded-full object-cover transition"
+    <div
       :class="[
         mini ? 'h-10 w-10' : 'h-16 w-16',
         { 'ring-4': selected },
         { [colorClasses.ring]: selected }
       ]"
-    />
+      class="mb-1 overflow-hidden rounded-full transition"
+    >
+      <img
+        v-if="props.character.image"
+        :src="props.character.image"
+        :alt="props.character.name"
+        draggable="false"
+        class="h-full w-full object-cover"
+      />
+      <UserCircleIcon v-else class="h-full w-full object-cover text-gray-500" />
+    </div>
 
     <h2 v-if="!mini" class="line-clamp-2 w-[6.58rem] max-w-full text-sm font-bold text-gray-800">
       {{ props.character.name }}
