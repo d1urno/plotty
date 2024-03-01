@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends BaseCharacter[]">
 import CharacterCard from '@/components/CharacterCard.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { storeToRefs } from 'pinia'
@@ -6,18 +6,18 @@ import { useStore } from '@/stores'
 import { Container, Draggable } from 'vue3-dndrop'
 import { computed } from 'vue'
 import useInfiniteScroll from '@/composables/useInfiniteScroll'
-import type { QueriedCharacterList, QueriedCharacterListItem } from '@/composables/useCharacterList'
 import useStoryForm from '@/composables/useStoryForm'
+import type { BaseCharacter } from '@/types/local'
 
 const props = defineProps<{
-  characterList: QueriedCharacterList
+  characterList?: T
   loading?: boolean
   loadingNext?: boolean
 }>()
 
 const emit = defineEmits<{
   fetchNext: []
-  click: [character: QueriedCharacterListItem]
+  click: [character: BaseCharacter]
 }>()
 
 const { isDragging } = storeToRefs(useStore())
@@ -32,7 +32,7 @@ const filteredCharacterList = computed(() =>
   props.characterList?.filter((character) => !selectedIds.value.includes(character.id))
 )
 
-function onCardClick(character: QueriedCharacterListItem) {
+function onCardClick(character: BaseCharacter) {
   emit('click', character)
 }
 

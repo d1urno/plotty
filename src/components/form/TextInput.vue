@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { slugify } from '@/utils'
 import { useDebounceFn } from '@vueuse/core'
 
@@ -9,6 +9,7 @@ const props = withDefaults(
     type?: 'text' | 'email' | 'password' | 'textarea'
     showLabel?: boolean
     debounce?: number
+    focus?: boolean
   }>(),
   {
     type: 'text',
@@ -27,6 +28,13 @@ function onInput(event: Event) {
 const onInputDebounced = useDebounceFn(onInput, props.debounce)
 
 const slugLabel = computed(() => slugify(props.label))
+
+onMounted(() => {
+  if (props.focus) {
+    const input = document.getElementById(`${slugLabel.value}-text-input`) as HTMLInputElement
+    input.focus()
+  }
+})
 </script>
 
 <template>

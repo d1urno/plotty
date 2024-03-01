@@ -1,19 +1,29 @@
-<script setup lang="ts">
-import type { QueriedCharacterListItem } from '@/composables/useCharacterList'
+<script setup lang="ts" generic="T extends BaseCharacter">
+import type { BaseCharacter } from '@/types/local'
+import { computed } from 'vue'
+import UserCircleIcon from '@/components/icons/UserCircleIcon.vue'
+import CharacterActions from '@/components/CharacterActions.vue'
+import isCustomCharacter from '@/functions/isCustomCharacter'
 
 const props = defineProps<{
-  character: QueriedCharacterListItem
+  character: T
   selected?: boolean // Not in use
   horizontal?: boolean
 }>()
 
 const emit = defineEmits<{
-  click: [payload: QueriedCharacterListItem]
+  click: [payload: T]
 }>()
 
 function onClick() {
   emit('click', props.character)
 }
+
+const additionalProperties = computed(() => {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const { id, created, updated, __typename, name, image, groupId, ...rest } = props.character
+  return rest as Record<string, string>
+})
 </script>
 
 <template>
@@ -25,7 +35,7 @@ function onClick() {
     }"
   >
     <button
-      class="flex h-full w-full flex-col items-center justify-center rounded-lg border border-gray-300 transition"
+      class="group relative flex h-full w-full flex-col items-center justify-center rounded-lg border border-gray-300 transition"
       type="button"
       :class="{
         'bg-blue-500': selected,
@@ -35,6 +45,11 @@ function onClick() {
       }"
       @click="onClick"
     >
+      <CharacterActions
+        v-if="isCustomCharacter(props.character)"
+        :character="props.character"
+        class="absolute bottom-0 right-0 m-3 transition group-hover:opacity-100 lg:right-auto lg:opacity-0"
+      />
       <div
         class="flex h-full w-full items-center justify-center p-4"
         :class="{
@@ -42,17 +57,18 @@ function onClick() {
           'gap-6 text-left': horizontal
         }"
       >
-        <div
-          class="flex h-full items-center justify-center"
-          :class="{ 'mb-4 w-full': !horizontal }"
-        >
+        <div :class="{ 'mb-4 h-32 w-32': !horizontal, 'h-20 w-20': horizontal }">
           <!-- 👇🏼 pointer-events-none not to open the image on touch events -->
           <img
-            :src="character.image"
-            :alt="character.name"
+            v-if="props.character.image"
+            :src="props.character.image"
+            :alt="props.character.name"
             draggable="false"
-            class="pointer-events-none rounded-full object-cover"
-            :class="{ 'h-32 w-32': !horizontal, 'h-20 w-20': horizontal }"
+            class="pointer-events-none h-full w-full rounded-full object-cover"
+          />
+          <UserCircleIcon
+            v-else
+            class="pointer-events-none h-full w-full rounded-full object-cover text-gray-500"
           />
         </div>
         <div
@@ -66,10 +82,14 @@ function onClick() {
             class="line-clamp-2 text-xl font-bold"
             :class="selected ? 'text-white' : 'text-gray-800'"
           >
-            {{ character.name }}
+            {{ props.character.name }}
           </h2>
-          <p class="text-sm" :class="selected ? 'text-white' : 'text-gray-600'">
-            {{ character.species }}
+          <p
+            v-if="Object.keys(additionalProperties)[0]"
+            class="text-sm"
+            :class="selected ? 'text-white' : 'text-gray-600'"
+          >
+            {{ additionalProperties[Object.keys(additionalProperties)[0]] }}
           </p>
         </div>
       </div>

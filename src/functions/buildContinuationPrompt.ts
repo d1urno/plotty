@@ -12,6 +12,8 @@ const omittedFields: (keyof Story)[] | (keyof Chapter)[] = [
   'decidingCharacterName'
 ]
 
+const charactersOmittedFields: string[] = [...omittedFields, 'image', 'groupId']
+
 export default function buildContinuationPrompt(options: GetContinuationPromptOptions) {
   const checks = storyChecks(options.story)
 
@@ -36,20 +38,20 @@ export default function buildContinuationPrompt(options: GetContinuationPromptOp
   const mainCharactersBlock = getBlock(
     'Given these main characters coming from user input',
     options.mainCharacters,
-    omittedFields
+    charactersOmittedFields
   )
 
   const secondaryCharactersBlock = getBlock(
     'Given these secondary characters coming from user input',
     options.secondaryCharacters,
-    omittedFields
+    charactersOmittedFields
   )
 
   const decisionMakersCharactersBlock = getBlockIf(
     checks.requiresActions() || checks.requiresLastChapterActions(),
     'Given only these characters that need to make the decisions',
     options.decisionMakers?.map((c) => c.name).join(', '),
-    omittedFields
+    charactersOmittedFields
   )
 
   const nextChapterBlock = getBlock(

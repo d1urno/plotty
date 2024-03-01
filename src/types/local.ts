@@ -1,6 +1,5 @@
 import type { App } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
-import type { QueriedCharacterItemsByIdsItem } from '@/composables/useCharacterItemsByIds'
 import type {
   StoryStyle,
   StoryGenre,
@@ -12,9 +11,9 @@ import type {
 export type AppModule = (context: { app: App; routes: RouteRecordRaw[]; baseUrl: string }) => void
 
 export interface GetStoryPromptOptions {
-  mainCharacters?: QueriedCharacterItemsByIdsItem[]
-  secondaryCharacters?: QueriedCharacterItemsByIdsItem[]
-  decisionMakers?: QueriedCharacterItemsByIdsItem[]
+  mainCharacters?: BaseCharacter[]
+  secondaryCharacters?: BaseCharacter[]
+  decisionMakers?: BaseCharacter[]
   specialInstructions?: string
   totalChapters: number
   storyMode: StoryMode
@@ -25,9 +24,9 @@ export interface GetStoryPromptOptions {
 }
 
 export interface GetContinuationPromptOptions {
-  mainCharacters?: QueriedCharacterItemsByIdsItem[]
-  secondaryCharacters?: QueriedCharacterItemsByIdsItem[]
-  decisionMakers?: QueriedCharacterItemsByIdsItem[]
+  mainCharacters?: BaseCharacter[]
+  secondaryCharacters?: BaseCharacter[]
+  decisionMakers?: BaseCharacter[]
   story: Story
   continuationInstruction: string
 }
@@ -66,3 +65,39 @@ export interface Story {
 }
 
 export type StoryFormData = Omit<Story, 'created' | 'updated' | 'title' | '__typename'>
+
+export interface CustomCharacter extends Record<string, string | undefined> {
+  id: string
+  name: string
+  image: string
+  created: string
+  updated: string
+  groupId: string
+  __typename?: string
+}
+
+export type CharacterFormData = Omit<CustomCharacter, 'created' | 'updated' | '__typename'>
+
+export interface CustomCharacterGroup {
+  id: string
+  title: string
+  description: string
+  created: string
+  updated: string
+  fields: string[]
+  __typename?: string
+  characters: CustomCharacter[]
+}
+
+export type CharacterGroupFormData = Omit<
+  CustomCharacterGroup,
+  'created' | 'updated' | '__typename'
+>
+
+export interface BaseCharacter extends Record<string, string | object | undefined> {
+  id: string
+  name: string
+  image: string
+  created: string
+  __typename?: string
+}

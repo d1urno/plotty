@@ -1,14 +1,16 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends BaseCharacter">
 import GenericModal from '@/components/GenericModal.vue'
 import CharacterBio from '@/components/CharacterBio.vue'
 import { useBreakpoints } from '@vueuse/core'
 import { computed } from 'vue'
 import useStoryFormActions from '@/composables/useStoryFormActions'
-import type { QueriedCharacterListItem } from '@/composables/useCharacterList'
 import useStoryForm from '@/composables/useStoryForm'
+import type { BaseCharacter } from '@/types/local'
+import CharacterActions from '@/components/CharacterActions.vue'
+import isCustomCharacter from '@/functions/isCustomCharacter'
 
 const props = defineProps<{
-  character: QueriedCharacterListItem
+  character: T
   selectableCharacters?: boolean
 }>()
 
@@ -43,15 +45,18 @@ async function onAddCharacter(role: 'main' | 'secondary') {
   <GenericModal
     v-if="model"
     v-model="model.visible"
-    max-width-class="max-w-xl"
+    max-width-class="max-w-2xl"
     @close="model = undefined"
   >
     <template #title>
-      <h1 class="text-lg font-bold">Character details</h1>
+      <div class="flex justify-between">
+        <h1 class="text-lg font-bold">Character details</h1>
+        <CharacterActions v-if="isCustomCharacter(props.character)" :character="props.character" />
+      </div>
     </template>
 
     <div class="flex gap-6">
-      <CharacterBio :horizontal="lgAndLarger" :character-id="character.id" />
+      <CharacterBio :horizontal="lgAndLarger" :character="props.character" />
     </div>
 
     <template #footer="{ close }">

@@ -7,6 +7,7 @@ export type ReactiveFunction<TParam> = () => TParam
 export const CharacterListFragmentDoc = gql`
   fragment CharacterList on Character {
     id
+    created
     name
     image
     species

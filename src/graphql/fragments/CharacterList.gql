@@ -1,5 +1,6 @@
 fragment CharacterList on Character {
   id
+  created
   name
   image
   species
