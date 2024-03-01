@@ -2,6 +2,7 @@
 import { onClickOutside, useSwipe, useFocus } from '@vueuse/core'
 import { ref, watch } from 'vue'
 import AppHamburger from '@/components/AppHamburger.vue'
+import AppLink from '@/components/AppLink.vue'
 
 const isOpen = ref(false)
 const root = ref<HTMLElement | null>(null)
@@ -67,34 +68,34 @@ watch(direction, (value) => {
         <!--        </div>-->
         <ul class="space-y-3 py-8 text-center text-lg font-medium dark:text-gray-200">
           <li>
-            <router-link
+            <AppLink
               to="/"
               class="rounded-md px-2 py-1 transition-colors ease-out"
               active-class="bg-blue-600 text-white"
               @click="onClose"
             >
               Home
-            </router-link>
+            </AppLink>
           </li>
           <li>
-            <router-link
+            <AppLink
               to="/stories"
               class="rounded-md px-2 py-1 transition-colors ease-out"
               active-class="bg-blue-600 text-white"
               @click="onClose"
             >
               Stories
-            </router-link>
+            </AppLink>
           </li>
           <li>
-            <router-link
+            <AppLink
               to="/new"
               class="rounded-md px-2 py-1 transition-colors ease-out"
               active-class="bg-blue-600 text-white"
               @click="onClose"
             >
               New story
-            </router-link>
+            </AppLink>
           </li>
         </ul>
       </div>

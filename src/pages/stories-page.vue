@@ -7,6 +7,7 @@ import useModal from '@/composables/useModal'
 import StoryCard from '@/components/StoryCard.vue'
 import StoryFilters from '@/components/StoryFilters.vue'
 import StoryChapter from '@/components/StoryChapter.vue'
+import AppLink from '@/components/AppLink.vue'
 
 const { showModal } = useModal()
 const { stories } = storeToRefs(useStore())
@@ -58,12 +59,12 @@ function onDeleteStory(id: string) {
         <h2 class="mb-10 text-center text-2xl italic text-blue-500">
           You don't have any stories yet...
         </h2>
-        <router-link
+        <AppLink
           to="/new"
           class="block rounded-md bg-blue-500 px-10 py-3 text-center text-2xl font-bold text-white"
         >
           Create a new story
-        </router-link>
+        </AppLink>
       </div>
 
       <template v-else>
@@ -74,13 +75,9 @@ function onDeleteStory(id: string) {
           <div v-if="!filteredStories?.length">No results found...</div>
           <ul v-else class="grid max-h-[31rem] w-full 3xl:grid-cols-2">
             <transition-group name="list" appear>
-              <router-link
-                v-for="story in filteredStories"
-                :key="story.id"
-                :to="`/story/${story.id}`"
-              >
+              <AppLink v-for="story in filteredStories" :key="story.id" :to="`/story/${story.id}`">
                 <StoryCard :story="story" :loading="loading" @delete="onDeleteStory" />
-              </router-link>
+              </AppLink>
             </transition-group>
           </ul>
         </div>

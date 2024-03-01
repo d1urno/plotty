@@ -4,6 +4,7 @@ import { useBreakpoints } from '@vueuse/core'
 import AppMobileMenu from '@/components/AppMobileMenu.vue'
 import { useRouter } from 'vue-router'
 import LinkTabs from '@/components/LinkTabs.vue'
+import AppLink from '@/components/AppLink.vue'
 
 const router = useRouter()
 const breakpoints = useBreakpoints({ lg: 992 })
@@ -43,12 +44,12 @@ router.afterEach((to, from) => {
             </div>
 
             <div v-else class="flex items-center gap-6">
-              <router-link
+              <AppLink
                 to="/new"
                 class="rounded-md bg-blue-500/80 px-2 py-1 font-semibold text-white ring-2 ring-blue-600 transition-colors ease-out"
               >
                 New story
-              </router-link>
+              </AppLink>
               <AppMobileMenu />
             </div>
           </div>

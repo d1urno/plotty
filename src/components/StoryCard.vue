@@ -42,6 +42,7 @@ const timeAgo = useTimeAgo(new Date(props.story.created)).value
         class="rounded-md bg-white px-2 py-1 text-xs text-red-600 xl:hidden xl:group-hover:block"
         type="button"
         @click.prevent="$emit('delete', story.id)"
+        @mousedown.prevent
       >
         Delete
       </button>

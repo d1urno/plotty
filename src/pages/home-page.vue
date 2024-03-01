@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Romance from '@/assets/romance.webp'
+import AppLink from '@/components/AppLink.vue'
 </script>
 
 <template>
@@ -44,12 +45,12 @@ import Romance from '@/assets/romance.webp'
         <p class="mb-8 text-lg sm:text-xl">
           Ready to get started? Create a story and share it with your friends and family.
         </p>
-        <router-link
+        <AppLink
           to="/new"
           class="mx-auto block w-max rounded bg-blue-500 px-20 py-2 text-center text-xl font-bold text-white hover:bg-blue-700"
         >
           Create story
-        </router-link>
+        </AppLink>
       </section>
     </div>
     <footer class="text-center">

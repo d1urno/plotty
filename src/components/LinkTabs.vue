@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import AppLink from '@/components/AppLink.vue'
 
 const props = defineProps<{
   options: { label: string; value: string; icon?: string; bgColorClass?: string }[]
@@ -42,7 +43,7 @@ function onOptionSelect(newValue: string) {
           class="absolute grid w-full"
           :style="{ gridTemplateColumns: `repeat(${optionCount}, 1fr)` }"
         >
-          <router-link
+          <AppLink
             v-for="(option, index) in options"
             :key="index"
             :class="
@@ -60,7 +61,7 @@ function onOptionSelect(newValue: string) {
               <i v-if="option.icon" class="pi mr-2" :class="option.icon"></i>
               <span class="mx-auto">{{ option.label }}</span>
             </div>
-          </router-link>
+          </AppLink>
         </div>
       </div>
     </div>
