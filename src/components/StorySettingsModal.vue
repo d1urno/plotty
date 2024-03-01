@@ -151,6 +151,7 @@ function onGenerateStory(close: () => void) {
         v-model="apiKey"
         label="API Key"
         class="col-span-4 md:col-span-6"
+        type="password"
         placeholder="Enter key"
         :class="{ 'border-red-500/75': !apiKey }"
       >
