@@ -71,3 +71,7 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
     />
   </div>
 </template>
+
+<route lang="json">
+{ "meta": { "weight": 3 } }
+</route>

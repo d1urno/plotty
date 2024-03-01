@@ -61,5 +61,5 @@ import Romance from '@/assets/romance.webp'
 </template>
 
 <route lang="json">
-{ "path": "/" }
+{ "path": "/", "meta": { "weight": 1 } }
 </route>

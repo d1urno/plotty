@@ -99,3 +99,7 @@ function onDeleteStory(id: string) {
     </div>
   </div>
 </template>
+
+<route lang="json">
+{ "meta": { "weight": 2 } }
+</route>

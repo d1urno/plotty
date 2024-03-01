@@ -26,7 +26,7 @@
 }
 
 .list-enter-from {
-  @apply scale-75 opacity-0;
+  @apply scale-[85%] opacity-0;
 }
 
 .list-enter-to {
@@ -41,14 +41,52 @@
   @apply origin-center scale-50 opacity-0;
 }
 
+.page-scale-fade-enter-active,
+.page-scale-fade-leave-active {
+  @apply transition-transform duration-200 ease-out absolute;
+}
+
+.page-scale-fade-enter-from {
+  @apply scale-[103%] opacity-0;
+}
+
+.page-scale-fade-leave-to {
+  @apply opacity-0;
+}
+
+.page-scale-fade-enter-to,
+.page-scale-fade-leave-from {
+  @apply opacity-100;
+}
+
+.page-slide-left-enter-active,
+.page-slide-right-enter-active {
+  @apply transition-transform duration-300 ease-out;
+}
+
+.page-slide-left-leave-active,
+.page-slide-right-leave-active {
+  @apply transition-transform duration-300 ease-out;
+}
+
+.page-slide-left-enter-from,
+.page-slide-right-leave-to {
+  @apply translate-x-20 opacity-0;
+}
+
+.page-slide-right-enter-from,
+.page-slide-left-leave-to {
+  @apply -translate-x-20 opacity-0;
+}
+
 .slide-left-enter-active,
 .slide-right-enter-active {
-  @apply transition-all duration-300 ease-out;
+  @apply transition-transform duration-300 ease-out;
 }
 
 .slide-left-leave-active,
 .slide-right-leave-active {
-  @apply transition-all duration-300 ease-out;
+  @apply transition-[transform,opacity] duration-300 ease-out;
 }
 
 .slide-left-enter-from,

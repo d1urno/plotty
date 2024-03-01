@@ -2,9 +2,18 @@
 import LogoIcon from '@/components/icons/LogoIcon.vue'
 import { useBreakpoints } from '@vueuse/core'
 import AppMobileMenu from '@/components/AppMobileMenu.vue'
+import { useRouter } from 'vue-router'
+import LinkTabs from '@/components/LinkTabs.vue'
 
+const router = useRouter()
 const breakpoints = useBreakpoints({ lg: 992 })
 const lgAndLarger = breakpoints.greaterOrEqual('lg')
+
+router.afterEach((to, from) => {
+  if (!to.meta.weight || !from.meta.weight) return
+  // eslint-disable-next-line no-param-reassign
+  to.meta.transition = to.meta.weight < from.meta.weight ? 'page-slide-right' : 'page-slide-left'
+})
 </script>
 
 <template>
@@ -23,35 +32,20 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
             </div>
 
             <div v-if="lgAndLarger" class="ml-10 flex items-center align-middle">
-              <div class="flex space-x-4">
-                <router-link
-                  to="/"
-                  class="rounded-md px-3 py-2 text-sm font-medium transition-transform hover:scale-110 hover:bg-blue-400 hover:text-white"
-                  exact-active-class="bg-blue-600 text-white hover:scale-100"
-                >
-                  Home
-                </router-link>
-                <router-link
-                  to="/stories"
-                  class="rounded-md px-3 py-2 text-sm font-medium transition-transform hover:scale-110 hover:bg-blue-400 hover:text-white"
-                  active-class="bg-blue-600 text-white hover:scale-100"
-                >
-                  Stories
-                </router-link>
-                <router-link
-                  to="/new"
-                  class="rounded-md px-3 py-2 text-sm font-medium transition-transform hover:scale-110 hover:bg-blue-400 hover:text-white"
-                  active-class="bg-blue-600 text-white hover:scale-100"
-                >
-                  New story
-                </router-link>
-              </div>
+              <LinkTabs
+                :options="[
+                  { label: 'Home', value: '/', bgColorClass: 'bg-blue-600/80' },
+                  { label: 'Stories', value: '/stories', bgColorClass: 'bg-teal-500/80' },
+                  { label: 'New story', value: '/new', bgColorClass: 'bg-orange-500' }
+                ]"
+                class="w-80"
+              />
             </div>
 
             <div v-else class="flex items-center gap-6">
               <router-link
                 to="/new"
-                class="rounded-md bg-blue-500/50 px-2 py-1 font-semibold text-white ring-2 ring-blue-600 transition-colors ease-out"
+                class="rounded-md bg-blue-500/80 px-2 py-1 font-semibold text-white ring-2 ring-blue-600 transition-colors ease-out"
               >
                 New story
               </router-link>
@@ -62,8 +56,15 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
       </div>
     </nav>
 
-    <main class="flex h-[calc(100%-4rem)] justify-center overflow-y-auto">
-      <router-view class="w-full" />
+    <main class="relative flex h-[calc(100%-4rem)] overflow-hidden">
+      <router-view v-slot="{ Component, route }" class="absolute inset-0 w-full overflow-y-auto">
+        <transition
+          :name="(route.meta.transition as string | undefined) || 'page-scale-fade'"
+          appear
+        >
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </main>
   </div>
 </template>
