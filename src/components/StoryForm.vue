@@ -21,7 +21,7 @@ const { formData: storyFormData } = useStoryForm()
 
 const settingsModal = ref<{ visible: boolean }>()
 const wizardModal = ref<{ visible: boolean }>()
-const apiKeyModal = ref<{ visible: boolean }>()
+const apiKeyModal = ref<{ visible: boolean; callback: () => void }>()
 
 const variables = computed(() => ({
   ids: [...storyFormData.value.mainCharacters, ...storyFormData.value.secondaryCharacters]
@@ -96,7 +96,7 @@ async function onGenerateStory() {
     }
   } catch (error) {
     if (error instanceof Error && error.message === 'API key not found') {
-      apiKeyModal.value = { visible: true }
+      apiKeyModal.value = { visible: true, callback: onGenerateStory }
     } else console.error(error)
   }
 }

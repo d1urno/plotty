@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import GenericModal from '@/components/GenericModal.vue'
 
-const model = defineModel<{ visible: boolean }>()
+const model = defineModel<{ visible: boolean; callback?: () => void }>()
 const apiKeyModel = defineModel<string>('apiKeyModel')
+
+function onOkClick(close: () => void) {
+  close()
+  if (model.value?.callback) model.value.callback()
+}
 </script>
 
 <template>
@@ -38,8 +43,9 @@ const apiKeyModel = defineModel<string>('apiKeyModel')
       <div class="flex justify-end">
         <button
           type="button"
-          class="rounded-md bg-blue-500 px-10 py-2 font-bold text-white"
-          @click="close"
+          class="rounded-md bg-blue-500 px-10 py-2 font-bold text-white disabled:opacity-50"
+          :disabled="!apiKeyModel"
+          @click="onOkClick(close)"
         >
           Ok
         </button>
