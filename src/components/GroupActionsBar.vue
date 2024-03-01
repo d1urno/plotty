@@ -97,6 +97,8 @@ function onSearchToggle() {
       v-if="isSearchOpen"
       v-model="filterURLModel.name"
       :show-label="false"
+      focus
+      autocomplete="off"
       label="Character search"
       placeholder="Search for a character"
       :debounce="300"
