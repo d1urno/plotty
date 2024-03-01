@@ -4,9 +4,9 @@ import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import useModal from '@/composables/useModal'
-import VueMarkdown from 'vue-markdown-render'
 import StoryCard from '@/components/StoryCard.vue'
 import StoryFilters from '@/components/StoryFilters.vue'
+import StoryChapter from '@/components/StoryChapter.vue'
 
 const { showModal } = useModal()
 const { stories } = storeToRefs(useStore())
@@ -89,10 +89,13 @@ function onDeleteStory(id: string) {
           <h2 class="mb-8 text-center text-2xl italic text-blue-500">Most recent story...</h2>
           <article class="prose prose-lg mx-auto font-garamond prose-p:font-sans">
             <h1 class="mb-16 text-center text-blue-600">{{ lastStory.title }}</h1>
-            <section v-for="(chapter, i) in lastStory.chapters" :key="chapter.id">
-              <h2 v-if="lastStory.totalChapters > 1">Chapter {{ i + 1 }}: {{ chapter.title }}</h2>
-              <VueMarkdown :source="chapter.content" />
-            </section>
+            <StoryChapter
+              v-for="(chapter, i) in lastStory.chapters"
+              :key="chapter.id"
+              :story-id="lastStory.id"
+              :chapter="chapter"
+              :index="i + 1"
+            />
           </article>
         </div>
       </template>

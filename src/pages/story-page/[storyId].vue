@@ -5,17 +5,14 @@ import { computed, ref } from 'vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import CharacterSelectionList from '@/components/CharacterSelectionList.vue'
 import CharacterDetailsModal from '@/components/CharacterDetailsModal.vue'
-import VueMarkdown from 'vue-markdown-render'
 import { useDateFormat } from '@vueuse/core'
 import { useRoute, useRouter } from 'vue-router'
 import useContinuationAi from '@/composables/useContinuationAi'
 import useModal from '@/composables/useModal'
 import ApiKeyModal from '@/components/ApiKeyModal.vue'
-import LoadingSpinner from '@/components/LoadingSpinner.vue'
-import { StoryMode, StoryStructure } from '@/constants/rules'
 import type { BaseCharacter, Story } from '@/types/local'
 import getGenreImg from '@/functions/getGenreImg'
-import CharacterThumb from '@/components/CharacterThumb.vue'
+import StoryChapter from '@/components/StoryChapter.vue'
 
 const router = useRouter()
 const route = useRoute<'/story/[storyId]'>()
@@ -24,19 +21,15 @@ const storyId = computed(() => route.params.storyId)
 const { stories, apiKey } = storeToRefs(useStore())
 const story = computed(() => stories.value.find((s) => s.id === storyId.value))
 
-const variables = computed(() =>
-  story.value
-    ? {
-        ids: [...story.value.mainCharacters, ...story.value.secondaryCharacters]
-      }
-    : undefined
+const variables = computed(
+  () =>
+    (story.value && { ids: [...story.value.mainCharacters, ...story.value.secondaryCharacters] }) ??
+    undefined
 )
 const { characterList, loading } = useCharacterListByIds(variables)
 const { getContinuationPrompt, generateContinuation, isPromptLoading, isAiLoading } =
   useContinuationAi(storyId)
 const { showModal } = useModal()
-
-const customContinuation = ref<string>('Suddenly a dragon appeared...')
 
 const bgClass = computed(() => {
   if (story.value) return getGenreImg(story.value.storyGenres[0], true)
@@ -48,12 +41,6 @@ const createdDate = useDateFormat(new Date(story.value?.created ?? ''), 'HH:mm, 
 const apiKeyModal = ref<{ visible: boolean }>()
 const characterModal = ref<{ visible: boolean; character: BaseCharacter }>()
 
-const nextDecidingCharacter = computed(() => {
-  if (!story.value) return undefined
-  const lastChapter = story.value.chapters[story.value.chapters.length - 1]
-  return characterList.value?.find((c) => c.name === lastChapter.decidingCharacterName)
-})
-
 function onCardClick(character: BaseCharacter) {
   characterModal.value = { visible: true, character }
 }
@@ -63,9 +50,9 @@ async function navigateToStory(continuedStory: Story) {
   await router.push({ path: `/story/${continuedStory.id}` })
 }
 
-async function onApplyContinuation(choiceIndex?: number, customChoice?: string) {
+async function onApplyContinuation(args: { choiceIndex?: number; customChoice?: string }) {
   try {
-    const prompt = await getContinuationPrompt(choiceIndex, customChoice)
+    const prompt = await getContinuationPrompt(args.choiceIndex, args.customChoice)
     if (!prompt) return
     if (import.meta.env.DEV) {
       showModal({
@@ -83,8 +70,8 @@ async function onApplyContinuation(choiceIndex?: number, customChoice?: string) 
               await generateContinuation(
                 output,
                 route.path,
-                choiceIndex,
-                customChoice,
+                args.choiceIndex,
+                args.customChoice,
                 navigateToStory
               )
             }
@@ -92,31 +79,19 @@ async function onApplyContinuation(choiceIndex?: number, customChoice?: string) 
         ]
       })
     } else {
-      await generateContinuation(prompt, route.path, choiceIndex, customChoice, navigateToStory)
+      await generateContinuation(
+        prompt,
+        route.path,
+        args.choiceIndex,
+        args.customChoice,
+        navigateToStory
+      )
     }
   } catch (error) {
     if (error instanceof Error && error.message === 'API key not found') {
       apiKeyModal.value = { visible: true }
     } else console.error(error)
   }
-}
-
-function onWriteCustomContinuation() {
-  showModal({
-    title: 'Write your own continuation',
-    input: customContinuation.value,
-    buttons: [
-      {
-        label: 'Submit',
-        type: 'success',
-        callback: async (close, output) => {
-          if (!output) return
-          close()
-          await onApplyContinuation(undefined, output)
-        }
-      }
-    ]
-  })
 }
 
 async function revertDecision(chapterIndex: number) {
@@ -179,7 +154,7 @@ function onDecisionRevert(chapterIndex: number) {
           />
         </div>
 
-        <time class="block text-xs text-gray-500"> Created at {{ createdDate }} </time>
+        <time class="block text-xs text-gray-500">Created at {{ createdDate }}</time>
       </div>
 
       <div
@@ -187,101 +162,19 @@ function onDecisionRevert(chapterIndex: number) {
       >
         <article class="prose prose-lg mx-auto font-garamond prose-p:font-sans">
           <h1 class="mb-16 text-center text-blue-600">{{ story.title }}</h1>
-          <section v-for="(chapter, i) in story.chapters" :key="chapter.id">
-            <h2 v-if="story.storyStructure !== StoryStructure.SIMPLE">
-              Chapter {{ i + 1 }}: {{ chapter.title }}
-            </h2>
-            <VueMarkdown :source="chapter.content" />
-
-            <div
-              v-if="
-                chapter.nextChapterChoices &&
-                (typeof chapter.selectedChoiceIndex === 'number' ||
-                  typeof chapter.customChoice === 'string')
-              "
-              class="flex flex-col items-center font-sans"
-            >
-              <div
-                class="mx-auto mb-2 mt-10 max-w-xs rounded bg-blue-500 p-3 text-sm font-semibold text-blue-100 opacity-50 shadow-md ring-2 ring-white"
-              >
-                <span class="mb-3 flex items-center justify-center gap-5 text-white">
-                  {{ chapter.decidingCharacterName }} has chosen
-                </span>
-                <span v-if="typeof chapter.selectedChoiceIndex === 'number'" class="italic">
-                  {{ chapter.nextChapterChoices[chapter.selectedChoiceIndex] }}
-                </span>
-                <span v-else class="italic">"{{ chapter.customChoice }}"</span>
-              </div>
-              <button class="text-xs font-semibold" type="button" @click="onDecisionRevert(i)">
-                Revert this decision...
-              </button>
-            </div>
-          </section>
+          <StoryChapter
+            v-for="(chapter, i) in story.chapters"
+            :key="chapter.id"
+            :story-id="story.id"
+            :chapter="chapter"
+            :index="i + 1"
+            :is-loading="isPromptLoading || isAiLoading"
+            :character-list="characterList"
+            @decision-revert="onDecisionRevert(i)"
+            @apply-continuation="onApplyContinuation"
+            @character-thumb-click="onCardClick"
+          />
         </article>
-
-        <div
-          v-if="
-            story.storyStructure !== StoryStructure.SIMPLE &&
-            (story.storyStructure === StoryStructure.OPEN_ENDING ||
-              story.chapters.length < story.totalChapters)
-          "
-        >
-          <h2 class="mb-4 mt-10 text-center font-garamond text-xl font-bold">
-            <span
-              v-if="story.storyMode === StoryMode.DECISION_MAKING"
-              class="flex flex-col items-center justify-center gap-2"
-            >
-              <CharacterThumb
-                v-if="nextDecidingCharacter"
-                mini
-                :character="nextDecidingCharacter"
-                @click="onCardClick"
-              />
-              {{
-                story.chapters.length + 1 === story.totalChapters
-                  ? `...${nextDecidingCharacter?.name} makes a last decision`
-                  : `...${nextDecidingCharacter?.name} makes a decision to continue`
-              }}
-            </span>
-            <span v-else>
-              {{
-                story.chapters.length + 1 === story.totalChapters
-                  ? '...choose an ending'
-                  : '...choose a continuation twist'
-              }}
-            </span>
-          </h2>
-          <div class="relative grid gap-5 md:grid-cols-2">
-            <button
-              v-for="(choice, i) in story.chapters[story.chapters.length - 1].nextChapterChoices"
-              :key="i"
-              type="button"
-              class="rounded bg-blue-500 p-3 font-semibold text-blue-100 shadow-md ring-2 ring-white transition hover:scale-105"
-              :class="{ 'opacity-50': isPromptLoading || isAiLoading }"
-              :disabled="isPromptLoading || isAiLoading"
-              @click="onApplyContinuation(i)"
-            >
-              {{ choice }}
-            </button>
-            <button
-              type="button"
-              class="rounded bg-blue-500 p-3 font-semibold text-blue-100 shadow-md ring-2 ring-white transition hover:scale-105"
-              :class="{ 'opacity-50': isPromptLoading || isAiLoading }"
-              :disabled="isPromptLoading || isAiLoading"
-              @click="onWriteCustomContinuation"
-            >
-              Write your own!
-            </button>
-            <div
-              v-if="isPromptLoading || isAiLoading"
-              class="absolute inset-0 flex items-center justify-center"
-            >
-              <LoadingSpinner />
-            </div>
-          </div>
-        </div>
-
-        <h2 v-else class="mt-10 text-center font-garamond text-3xl font-bold">The end</h2>
       </div>
     </div>
 
