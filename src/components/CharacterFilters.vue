@@ -1,44 +1,26 @@
 <script setup lang="ts">
-import { onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import useQueryEditor from '@/composables/useQueryEditor'
 import DropdownInput from '@/components/form/DropdownInput.vue'
 import TextInput from '@/components/form/TextInput.vue'
+import useURLObjectRef from '@/composables/useURLObjectRef'
 
-const filter = defineModel<{ name?: string, gender?: string }>()
-
-const route = useRoute()
-const { replaceQuery } = useQueryEditor()
-
-// Initialize filters from the URL parameters
-onMounted(() => {
-  // By setting this we also fire the initial list query only after URL params are read,
-  // as the list query enabled function expects a value to be set on the filter
-  const { name, gender } = route.query
-  filter.value = { name: name?.toString(), gender: gender?.toString() }
+const filterModel = defineModel<{ name?: string; gender?: string }>({
+  default: { name: undefined }
 })
-
-// Watch for changes on filter and update the URL
-watch(
-  () => route.query,
-  ({ name, gender }) => {
-    filter.value = { name: name?.toString(), gender: gender?.toString() }
-  }
-)
+const filterURLModel = useURLObjectRef(filterModel)
 
 function onSearchChange(value: string) {
-  replaceQuery({ name: value })
+  filterURLModel.value.name = value
 }
 
 function onGenderChange(event: Event) {
-  replaceQuery({ gender: (event.target as HTMLSelectElement).value })
+  filterURLModel.value.gender = (event.target as HTMLSelectElement).value
 }
 </script>
 
 <template>
-  <div v-if="filter" class="flex items-start gap-4">
+  <div class="flex items-start gap-4">
     <TextInput
-      :model-value="filter.name"
+      :model-value="filterURLModel.name"
       label="Character search"
       :show-label="false"
       placeholder="Search for a character"
@@ -50,7 +32,7 @@ function onGenderChange(event: Event) {
     <DropdownInput
       label="Character gender"
       :show-label="false"
-      :value="filter.gender"
+      :value="filterURLModel.gender"
       :options="[
         { label: 'All genders', value: '' },
         { label: 'Male', value: 'Male' },

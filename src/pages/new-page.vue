@@ -10,7 +10,7 @@ import type { QueriedCharacterListItem } from '@/composables/useCharacterList'
 import CharacterFilters from '@/components/CharacterFilters.vue'
 
 const characterModal = ref<{ visible: boolean; character: QueriedCharacterListItem }>()
-const variables = ref<{ filter: { name?: string; gender?: string } }>({ filter: {} })
+const variables = ref<{ filter?: { name?: string; gender?: string } }>({})
 const { characterList, fetchNext, loading, loadingNext } = useCharacterList(variables)
 
 function onCardClick(character: QueriedCharacterListItem) {
@@ -30,11 +30,7 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
     <div
       class="order-0 mx-auto flex h-96 w-full flex-col pt-8 lg:order-1 lg:h-auto lg:max-w-[130rem]"
     >
-      <CharacterFilters
-        class="mb-2 px-4 lg:mb-4 lg:pr-7"
-        :model-value="variables.filter"
-        @update:model-value="variables.filter = $event"
-      />
+      <CharacterFilters v-model="variables.filter" class="mb-2 px-4 lg:mb-4 lg:pr-7" />
 
       <CharacterCardListHorizontal
         v-if="!lgAndLarger"
