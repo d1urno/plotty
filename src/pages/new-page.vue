@@ -15,9 +15,11 @@ useCharacterForm() // TODO: Remove the need to keep this in memory for the modal
 const characterModal = ref<{ visible: boolean; character: BaseCharacter }>()
 const variables = ref<{ filter?: { name?: string; gender?: string } }>({})
 const customVariables = ref<{ filter?: { [key: string]: string | undefined } }>({})
+const isUrlFilterLoaded = ref(false)
 const { characterList, fetchNext, loading, loadingNext } = useCharacterList(
   variables,
-  customVariables
+  customVariables,
+  { isReady: isUrlFilterLoaded }
 )
 
 function onCardClick(character: BaseCharacter) {
@@ -38,6 +40,7 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
       <GroupActionsBar
         v-model:filter-model="variables.filter"
         v-model:custom-filter-model="customVariables.filter"
+        v-model:is-url-filter-loaded-model="isUrlFilterLoaded"
         class="mb-2 px-4 lg:pr-7"
       />
 

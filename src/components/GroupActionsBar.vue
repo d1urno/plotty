@@ -19,6 +19,8 @@ const filterModel = defineModel<{ name?: string; gender?: string }>('filterModel
 
 const customFilterModel = defineModel<{ [key: string]: string | undefined }>('customFilterModel')
 
+const isUrlFilterLoadedModel = defineModel<boolean>('isUrlFilterLoadedModel')
+
 const filterURLModel = useURLObjectRef(filterModel)
 const { selectedCharacterGroupId, customCharacterGroups } = storeToRefs(useStore())
 
@@ -54,6 +56,7 @@ function onCreateNewCharacterGroup() {
 }
 
 onMounted(() => {
+  isUrlFilterLoadedModel.value = true
   if (filterURLModel.value.name?.length) isSearchOpen.value = true
 })
 

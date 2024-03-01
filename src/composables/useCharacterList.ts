@@ -7,11 +7,16 @@ import { PresetCharacterGroups } from '@/constants/rules'
 import type { CustomCharacterListVariables } from '@/composables/useCustomCharacterList'
 import useCustomCharacterList from '@/composables/useCustomCharacterList'
 
+export interface CharacterListOptions {
+  isReady?: Ref<boolean>
+}
+
 export default function useCharacterList(
   variables?: Ref<GetCharacterListQueryVariables | undefined> | GetCharacterListQueryVariables,
   customVariables?:
     | Ref<Omit<CustomCharacterListVariables, 'id'> | undefined>
-    | Omit<CustomCharacterListVariables, 'id'>
+    | Omit<CustomCharacterListVariables, 'id'>,
+  options: CharacterListOptions = {}
 ) {
   const { selectedCharacterGroupId } = storeToRefs(useStore())
 
@@ -37,7 +42,7 @@ export default function useCharacterList(
     () => ({
       enabled:
         selectedCharacterGroupId.value === PresetCharacterGroups.RICK_AND_MORTY &&
-        !!Object.keys(unrefVariables.value.filter ?? {}).length
+        unref(options.isReady)
     })
   )
 
