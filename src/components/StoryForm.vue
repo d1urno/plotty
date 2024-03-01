@@ -41,7 +41,7 @@ function openWizard() {
 function openFirstTimeModal() {
   isFirstTimeSettings.value = false
   showModal({
-    title: `<p class="text-blue-500">Welcome to Plot In! 🥳</p>`,
+    title: `<p class="text-blue-500">Welcome to Plotty! 🥳</p>`,
     content: `<p class="font-semibold text-gray-800 text-lg">Your character selection looks great. Now, let's set up your story settings for the very first time...</p>`,
     maxWidthClass: 'max-w-xl',
     buttons: [

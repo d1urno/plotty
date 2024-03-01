@@ -14,7 +14,7 @@ import Romance from '@/assets/romance.webp'
             Write beautiful stories
           </h1>
           <p class="text-lg sm:text-xl">
-            <strong>Plot in</strong> is a simple, easy to use, AI text creation tool. It is designed
+            <strong>Plotty</strong> is a simple, easy to use, AI text creation tool. It is designed
             to help you create beautiful <strong>texts</strong> based on character selections and
             customizations in a matter of minutes. It is perfect to create stunning content to share
             with your friends and family.
@@ -55,7 +55,7 @@ import Romance from '@/assets/romance.webp'
       </section>
     </div>
     <footer class="text-center">
-      <p>© 2024 Plot in</p>
+      <p>© 2024 Plotty</p>
     </footer>
   </main>
 </template>

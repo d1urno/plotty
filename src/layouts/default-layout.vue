@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PlotInIcon from '@/components/icons/PlotInIcon.vue'
+import LogoIcon from '@/components/icons/LogoIcon.vue'
 import { useBreakpoints } from '@vueuse/core'
 import AppMobileMenu from '@/components/AppMobileMenu.vue'
 
@@ -14,11 +14,11 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
         <div class="relative flex h-16 items-center justify-between">
           <div class="flex flex-1 items-center justify-between lg:items-stretch lg:justify-start">
             <div class="flex flex-shrink-0 items-center">
-              <PlotInIcon class="h-16 w-16" />
+              <LogoIcon class="h-16 w-16" />
               <span
                 class="relative -mt-[4px] ml-2 font-bevellier text-5xl font-black text-blue-300 [text-shadow:_1px_1px_1px_rgb(21,_58,_41)]"
               >
-                Plot in
+                Plotty
               </span>
             </div>
 
