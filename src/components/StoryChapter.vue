@@ -44,7 +44,8 @@ const nextDecidingCharacterName = computed(() => {
 
 const makesDecisionText = computed(() => {
   if (!story.value) return ''
-  return story.value.chapters.length + 1 === story.value.totalChapters
+  return story.value.storyStructure !== StoryStructure.OPEN_ENDING &&
+    story.value.chapters.length + 1 === story.value.totalChapters
     ? `...${nextDecidingCharacterName.value} makes a last decision`
     : `...${nextDecidingCharacterName.value} makes a decision to continue`
 })

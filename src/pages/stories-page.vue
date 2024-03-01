@@ -60,7 +60,7 @@ function onDeleteStory(id: string) {
         </h2>
         <router-link
           to="/new"
-          class="mx-auto block rounded-md bg-blue-500 px-10 py-3 text-2xl font-bold text-white"
+          class="block rounded-md bg-blue-500 px-10 py-3 text-center text-2xl font-bold text-white"
         >
           Create a new story
         </router-link>
@@ -87,7 +87,7 @@ function onDeleteStory(id: string) {
 
         <div class="mx-auto flex flex-1 flex-col">
           <h2 class="mb-8 text-center text-2xl italic text-blue-500">Most recent story...</h2>
-          <article class="prose prose-lg mx-auto font-garamond prose-p:font-sans">
+          <article class="prose prose-lg mx-auto max-w-3xl font-garamond prose-p:font-sans">
             <h1 class="mb-16 text-center text-blue-600">{{ lastStory.title }}</h1>
             <StoryChapter
               v-for="(chapter, i) in lastStory.chapters"

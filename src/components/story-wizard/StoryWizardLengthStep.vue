@@ -9,7 +9,10 @@ const { formData: storyFormData } = useStoryForm()
 <template>
   <div>
     <h1
-      v-if="storyFormData.storyStructure === StoryStructure.MULTI_CHAPTER"
+      v-if="
+        storyFormData.storyStructure === StoryStructure.MULTI_CHAPTER ||
+        storyFormData.storyStructure === StoryStructure.OPEN_ENDING
+      "
       class="text-center text-lg font-bold text-gray-800"
     >
       What will the reading time for each chapter be?

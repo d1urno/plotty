@@ -28,8 +28,6 @@ import Romance from '@/assets/romance.webp'
         <ul class="list-inside list-disc space-y-2 text-lg sm:text-xl">
           <li>Simple and fun to use</li>
           <li>Powerful and flexible</li>
-          <li>Export to PDF</li>
-          <li>Share your stories with others</li>
         </ul>
       </section>
       <section class="mb-12">
@@ -37,18 +35,18 @@ import Romance from '@/assets/romance.webp'
         <p class="text-lg sm:text-xl">
           You can start by creating a new story and selecting the characters you want to include as
           main or secondary roles. Then you can select between text modes like script, story or
-          article. Once you are done, click on "generate story" and you will be able to read and
-          download a PDF with your story.
+          article. Once you are done, click on "generate story" and you will be able to read your
+          story.
         </p>
       </section>
       <section class="mx-auto mb-12 max-w-2xl rounded-lg bg-white p-6 text-black shadow-lg">
-        <h2 class="mb-4 text-3xl font-bold sm:text-4xl">Get started</h2>
-        <p class="mb-4 text-lg sm:text-xl">
-          Ready to get started? Create an story and share it with your friends and family.
+        <h2 class="mb-8 text-3xl font-bold sm:text-4xl">Get started</h2>
+        <p class="mb-8 text-lg sm:text-xl">
+          Ready to get started? Create a story and share it with your friends and family.
         </p>
         <router-link
           to="/new"
-          class="rounded bg-blue-500 px-4 py-2 text-center font-bold text-white hover:bg-blue-700"
+          class="mx-auto block w-max rounded bg-blue-500 px-20 py-2 text-center text-xl font-bold text-white hover:bg-blue-700"
         >
           Create story
         </router-link>

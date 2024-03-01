@@ -36,7 +36,9 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
       class="lg:order-0 order-1 flex-1 bg-blue-300/20 px-4 pt-4 ring-4 ring-white lg:w-[30rem] lg:flex-none lg:px-8 lg:pt-10"
     />
 
-    <div class="order-0 mx-auto flex w-full flex-col pt-8 lg:order-1 lg:max-w-[130rem]">
+    <div
+      class="order-0 mx-auto flex min-h-[26.5rem] w-full flex-col pt-8 lg:order-1 lg:max-w-[130rem]"
+    >
       <GroupActionsBar
         v-model:filter-model="variables.filter"
         v-model:custom-filter-model="customVariables.filter"

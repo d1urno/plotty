@@ -42,7 +42,7 @@ function onClick() {
         { 'ring-4': selected },
         { [colorClasses.ring]: selected }
       ]"
-      class="mb-1 overflow-hidden rounded-full transition"
+      class="mb-1 flex items-center overflow-hidden rounded-full transition"
     >
       <img
         v-if="props.character.image"

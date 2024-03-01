@@ -160,7 +160,7 @@ function onDecisionRevert(chapterIndex: number) {
       <div
         class="order-0 mx-auto flex max-w-3xl flex-col rounded-md bg-white/80 px-6 py-6 ring-2 ring-gray-500 ring-offset-4 xl:order-1 xl:px-10 xl:py-16"
       >
-        <article class="prose prose-lg mx-auto font-garamond prose-p:font-sans">
+        <article class="prose prose-lg mx-auto max-w-3xl font-garamond prose-p:font-sans">
           <h1 class="mb-16 text-center text-blue-600">{{ story.title }}</h1>
           <StoryChapter
             v-for="(chapter, i) in story.chapters"
