@@ -9,7 +9,7 @@ const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
-        characters: getPaginationPolicy(['filter', ['name', 'gender']]),
+        characters: getPaginationPolicy(['filter', ['name', 'gender', 'species', 'status']]),
         character: (_, { args, toReference, canRead }) => {
           const ref = toReference({ __typename: 'Character', id: args?.id })
           return canRead(ref) ? ref : undefined

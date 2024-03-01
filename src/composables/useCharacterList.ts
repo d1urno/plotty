@@ -32,7 +32,12 @@ export default function useCharacterList(
     () =>
       ({
         ...unref(variables),
-        filter: { ...unref(variables)?.filter, name: unref(variables)?.filter?.name ?? '' },
+        filter: {
+          name: unref(variables)?.filter?.name ?? '',
+          gender: unref(variables)?.filter?.gender ?? '',
+          species: unref(variables)?.filter?.species ?? '',
+          status: unref(variables)?.filter?.status ?? ''
+        },
         page: page.value
       }) satisfies GetCharacterListQueryVariables
   )

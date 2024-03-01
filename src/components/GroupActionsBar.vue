@@ -14,7 +14,7 @@ import GroupFilters from '@/components/GroupFilters.vue'
 import CustomGroupFilters from '@/components/CustomGroupFilters.vue'
 
 const filterModel = defineModel<{ name?: string; gender?: string }>('filterModel', {
-  default: { name: undefined, gender: undefined } // Default values need to be specified to sync with URL
+  default: { name: undefined, gender: undefined, species: undefined, status: undefined } // Default values need to be specified to sync with URL
 })
 
 const customFilterModel = defineModel<{ [key: string]: string | undefined }>('customFilterModel')

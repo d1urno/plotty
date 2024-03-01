@@ -13,7 +13,9 @@ import useCharacterForm from '@/composables/useCharacterForm'
 useCharacterForm() // TODO: Remove the need to keep this in memory for the modal mutations to work
 
 const characterModal = ref<{ visible: boolean; character: BaseCharacter }>()
-const variables = ref<{ filter?: { name?: string; gender?: string } }>({})
+const variables = ref<{
+  filter?: { name?: string; gender?: string; species?: string; status?: string }
+}>({})
 const customVariables = ref<{ filter?: { [key: string]: string | undefined } }>({})
 const isUrlFilterLoaded = ref(false)
 const { characterList, fetchNext, loading, loadingNext } = useCharacterList(
