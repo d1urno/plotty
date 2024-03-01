@@ -33,7 +33,7 @@ export default function useCustomCharacterList(
     // Custom filters
     if (unrefVariables.value?.filter) {
       Object.keys(unrefVariables.value.filter).forEach((key) => {
-        if (!unrefVariables.value?.filter?.[key]) return
+        if (key === 'name' || !unrefVariables.value?.filter?.[key]) return
         filteredList = filteredList?.filter((c) => c[key] === unrefVariables.value?.filter?.[key])
       })
     }

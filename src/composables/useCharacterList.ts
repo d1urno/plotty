@@ -17,7 +17,8 @@ export default function useCharacterList(
 
   const customListVariables = computed(() => ({
     id: selectedCharacterGroupId.value,
-    ...unref(customVariables)
+    ...unref(customVariables),
+    filter: { ...unref(customVariables)?.filter, name: unref(variables)?.filter?.name ?? '' } // As all groups share the name filter
   }))
   const { customCharacterList } = useCustomCharacterList(customListVariables)
 
