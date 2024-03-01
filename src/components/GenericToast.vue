@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import AppLink from '@/components/AppLink.vue'
 
 export interface GenericToast {
   id: string
@@ -10,7 +11,7 @@ export interface GenericToast {
   closable?: boolean
   buttons?: {
     label: string
-    callback: (close: () => void) => void
+    callbackOrLink: ((close: () => void) => void) | string
   }[]
 }
 
@@ -22,7 +23,7 @@ const props = defineProps<{
   closable?: boolean
   buttons?: {
     label: string
-    callback: (close: () => void) => void
+    callbackOrLink: ((close: () => void) => void) | string
   }[]
 }>()
 
@@ -58,14 +59,23 @@ onMounted(() => {
     >
       Close
     </button>
-    <button
-      v-for="button in buttons"
-      :key="button.label"
-      class="rounded-md border-2 border-white px-2 py-1 text-xs font-semibold text-white"
-      type="button"
-      @click="button.callback(close)"
-    >
-      {{ button.label }}
-    </button>
+    <template v-for="button in buttons" :key="button.label">
+      <button
+        v-if="typeof button.callbackOrLink !== 'string'"
+        class="rounded-md border-2 border-white px-2 py-1 text-xs font-semibold text-white"
+        type="button"
+        @click="button.callbackOrLink(close)"
+      >
+        {{ button.label }}
+      </button>
+
+      <AppLink
+        v-else
+        class="block rounded-md border-2 border-white px-2 py-1 text-xs font-semibold text-white"
+        :to="button.callbackOrLink"
+      >
+        {{ button.label }}
+      </AppLink>
+    </template>
   </div>
 </template>

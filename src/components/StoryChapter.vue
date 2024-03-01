@@ -95,7 +95,7 @@ function onWriteCustomContinuation() {
       {
         label: 'Submit',
         type: 'success',
-        callback: async (close, output) => {
+        callbackOrLink: async (close, output) => {
           if (!output) return
           close()
           onApplyContinuation(undefined, output)

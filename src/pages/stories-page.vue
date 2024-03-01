@@ -40,7 +40,7 @@ function onDeleteStory(id: string) {
       {
         label: 'Delete',
         type: 'warning',
-        callback: (close) => {
+        callbackOrLink: (close) => {
           stories.value = stories.value.filter((s) => s.id !== id)
           close()
         }

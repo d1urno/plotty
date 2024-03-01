@@ -80,8 +80,7 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
     prompt: string,
     storyPath: string,
     choiceIndex?: number,
-    customChoice?: string,
-    callback?: (story: Story) => Promise<void>
+    customChoice?: string
   ) {
     if (!apiKey.value) throw new Error('API key not found')
 
@@ -106,7 +105,7 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
         buttons: [
           {
             label: 'Cancel',
-            callback: (closeToast) => {
+            callbackOrLink: (closeToast) => {
               showModal({
                 title: 'Are you sure?',
                 content: `If you cancel now, the continuation will not be generated.`,
@@ -114,7 +113,7 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
                   {
                     label: 'Yes, cancel',
                     type: 'info',
-                    callback: (closeModal) => {
+                    callbackOrLink: (closeModal) => {
                       stopFetchGPT()
                       closeModal()
                       closeToast()
@@ -169,16 +168,7 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
         showModal({
           title: `<span class="text-blue-500">Your continuation is ready!</span>`,
           content: `The continuation for <b>${updatedStory.title}</b> is ready`,
-          buttons: [
-            {
-              label: 'Read it now!',
-              type: 'success',
-              callback: async (close) => {
-                await callback?.(updatedStory)
-                close()
-              }
-            }
-          ]
+          buttons: [{ label: 'Read it now!', type: 'success', callbackOrLink: storyPath }]
         })
       }
       return updatedStory

@@ -2,6 +2,7 @@
 import GenericModal from '@/components/GenericModal.vue'
 import { storeToRefs } from 'pinia'
 import { useStore } from '@/stores'
+import AppLink from '@/components/AppLink.vue'
 
 export interface AppModal {
   visible?: boolean
@@ -13,7 +14,7 @@ export interface AppModal {
   buttons: {
     label: string
     type: 'success' | 'warning' | 'info'
-    callback: (close: () => void, input?: string) => void
+    callbackOrLink: ((close: () => void, input?: string) => void) | string
   }[]
 }
 
@@ -50,20 +51,35 @@ const { appModal } = storeToRefs(useStore())
         >
           Close
         </button>
-        <button
-          v-for="button in appModal.buttons"
-          :key="button.label"
-          type="button"
-          class="rounded-md px-10 py-2 font-bold text-white"
-          :class="{
-            'bg-blue-500': button.type === 'info',
-            'bg-red-500': button.type === 'warning',
-            'bg-blue-400': button.type === 'success'
-          }"
-          @click="button.callback(close, appModal.input)"
-        >
-          {{ button.label }}
-        </button>
+        <template v-for="button in appModal.buttons" :key="button.label">
+          <button
+            v-if="typeof button.callbackOrLink !== 'string'"
+            type="button"
+            class="rounded-md px-10 py-2 font-bold text-white"
+            :class="{
+              'bg-blue-500': button.type === 'info',
+              'bg-red-500': button.type === 'warning',
+              'bg-blue-400': button.type === 'success'
+            }"
+            @click="button.callbackOrLink(close, appModal.input)"
+          >
+            {{ button.label }}
+          </button>
+
+          <AppLink
+            v-else
+            :to="button.callbackOrLink"
+            class="block rounded-md px-10 py-2 font-bold text-white"
+            :class="{
+              'bg-blue-500': button.type === 'info',
+              'bg-red-500': button.type === 'warning',
+              'bg-blue-400': button.type === 'success'
+            }"
+            @click="close"
+          >
+            {{ button.label }}
+          </AppLink>
+        </template>
       </div>
     </template>
   </GenericModal>

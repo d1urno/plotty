@@ -30,7 +30,7 @@ function onDeleteCharacter() {
       {
         label: 'Delete',
         type: 'warning',
-        callback: (close) => {
+        callbackOrLink: (close) => {
           const characterList = customCharacterGroups.value.find(
             (cl) => cl.id === props.character.groupId
           )?.characters

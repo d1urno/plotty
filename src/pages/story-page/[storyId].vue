@@ -6,15 +6,14 @@ import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import CharacterSelectionList from '@/components/CharacterSelectionList.vue'
 import CharacterDetailsModal from '@/components/CharacterDetailsModal.vue'
 import { useDateFormat } from '@vueuse/core'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import useContinuationAi from '@/composables/useContinuationAi'
 import useModal from '@/composables/useModal'
 import ApiKeyModal from '@/components/ApiKeyModal.vue'
-import type { BaseCharacter, Story } from '@/types/local'
+import type { BaseCharacter } from '@/types/local'
 import getGenreImg from '@/functions/getGenreImg'
 import StoryChapter from '@/components/StoryChapter.vue'
 
-const router = useRouter()
 const route = useRoute<'/story/[storyId]'>()
 const storyId = computed(() => route.params.storyId)
 
@@ -45,11 +44,6 @@ function onCardClick(character: BaseCharacter) {
   characterModal.value = { visible: true, character }
 }
 
-async function navigateToStory(continuedStory: Story) {
-  if (!continuedStory) return
-  await router.push({ path: `/story/${continuedStory.id}` })
-}
-
 async function onApplyContinuation(args: { choiceIndex?: number; customChoice?: string }) {
   try {
     const prompt = await getContinuationPrompt(args.choiceIndex, args.customChoice)
@@ -64,28 +58,16 @@ async function onApplyContinuation(args: { choiceIndex?: number; customChoice?: 
           {
             label: 'Generate story',
             type: 'success',
-            callback: async (close, output) => {
+            callbackOrLink: async (close, output) => {
               if (!output) return
               close()
-              await generateContinuation(
-                output,
-                route.path,
-                args.choiceIndex,
-                args.customChoice,
-                navigateToStory
-              )
+              await generateContinuation(output, route.path, args.choiceIndex, args.customChoice)
             }
           }
         ]
       })
     } else {
-      await generateContinuation(
-        prompt,
-        route.path,
-        args.choiceIndex,
-        args.customChoice,
-        navigateToStory
-      )
+      await generateContinuation(prompt, route.path, args.choiceIndex, args.customChoice)
     }
   } catch (error) {
     if (error instanceof Error && error.message === 'API key not found') {
@@ -111,7 +93,7 @@ function onDecisionRevert(chapterIndex: number) {
       {
         label: 'Revert',
         type: 'warning',
-        callback: async (close) => {
+        callbackOrLink: async (close) => {
           close()
           await revertDecision(chapterIndex)
         }

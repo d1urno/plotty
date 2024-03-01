@@ -3,7 +3,6 @@ import CharacterSelectionList from '@/components/CharacterSelectionList.vue'
 import { useStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import ApiKeyModal from '@/components/ApiKeyModal.vue'
 import StorySettingsModal from '@/components/StorySettingsModal.vue'
 import StoryWizardModal from '@/components/story-wizard/StoryWizardModal.vue'
@@ -11,11 +10,9 @@ import StoryFormStickyButtons from '@/components/StoryFormStickyButtons.vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import useStoryFormActions from '@/composables/useStoryFormActions'
 import useStoryAi from '@/composables/useStoryAi'
-import type { Story } from '@/types/local'
 import useModal from '@/composables/useModal'
 import useStoryForm from '@/composables/useStoryForm'
 
-const router = useRouter()
 const { isFirstTimeSettings, apiKey } = storeToRefs(useStore())
 const { onRoleDrop, onRoleRemove } = useStoryFormActions()
 const { getStoryPrompt, generateStory, isPromptLoading, isAiLoading } = useStoryAi()
@@ -48,7 +45,7 @@ function openFirstTimeModal() {
       {
         label: 'Ok',
         type: 'success',
-        callback: (close) => {
+        callbackOrLink: (close) => {
           close()
           openWizard()
         }
@@ -65,11 +62,6 @@ function onOpenSettings() {
 function onOpenWizard() {
   if (settingsModal.value) settingsModal.value.visible = false
   openWizard()
-}
-
-async function navigateToStory(newStory: Story) {
-  if (!newStory) return
-  await router.push({ path: `/story/${newStory.id}` })
 }
 
 async function onGenerateStory() {
@@ -91,16 +83,16 @@ async function onGenerateStory() {
           {
             label: 'Generate story',
             type: 'success',
-            callback: async (close, editedPrompt) => {
+            callbackOrLink: async (close, editedPrompt) => {
               if (!editedPrompt) return
               close()
-              await generateStory(editedPrompt, navigateToStory)
+              await generateStory(editedPrompt)
             }
           }
         ]
       })
     } else {
-      await generateStory(prompt, navigateToStory)
+      await generateStory(prompt)
     }
   } catch (error) {
     if (error instanceof Error && error.message === 'API key not found') {

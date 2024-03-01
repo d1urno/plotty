@@ -66,7 +66,7 @@ function useStoryAi() {
     }
   }
 
-  async function generateStory(prompt: string, callback?: (story: Story) => Promise<void>) {
+  async function generateStory(prompt: string) {
     if (!apiKey.value) throw new Error('API key not found')
 
     isAiLoading.value = true
@@ -80,7 +80,7 @@ function useStoryAi() {
         buttons: [
           {
             label: 'Cancel',
-            callback: (closeToast) => {
+            callbackOrLink: (closeToast) => {
               showModal({
                 title: 'Are you sure?',
                 content: `If you cancel now, the story will not be generated.`,
@@ -88,7 +88,7 @@ function useStoryAi() {
                   {
                     label: 'Yes, cancel',
                     type: 'info',
-                    callback: (closeModal) => {
+                    callbackOrLink: (closeModal) => {
                       stopFetchGPT()
                       closeModal()
                       closeToast()
@@ -146,14 +146,7 @@ function useStoryAi() {
         title: `<span class="text-blue-500">Your new story is ready! 🥳</span>`,
         content: `The story <b>${newStory.title}</b> has been generated successfully, you can find it in the stories list.`,
         buttons: [
-          {
-            label: 'Read it now!',
-            type: 'success',
-            callback: async (close) => {
-              await callback?.(newStory)
-              close()
-            }
-          }
+          { label: 'Read it now!', type: 'success', callbackOrLink: `/story/${newStory.id}` }
         ]
       })
       return newStory
