@@ -1,25 +1,28 @@
 import type { Story } from '@/types/local'
-import { StoryGenre, StoryLength, StoryMode, StoryStyle } from '@/constants/rules'
 
 export default [
   {
-    title: 'The Intergalactic Misadventures of Rick and Summer',
+    id: '0f4f7f7d-9093-47ff-8a3e-7f48f18a9088',
+    title: 'The Extraterrestrial Prank War',
+    mainCharacters: ['2', '3'],
+    secondaryCharacters: ['36'],
+    totalChapters: 3,
+    storyStyle: 'Narrative',
+    storyStructure: 'Simple',
+    storyMode: 'Normal',
+    storyLength: '1 minute',
+    storyGenres: ['Comedy'],
+    decisionMakers: [],
     chapters: [
       {
-        id: 'ffg463ff-4b9c-849c-ecce275df9b2',
-        title: 'Chapter 1',
+        id: '6d14d91f-8ab8-4c66-918e-3c21a2946df4',
+        created: '2024-03-01T17:02:26.264Z',
+        title: 'The Extraterrestrial Prank War',
         content:
-          "<html><body><h1>The Intergalactic Misadventures of Rick and Summer</h1><p>Intergalactic travel was always a risky affair, but when you have someone like Rick Sanchez in the driver's seat of a space-faring car, the word 'risk' loses all its meaning. Summer Smith, Rick's ever-adventurous granddaughter, thought she had seen it all. However, as they embarked on a new journey beyond the fringes of the Milky Way, she knew this would be a trip to remember.</p><p>Summoned to Planet Squanch for what Rick described as a 'matter of life and Squanch', they left Earth with little more than a sarcastic comment to Jerry, Summer's dad and Rick's son-in-law, who was once again left behind to his mundane, earthling pursuits.</p><p>Upon arrival, they found themselves in the midst of an interstellar festival where alien races from different systems were participating in what seemed like a cosmic cook-off. Unbeknownst to them, they were about to be embroiled in a culinary conflict of epic proportions.</p><p>'Summer, prepare your taste buds for some out-of-this-world flavors,' Rick said with a burp, pulling a strange-looking device from his coat. 'This baby will let us consume whatever alien meat-stuffs they throw at us without, you know, dying.'</p><p>Summer, eyeing a tentacle-filled pie with both intrigue and disgust, took the device and clipped it onto her collar. 'Let's just not get disqualified for food doping, okay Grandpa?'</p><p>Amid the taste testing and judging, they encountered creatures that looked like sentient marshmallows, beings made of pure energy, and even a group of hive-minded accountants doing abacus-based tricks. The event, while bizarre, was the kind of adventure that made every cell in Summer's body buzz with excitement.</p><p>It wasn't until they crossed paths with the notorious Jugulo the Feaster, a creature known for consuming entire planets, that their culinary escapade took a turn for the perilous. Jugulo had set its many eyes on the ultimate prize—Rick's brain, renowned across galaxies for its genius intellect.</p><p>'You know you're not the first brain-leech that's after the goods,' Rick quipped, casually revving up another one of his sci-fi gadgets.</p><p>'This isn't about your brain, old man,' Jugulo hissed. 'It's about sending a message!'</p><p>Summer, feeling a rebellious sense of bravery, stood defiantly in front of her grandfather. 'We're not on the menu today, buster!'</p><p>With some quick thinking, improvised gadgets, and a splash of reckless bravery, Rick and Summer managed to outwit Jugulo, narrowly escaping its clutches. After the fiasco, the festival judges, impressed by their heroic feat (and mistaking it for an avant-garde performance), declared them the winners of the competition.</p><p>As they returned home with a trophy that suspiciously resembled a blender, Summer couldn't help but laugh at Jerry's puzzled expression when they explained the day's events.</p><p>'You saved the galaxy from an alien devourer, won a cooking contest, and all I did was fix the sink,' Jerry lamented, a tinge of jealousy in his voice.</p><p>Rick, pouring himself a celebratory drink from the trophy-blender, gave Jerry a rare, genuine smile. 'Don't sweat it, Jerry. There's always a dimension where you're the hero. Just not this one.'</p><p>The house went silent for a moment before it erupted in laughter, even Jerry joining in, accepting the weirdness that was his family normality.</p></body></html>"
+          "Morty Smith, the perennial sidekick, found himself in a bizarre situation even by the standards of the Citadel of Ricks. Having been duped into an interdimensional game of tag, Morty was 'it,' and his target was none other than his sister, Summer, back on Earth (Replacement Dimension). But what should have been a simple sibling tag turned into comedic chaos with the unexpected alliance between Summer and the enigmatic alien, Beta-Seven, who loved a good prank as much as any human teenager.\n\nThe alliance began with a shared goal: to prank Morty so spectacularly that he would fail to make Summer 'it' for as long as possible. As Morty journeyed back to Earth, equipped with nothing but his wits and a modified Plumbus for inter-species communication, he stepped into a world turned upside-down by Summer and Beta-Seven's pranking spree. Bushes spontaneously combusting into glitter, dogs walking on stilts, and cats with harmonious barbershop quartet voices were just the beginning.\n\nMorty, trying to adapt to the madness, couldn't help but admire the absurdity of it all while plotting his countermove. He knew Summer's Achilles heel: zero tolerance for tickling. With a devious grin, Morty crept up to his unsuspecting sister, fingers wiggling with anticipation, only to be intercepted by a gelatinous blob—a trap set by Beta-Seven! Morty sank, defeated, into the gooey mass, as Summer’s laughter echoed underneath the sky turned disco with twinkling lights.\n\nYet, in true Smith sibling fashion, Morty's defeat sparked a new fire. He wriggled free, set on tag-back revenge. What ensued was a no-holds-barred prank extravaganza: surprise slime showers, illusory doppelgangers, and gravity flips that had Summer and Beta-Seven howling with laughter just as much as they were running for the anti-gravity boots.\n\nThe chaos reached its peak when Morty finally succeeded in tagging Summer amidst a confetti explosion rigged to resemble a giant Rick head. Summer shrieked, not with anger, but with delight. In the midst of pandemonium, they had all forgotten the thrill of simple, silly fun—a universal language that resonated with human and alien alike. Beta-Seven, taking the form of a neon sign, unanimously declared Morty the ultimate prankster champion of the galaxy.\n\nIn the wake of their laughter, the trio looked around at the world they’d turned into a carnival of pranks, each already planning the next escapade. Morty might have won the battle, but the war, the war was just getting started."
       }
     ],
-    storyGenres: [StoryGenre.COMEDY],
-    id: 'fbc6c1a8-a173-4b9c-849c-ecce275df9b2',
-    created: '2024-02-13T12:35:14.146Z',
-    mainCharacters: ['1', '3'],
-    secondaryCharacters: ['5'],
-    storyStyle: StoryStyle.NARRATIVE,
-    storyMode: StoryMode.NORMAL,
-    storyLength: StoryLength.SHORT,
-    totalChapters: 1
+    customInstructions: '',
+    created: '2024-03-01T17:02:01.216Z'
   }
 ] as Story[]
