@@ -4,6 +4,7 @@ import { useBreakpoints } from '@vueuse/core'
 import AppMobileMenu from '@/components/AppMobileMenu.vue'
 import { useRouter } from 'vue-router'
 import LinkTabs from '@/components/LinkTabs.vue'
+import Pattern from '@/assets/bg-pattern.svg'
 import AppLink from '@/components/AppLink.vue'
 import useCharacterList from '@/composables/useCharacterList'
 
@@ -22,7 +23,7 @@ router.afterEach((to, from) => {
 
 <template>
   <div class="flex h-screen flex-col">
-    <nav class="relative flex-none bg-white shadow-md">
+    <nav class="relative flex-none bg-white shadow-md z-10">
       <div class="mx-auto px-4 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
           <div class="flex flex-1 items-center justify-between lg:items-stretch lg:justify-start">
@@ -61,6 +62,11 @@ router.afterEach((to, from) => {
     </nav>
 
     <main class="relative flex h-[calc(100%-4rem)] overflow-hidden">
+      <img
+        class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-10"
+        :src="Pattern"
+        alt=""
+      />
       <router-view v-slot="{ Component, route }" class="absolute inset-0 w-full overflow-y-auto">
         <transition
           :name="(route.meta.transition as string | undefined) || 'page-scale-fade'"

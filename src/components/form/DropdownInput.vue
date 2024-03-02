@@ -26,7 +26,7 @@ const slugLabel = computed(() => slugify(props.label))
       :value="model"
       :class="{
         'text-gray-400': !model,
-        'w-max rounded-full border-green-300 bg-green-200/50 py-1 pr-8 text-xs text-green-700 focus:border-green-300 focus:ring-teal-500':
+        'w-max rounded-full border-green-300 bg-green-100 py-1 pr-8 text-xs text-green-700 focus:border-green-300 focus:ring-teal-500':
           mini,
         'rounded-md border-gray-300 p-2 pr-10 focus:border-blue-500 focus:ring-teal-500': !mini
       }"

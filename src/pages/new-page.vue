@@ -35,7 +35,7 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
 <template>
   <div class="flex h-full flex-col gap-2 lg:flex-row lg:gap-4">
     <StoryForm
-      class="lg:order-0 order-1 flex-1 bg-blue-300/20 px-4 pt-4 ring-4 ring-white lg:w-[30rem] lg:flex-none lg:px-8 lg:pt-10"
+      class="lg:order-0 order-1 flex-1 bg-blue-100 px-4 pt-4 ring-4 ring-white lg:w-[30rem] lg:flex-none lg:px-8 lg:pt-10"
     />
 
     <div

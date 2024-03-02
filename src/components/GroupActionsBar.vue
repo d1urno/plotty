@@ -107,7 +107,7 @@ function onSearchToggle() {
     <div class="scrollbar-hidden -mx-4 -my-1 flex items-center gap-4 overflow-x-auto px-4 py-1">
       <button
         type="button"
-        class="flex w-max shrink-0 items-center gap-2 rounded-md bg-blue-200/50 px-2 py-1 text-xs font-semibold text-blue-500"
+        class="flex w-max shrink-0 items-center gap-2 rounded-md bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-500"
         @click="onCreateNewCharacter"
       >
         <PlusCircleIcon class="h-4 w-4" />
@@ -116,7 +116,7 @@ function onSearchToggle() {
 
       <button
         type="button"
-        class="flex w-max shrink-0 items-center gap-2 rounded-md bg-blue-200/50 px-2 py-1 text-xs font-semibold text-blue-500"
+        class="flex w-max shrink-0 items-center gap-2 rounded-md bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-500"
         @click="onCreateNewCharacterGroup"
       >
         <PlusCircleIcon class="h-4 w-4" />

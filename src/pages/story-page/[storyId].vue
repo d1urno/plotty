@@ -30,11 +30,6 @@ const { getContinuationPrompt, generateContinuation, isPromptLoading, isAiLoadin
   useContinuationAi(storyId)
 const { showModal } = useModal()
 
-const bgClass = computed(() => {
-  if (story.value) return getGenreImg(story.value.storyGenres[0], true)
-  return ''
-})
-
 const createdDate = useDateFormat(new Date(story.value?.created ?? ''), 'HH:mm, MMMM D, YYYY').value
 
 const apiKeyModal = ref<{ visible: boolean }>()
@@ -104,13 +99,15 @@ function onDecisionRevert(chapterIndex: number) {
 </script>
 
 <template>
-  <div class="flex h-full flex-col overflow-y-auto bg-cover bg-top" :class="bgClass">
+  <div
+    class="flex h-full flex-col overflow-y-auto bg-gradient-to-l from-teal-400/10 from-80% via-blue-500/20 to-blue-400/50 xl:from-50%"
+  >
     <div
       v-if="story"
       class="container flex flex-col items-center gap-10 pb-20 pt-16 xl:flex-row xl:items-start xl:px-10"
     >
       <div
-        class="xl:order-0 order-1 flex h-min max-w-xl basis-1/3 flex-col gap-10 rounded-md bg-white/80 p-4 ring-2 ring-gray-500 ring-offset-4"
+        class="xl:order-0 order-1 flex h-min max-w-xl basis-1/3 flex-col gap-10 rounded-md bg-white/50 p-4 ring-2 ring-gray-500 ring-offset-4"
       >
         <div>
           <h2 class="mb-4 text-left text-xl font-bold">Main roles</h2>
@@ -139,9 +136,7 @@ function onDecisionRevert(chapterIndex: number) {
         <time class="block text-xs text-gray-500">Created at {{ createdDate }}</time>
       </div>
 
-      <div
-        class="order-0 mx-auto flex max-w-3xl flex-col rounded-md bg-white/80 px-6 py-6 ring-2 ring-gray-500 ring-offset-4 xl:order-1 xl:px-10 xl:py-16"
-      >
+      <div class="order-0 mx-auto flex flex-col px-6 py-6 xl:order-1 xl:px-10 xl:py-16">
         <article class="prose prose-lg mx-auto max-w-3xl font-garamond prose-p:font-sans">
           <h1 class="mb-16 text-center text-blue-600">{{ story.title }}</h1>
           <StoryChapter
