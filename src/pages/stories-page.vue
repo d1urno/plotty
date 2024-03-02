@@ -89,6 +89,7 @@ function onDeleteStory(id: string) {
             <StoryChapter
               v-for="(chapter, i) in lastStory.chapters"
               :key="chapter.id"
+              is-preview
               :story-id="lastStory.id"
               :chapter="chapter"
               :index="i + 1"

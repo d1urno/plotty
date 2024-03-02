@@ -8,12 +8,14 @@ import { StoryMode, StoryStructure } from '@/constants/rules'
 import CharacterThumb from '@/components/CharacterThumb.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import useModal from '@/composables/useModal'
+import AppLink from '@/components/AppLink.vue'
 
 const props = defineProps<{
   storyId: string
   chapter: Chapter
   index: number
   characterList?: BaseCharacter[]
+  isPreview?: boolean
   isLoading?: boolean
 }>()
 
@@ -75,6 +77,21 @@ function doesChapterHasChoices(
   )
 }
 
+const showToBeContinued = computed(() => {
+  if (!story.value) return false
+  return (
+    props.isPreview &&
+    props.index === story.value.chapters.length &&
+    (doesChapterHasChoices(props.chapter) || seesNextBoxes.value)
+  )
+})
+
+function getChosenChoiceTitleText() {
+  return props.chapter.decidingCharacterName
+    ? `${props.chapter.decidingCharacterName} has chosen`
+    : 'You have chosen'
+}
+
 function onDecisionRevert() {
   emit('decisionRevert')
 }
@@ -114,19 +131,30 @@ function onWriteCustomContinuation() {
 
     <VueMarkdown :source="chapter.content" />
 
-    <div v-if="doesChapterHasChoices(chapter)" class="flex flex-col items-center font-sans">
+    <h2 v-if="showToBeContinued" class="mt-10 text-center font-garamond text-3xl font-bold">
+      <AppLink :to="`/story/${story.id}`" class="font-semibold text-blue-500">
+        To be continued...
+      </AppLink>
+    </h2>
+
+    <div v-else-if="doesChapterHasChoices(chapter)" class="flex flex-col items-center font-sans">
       <div
         class="mx-auto mb-2 mt-10 max-w-xs rounded bg-blue-500 p-3 text-sm font-semibold text-blue-100 opacity-50 shadow-md ring-2 ring-white"
       >
         <span class="mb-3 flex items-center justify-center gap-5 text-white">
-          {{ chapter.decidingCharacterName }} has chosen
+          {{ getChosenChoiceTitleText() }}
         </span>
         <span v-if="typeof chapter.selectedChoiceIndex === 'number'" class="italic">
           {{ chapter.nextChapterChoices[chapter.selectedChoiceIndex] }}
         </span>
         <span v-else class="italic">"{{ chapter.customChoice }}"</span>
       </div>
-      <button class="text-xs font-semibold" type="button" @click="onDecisionRevert()">
+      <button
+        v-if="!isPreview"
+        class="text-xs font-semibold"
+        type="button"
+        @click="onDecisionRevert"
+      >
         Revert this decision...
       </button>
     </div>
