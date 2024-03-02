@@ -13,6 +13,9 @@ const optionCount = computed(() => props.options.length)
 const buttonWidth = computed(() => 100 / optionCount.value)
 
 const currentValue = computed(() => (route.params.storyId ? '/stories' : route.path))
+const showHighlight = computed(() =>
+  props.options.some(({ value }) => value === currentValue.value)
+)
 
 const highlightStyle = computed(() => {
   const index = props.options.findIndex(({ value }) => value === currentValue.value)
@@ -32,6 +35,7 @@ function onOptionSelect(newValue: string) {
     <div class="flex w-full items-center justify-between">
       <div class="relative flex h-10 w-full cursor-pointer items-center">
         <span
+          v-if="showHighlight"
           class="absolute h-10 rounded-t-md transition duration-300 ease-out"
           :style="highlightStyle"
           :class="options.find((option) => option.value === currentValue)?.bgColorClass"
