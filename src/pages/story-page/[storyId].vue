@@ -13,6 +13,8 @@ import ApiKeyModal from '@/components/ApiKeyModal.vue'
 import type { BaseCharacter } from '@/types/local'
 import getGenreImg from '@/functions/getGenreImg'
 import StoryChapter from '@/components/StoryChapter.vue'
+import GenericCard from '@/components/GenericCard.vue'
+import { StoryStructure } from '@/constants/rules'
 
 const route = useRoute<'/story/[storyId]'>()
 const storyId = computed(() => route.params.storyId)
@@ -133,7 +135,45 @@ function onDecisionRevert(chapterIndex: number) {
           />
         </div>
 
-        <time class="block text-xs text-gray-500">Created at {{ createdDate }}</time>
+        <div>
+          <h2 class="mb-4 text-left text-xl font-bold">Genres</h2>
+          <ul class="grid list-inside grid-cols-3 text-lg">
+            <li v-for="genre in story.storyGenres" :key="genre">
+              <GenericCard
+                :item="{ id: genre, title: genre, img: getGenreImg(genre) }"
+                class="pointer-events-none h-48"
+              />
+            </li>
+          </ul>
+        </div>
+
+        <hr class="h-px w-full bg-gray-400" />
+
+        <div>
+          <ul class="ml-2 flex list-inside flex-wrap gap-6 text-lg">
+            <li>
+              <span class="block text-xs font-semibold">Style</span>
+              <span class="pointer-events-none text-gray-500">{{ story.storyStyle }}</span>
+            </li>
+            <li>
+              <span class="block text-xs font-semibold">Structure</span>
+              <span class="pointer-events-none text-gray-500">{{ story.storyStructure }}</span>
+            </li>
+            <li>
+              <span class="block text-xs font-semibold">
+                Reading time
+                {{ story.storyStructure !== StoryStructure.SIMPLE ? 'per chapter' : '' }}
+              </span>
+              <span class="pointer-events-none text-gray-500">{{ story.storyLength }}</span>
+            </li>
+            <li>
+              <span class="block text-xs font-semibold">Mode</span>
+              <span class="pointer-events-none text-gray-500">{{ story.storyMode }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <time class="mx-auto block text-xs text-gray-500">Created at {{ createdDate }}</time>
       </div>
 
       <div class="order-0 mx-auto flex flex-col px-6 py-6 xl:order-1 xl:px-10 xl:py-16">
