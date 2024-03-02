@@ -26,14 +26,14 @@ router.afterEach((to, from) => {
       <div class="mx-auto px-4 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
           <div class="flex flex-1 items-center justify-between lg:items-stretch lg:justify-start">
-            <div class="flex flex-shrink-0 items-center">
+            <AppLink to="/" class="flex items-center gap-2">
               <LogoIcon class="h-16 w-16" />
               <span
                 class="relative -mt-[4px] ml-2 font-bevellier text-5xl font-black text-blue-300 [text-shadow:_1px_1px_1px_rgb(21,_58,_41)]"
               >
                 Plotty
               </span>
-            </div>
+            </AppLink>
 
             <div v-if="lgAndLarger" class="ml-10 flex items-center align-middle">
               <LinkTabs

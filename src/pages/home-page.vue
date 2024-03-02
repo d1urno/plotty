@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import Romance from '@/assets/romance.webp'
 import AppLink from '@/components/AppLink.vue'
+import StoryChapter from '@/components/StoryChapter.vue'
+import defaultStories from '@/constants/defaultStories'
+
+const exampleStory = defaultStories[0]
 </script>
 
 <template>
@@ -31,7 +35,7 @@ import AppLink from '@/components/AppLink.vue'
           <li>Powerful and flexible</li>
         </ul>
       </section>
-      <section class="mb-12">
+      <section class="mx-auto max-w-4xl py-12">
         <h2 class="mb-4 text-3xl font-bold sm:text-4xl">How it works</h2>
         <p class="text-lg sm:text-xl">
           You can start by creating a new story and selecting the characters you want to include as
@@ -40,6 +44,23 @@ import AppLink from '@/components/AppLink.vue'
           story.
         </p>
       </section>
+
+      <section
+        class="mx-auto my-10 flex flex-1 flex-col rounded-md py-8 md:bg-white/50 md:px-10 md:text-gray-800 md:shadow-lg"
+      >
+        <h2 class="mb-12 text-center text-2xl italic text-white">Example story...</h2>
+        <article class="prose-lg mx-auto max-w-3xl font-garamond prose-p:font-sans">
+          <h1 class="mb-16 text-center">{{ exampleStory.title }}</h1>
+          <StoryChapter
+            v-for="(chapter, i) in exampleStory.chapters"
+            :key="chapter.id"
+            :story-id="exampleStory.id"
+            :chapter="chapter"
+            :index="i + 1"
+          />
+        </article>
+      </section>
+
       <section class="mx-auto mb-12 max-w-2xl rounded-lg bg-white p-6 text-black shadow-lg">
         <h2 class="mb-8 text-3xl font-bold sm:text-4xl">Get started</h2>
         <p class="mb-8 text-lg sm:text-xl">
