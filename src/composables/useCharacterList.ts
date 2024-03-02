@@ -8,7 +8,7 @@ import type { CustomCharacterListVariables } from '@/composables/useCustomCharac
 import useCustomCharacterList from '@/composables/useCustomCharacterList'
 
 export interface CharacterListOptions {
-  isReady?: Ref<boolean>
+  isReady?: Ref<boolean> | boolean
 }
 
 export default function useCharacterList(

@@ -5,10 +5,13 @@ import AppMobileMenu from '@/components/AppMobileMenu.vue'
 import { useRouter } from 'vue-router'
 import LinkTabs from '@/components/LinkTabs.vue'
 import AppLink from '@/components/AppLink.vue'
+import useCharacterList from '@/composables/useCharacterList'
 
 const router = useRouter()
 const breakpoints = useBreakpoints({ lg: 992 })
 const lgAndLarger = breakpoints.greaterOrEqual('lg')
+
+useCharacterList(undefined, undefined, { isReady: router.currentRoute.value.path !== '/new' }) // To preload the characters
 
 router.afterEach((to, from) => {
   if (!to.meta.weight || !from.meta.weight) return
