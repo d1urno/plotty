@@ -18,7 +18,7 @@ const { characterList } = useCharacterListByIds(variables, true)
 <template>
   <div>
     <h1 class="text-center text-lg font-bold text-gray-800">
-      Who of the main characters will need to take the decisions?
+      {{ $t('StoryWizardCharacterStep.title') }}
     </h1>
     <div class="scrollbar-hidden mb-12 mt-6 flex flex-wrap justify-center sm:flex">
       <GenericCard
@@ -32,10 +32,7 @@ const { characterList } = useCharacterListByIds(variables, true)
         <CharacterThumb :character="character" class="!p-0" tabindex="-1" />
       </GenericCard>
     </div>
-    <p class="mx-auto mb-8 max-w-xl">
-      The characters you select here will be the ones that will need to take a decision at the end
-      of each chapter. <br />
-    </p>
+    <p class="mx-auto mb-8 max-w-xl">{{ $t('StoryWizardCharacterStep.text') }}</p>
   </div>
 </template>
 

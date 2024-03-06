@@ -30,7 +30,7 @@ const { formData: storyFormData } = useStoryForm()
           class="rounded-md bg-blue-500 px-10 py-2 font-bold text-white"
           @click="close"
         >
-          Done
+          {{ $t('WhoDecidesModal.buttons.done') }}
         </button>
       </div>
     </template>

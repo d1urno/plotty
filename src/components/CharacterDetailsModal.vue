@@ -50,7 +50,7 @@ async function onAddCharacter(role: 'main' | 'secondary') {
   >
     <template #title>
       <div class="flex justify-between">
-        <h1 class="text-lg font-bold">Character details</h1>
+        <h1 class="text-lg font-bold">{{ $t('CharacterDetailsModal.title') }}</h1>
         <CharacterActions v-if="isCustomCharacter(props.character)" :character="props.character" />
       </div>
     </template>
@@ -66,7 +66,7 @@ async function onAddCharacter(role: 'main' | 'secondary') {
           class="rounded-md bg-gray-200 px-6 py-2 font-semibold text-gray-500"
           @click="close"
         >
-          Close
+          {{ $t('CharacterDetailsModal.buttons.close') }}
         </button>
         <button
           v-if="selectableCharacters"
@@ -75,7 +75,11 @@ async function onAddCharacter(role: 'main' | 'secondary') {
           :disabled="isSecondaryAddDisabled"
           @click="onAddCharacter('secondary')"
         >
-          {{ isRoleFull('secondary') ? 'Secondary roles full' : 'Add to secondary roles' }}
+          {{
+            isRoleFull('secondary')
+              ? $t('CharacterDetailsModal.buttons.secondaryRoles.full')
+              : $t('CharacterDetailsModal.buttons.secondaryRoles.add')
+          }}
         </button>
         <button
           v-if="selectableCharacters"
@@ -84,7 +88,11 @@ async function onAddCharacter(role: 'main' | 'secondary') {
           :disabled="isMainAddDisabled"
           @click="onAddCharacter('main')"
         >
-          {{ isRoleFull('main') ? 'Main roles full' : 'Add to main roles' }}
+          {{
+            isRoleFull('main')
+              ? $t('CharacterDetailsModal.buttons.mainRoles.full')
+              : $t('CharacterDetailsModal.buttons.mainRoles.add')
+          }}
         </button>
       </div>
     </template>

@@ -12,11 +12,13 @@ import useCharacterItemsByIds from '@/composables/useCharacterItemsByIds'
 import type { GetCharacterItemsByIdsQueryVariables } from '@/types/generated'
 import useStoryForm from '@/composables/useStoryForm'
 import type { StoryGenre } from '@/constants/rules'
+import { useI18n } from 'vue-i18n'
 
 function useStoryAi() {
   const { stories, isPromptLoading, isAiLoading, apiKey } = storeToRefs(useStore())
   const { formData: storyFormData } = useStoryForm()
   const { showModal } = useModal()
+  const { t } = useI18n()
   const { showToast, hideToast } = useToast()
 
   const variables = ref<GetCharacterItemsByIdsQueryVariables>({ ids: [] })
@@ -32,7 +34,7 @@ function useStoryAi() {
       const characters = await fetchOrRefetch()
       if (!characters) {
         showToast({
-          content: 'An error occurred while fetching the characters. Please try again later.',
+          content: t('useAi.errors.errorFetchingCharactersText'),
           type: 'error',
           duration: 5000,
           closable: true
@@ -74,19 +76,19 @@ function useStoryAi() {
     let toastId
     const toastTimeout = setTimeout(() => {
       toastId = showToast({
-        content: `Generating a story, please do not close or refresh the page...`,
+        content: t('useAi.generatingText'),
         type: 'info',
         duration: 0,
         buttons: [
           {
-            label: 'Cancel',
+            label: t('useAi.buttons.cancel.label'),
             callbackOrLink: (closeToast) => {
               showModal({
-                title: 'Are you sure?',
-                content: `If you cancel now, the story will not be generated.`,
+                title: t('useAi.buttons.cancel.title'),
+                content: t('useAi.buttons.cancel.content'),
                 buttons: [
                   {
-                    label: 'Yes, cancel',
+                    label: t('useAi.buttons.cancel.confirm'),
                     type: 'info',
                     callbackOrLink: (closeModal) => {
                       stopFetchGPT()
@@ -143,10 +145,14 @@ function useStoryAi() {
       if (toastId) hideToast(toastId)
 
       showModal({
-        title: `<span class="text-blue-500">Your new story is ready! 🥳</span>`,
-        content: `The story <b>${newStory.title}</b> has been generated successfully, you can find it in the stories list.`,
+        title: `<span class="text-blue-500">${t('useAi.ready.title')}</span>`,
+        content: t('useAi.ready.content', { title: `<b>${newStory.title}</b>` }),
         buttons: [
-          { label: 'Read it now!', type: 'success', callbackOrLink: `/story/${newStory.id}` }
+          {
+            label: t('useAi.ready.buttons.readNow'),
+            type: 'success',
+            callbackOrLink: `/story/${newStory.id}`
+          }
         ]
       })
       return newStory
@@ -156,14 +162,14 @@ function useStoryAi() {
       if (e.message === 'Unauthorized') {
         clearTimeout(toastTimeout)
         showToast({
-          content: 'Invalid API key. Please check your API key and try again.',
+          content: t('useAi.errors.unauthorizedText'),
           type: 'error',
           duration: 5000,
           closable: true
         })
       } else if (e.message !== 'The user aborted a request.') {
         showToast({
-          content: `An error occurred while generating the story. Please try again later.`,
+          content: t('useAi.errors.errorGeneratingText'),
           type: 'error',
           closable: true
         })

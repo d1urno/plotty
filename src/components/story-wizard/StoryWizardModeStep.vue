@@ -3,6 +3,7 @@ import GenericCard from '@/components/GenericCard.vue'
 import { StoryMode } from '@/constants/rules'
 import useStoryForm from '@/composables/useStoryForm'
 import useStoryFormActions from '@/composables/useStoryFormActions'
+import useEnum from '@/composables/useEnum'
 
 const { formData: storyFormData } = useStoryForm()
 const { onStoryModeSelect } = useStoryFormActions()
@@ -11,11 +12,14 @@ const { onStoryModeSelect } = useStoryFormActions()
 <template>
   <div>
     <h1 class="text-center text-lg font-bold text-gray-800">
-      Do you want to use Decision Making Mode?
+      {{ $t('StoryWizardModeStep.title') }}
     </h1>
     <div class="mx-auto mb-12 mt-6 w-full max-w-xs">
       <GenericCard
-        :item="{ id: StoryMode.DECISION_MAKING, title: 'Decision Making Mode' }"
+        :item="{
+          id: StoryMode.DECISION_MAKING,
+          title: useEnum(StoryMode).toLabel(StoryMode.DECISION_MAKING)
+        }"
         :selected="storyFormData.storyMode === StoryMode.DECISION_MAKING"
         selected-color="orange"
         class="w-full"
@@ -29,10 +33,7 @@ const { onStoryModeSelect } = useStoryFormActions()
       />
     </div>
     <p class="mx-auto mb-8 max-w-xl">
-      By enabling Decision Making Mode, AI will indicate three possible actions at the end of each
-      chapter for you to take on behalf of the main characters to continue the story. <br />
-      <br />
-      Unexpected twists may arise from your decisions, until the end of the story!
+      {{ $t('StoryWizardModeStep.text1') }}<br /><br />{{ $t('StoryWizardModeStep.text2') }}
     </p>
   </div>
 </template>

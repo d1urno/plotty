@@ -8,23 +8,22 @@ const { formData: storyFormData } = useStoryForm()
 <template>
   <div>
     <h1 class="text-center text-lg font-bold text-gray-800">
-      Would you like to add any final indications?
+      {{ $t('StoryWizardSpecialInstructionsStep.title') }}
     </h1>
     <div class="mx-auto mb-12 mt-6 w-full max-w-md">
       <TextInput
         v-model="storyFormData.customInstructions"
-        label="Special instructions"
+        :label="$t('StoryWizardSpecialInstructionsStep.inputs.specialInstructions.label')"
         :show-label="false"
         type="textarea"
-        placeholder="Include in the story a magic tree in the middle of a forest. The story teaches a lesson about the importance of preserving the environment."
+        :placeholder="
+          $t('StoryWizardSpecialInstructionsStep.inputs.specialInstructions.placeholder')
+        "
         rows="4"
         class="col-span-4 md:col-span-6"
       />
     </div>
-    <p class="mx-auto mb-8 max-w-xl">
-      If you have any special instructions for the AI, you can add them here. For example, you can
-      specify the tone, extra characters, situations to cover, etc.
-    </p>
+    <p class="mx-auto mb-8 max-w-xl">{{ $t('StoryWizardSpecialInstructionsStep.text') }}</p>
   </div>
 </template>
 

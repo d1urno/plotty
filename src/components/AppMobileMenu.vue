@@ -4,6 +4,7 @@ import { ref, watch } from 'vue'
 import AppHamburger from '@/components/AppHamburger.vue'
 import AppLink from '@/components/AppLink.vue'
 import useNavLinks from '@/composables/useNavLinks'
+import AppLocaleSwitcher from '@/components/AppLocaleSwitcher.vue'
 
 const isOpen = ref(false)
 const root = ref<HTMLElement | null>(null)
@@ -64,10 +65,10 @@ watch(direction, (value) => {
       class="absolute inset-x-0 top-24 z-20 mx-auto mt-3 w-full max-w-xs rounded-md bg-white p-2"
     >
       <div class="overscroll-contain rounded-md p-3">
-        <!--        <div class="flex justify-end gap-5">-->
-        <!--          <AppThemeSwitcher />-->
-        <!--          <AppLocaleSwitcher />-->
-        <!--        </div>-->
+        <div class="flex justify-end gap-5">
+          <!--          <AppThemeSwitcher />-->
+          <AppLocaleSwitcher />
+        </div>
         <ul class="space-y-3 py-8 text-center text-lg font-medium">
           <li v-for="link in navLinks" :key="link.value">
             <AppLink

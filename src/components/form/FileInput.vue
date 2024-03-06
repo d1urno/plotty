@@ -119,8 +119,8 @@ function removeFile() {
             class="absolute inset-0 flex cursor-pointer flex-col items-center justify-center border-2 border-dashed p-4"
             :class="{ 'rounded-md': shape === 'square', 'rounded-full': shape === 'circle' }"
           >
-            <CameraIcon class="w-16 text-gray-500 transition" draggable="false" />
-            <span class="max-w-xs select-none text-center text-sm transition"> Upload image </span>
+            <CameraIcon class="mb-1 w-16 text-gray-500 transition" draggable="false" />
+            <span class="max-w-xs select-none text-center text-sm transition">{{ label }}</span>
             <input
               :id="`${slugLabel}-input-file-button`"
               type="file"

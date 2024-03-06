@@ -1,0 +1,333 @@
+enums:
+  languages:
+    es: 'Español'
+    pt: 'Português'
+    en: 'English'
+    de: 'Deutsch'
+  StoryStructure:
+    SIMPLE: 'Simple'
+    MULTI_CHAPTER: 'Multi chapitre'
+    OPEN_ENDING: 'Fin ouvert'
+  StoryLength:
+    SHORT: '1 min'
+    MEDIUM: '3 min'
+    LONG: '5 min'
+  StoryStyle:
+    all: 'Tous les styles'
+    NARRATIVE: 'Narratif'
+    SCRIPT: 'Script'
+  StoryMode:
+    NORMAL: 'Normal'
+    DECISION_MAKING: 'Prise de décision'
+  StoryGenre:
+    FANTASY: 'Fantaisie'
+    SCI_FI: 'Science-fiction'
+    ROMANCE: 'Romance'
+    MYSTERY: 'Mystère'
+    HISTORICAL: 'Historique'
+    FUTURISTIC: 'Futuriste'
+    COMEDY: 'Comédie'
+    ACTION: 'Action'
+    ADVENTURE: 'Aventure'
+    DRAMA: 'Drame'
+    AI: 'AI décide'
+layout:
+  default:
+    nav:
+      home: 'Accueil'
+      stories: 'Histoires'
+      new: 'Nouvelle histoire'
+home:
+  header:
+    title: 'Ecrivez, publiez et partagez vos histoires avec le monde'
+    subtitle: 'Plotty est un outil de création de texte AI simple et facile à utiliser. Il est conçu pour vous aider à créer de beaux textes basés sur des sélections de personnages et des personnalisations en quelques minutes. Il est parfait pour créer un contenu étonnant à partager avec vos amis et votre famille'
+    cta: 'Commencer à écrire'
+  features:
+    title: 'Caractéristiques'
+    items:
+      1:
+        title: 'Simple et facile à utiliser'
+        description: 'Conçu pour être simple et facile à utiliser. Vous pouvez créer de beaux textes en quelques secondes'
+      2:
+        title: 'AI powered'
+        description: "Utilise l'IA pour créer de beaux textes basés sur des sélections de personnages et des personnalisations"
+      3:
+        title: 'Personnalisable'
+        description: 'Vous pouvez personnaliser vos personnages et le texte pour créer la parfaite histoire'
+  howItWorks:
+    title: 'Comment ça marche'
+    text: 'Vous pouvez commencer par créer une nouvelle histoire et sélectionner les personnages que vous souhaitez inclure comme rôles principaux ou secondaires. Ensuite, vous pouvez sélectionner entre les modes de texte comme script, histoire ou article. Une fois que vous avez terminé, cliquez sur "générer l''histoire" et vous pourrez lire votre histoire.'
+  exampleStory:
+    title: "Exemple d'histoire"
+  getStarted:
+    title: 'Commencer'
+    text: 'Prêt à commencer? Créez une histoire et partagez-la avec vos amis et votre famille.'
+    cta: 'Créer une histoire'
+GroupActionsBar:
+  characterSearch:
+    label: 'Recherche de personnage'
+    placeholder: 'Rechercher un personnage'
+  characterGroup:
+    label: 'Groupe de personnages'
+  newCharacter: 'Nouveau personnage'
+  newGroup: 'Nouveau groupe'
+StoryForm:
+  modals:
+    settingsWelcome:
+      title: 'Bienvenue à Plotty! 🥳'
+      content: 'Votre sélection de personnages est parfaite. Maintenant, nous allons vous aider à configurer votre histoire pour la première fois...'
+      buttons:
+        ok: 'Démarrer'
+  mainRoles:
+    label: 'Rôles principaux'
+  secondaryRoles:
+    label: 'Rôles secondaires'
+StoryFormStickyButtons:
+  cta: 'Générer {style}'
+  loadingCta: 'Génération de {style}...'
+  story: 'histoire'
+  script: 'script'
+CharacterSelectionList:
+  placeholder: 'Faites glisser des personnages ici...'
+CharacterDetailsModal:
+  title: 'Détails du personnage'
+  buttons:
+    close: 'Fermer'
+    secondaryRoles:
+      add: 'Ajouter aux rôles secondaires'
+      full: 'Les rôles secondaires sont pleins'
+    mainRoles:
+      add: 'Ajouter aux rôles principaux'
+      full: 'Les rôles principaux sont pleins'
+StorySettingsModal:
+  title: "Paramètres de l'histoire"
+  buttons:
+    close: 'Fermer'
+    wizard: "Utiliser l'assistant d'histoire"
+    cta: "Générer l'histoire"
+  inputs:
+    structure:
+      label: 'Structure'
+    length:
+      perChapterLabel: 'Durée de lecture par chapitre'
+      label: 'Durée de lecture'
+    chapters:
+      label: 'Chapitres'
+    style:
+      label: 'Style'
+    genres:
+      label: 'Genres'
+    mode:
+      label: 'Mode Prise de Décision'
+    customInstructions:
+      label: 'Instructions spéciales'
+      placeholder: "Instructions spéciales pour l'IA, par exemple, ton, personnages supplémentaires, situations à couvrir, etc."
+    apiKey:
+      label: 'Clé API'
+      placeholder: 'Clé API'
+      extendedLabel:
+        text1: 'Clé OpenAI, obtenez-en une'
+        text2: 'ici'
+StoryWizardModal:
+  buttons:
+    exit: Sortir
+    prev: Précédent
+    next: Suivant
+    generateStory: "Générer l'histoire"
+StoryWizardGenresStep:
+  title: 'Quels genres décrivent votre histoire?'
+StoryWizardChaptersStep:
+  title: 'Combien de chapitres votre histoire aura-t-elle?'
+  inputs:
+    chapters:
+      label: Chapitres
+  text: "Lors de la génération de chaque chapitre, l'IA prendra en compte le nombre total de chapitres dans lesquels votre histoire est divisée et générera le texte en fonction de cette longueur."
+StoryWizardCharacterStep:
+  title: 'Qui parmi les personnages principaux devra prendre les décisions?'
+  text: 'Les personnages que vous sélectionnez ici seront ceux qui devront prendre une décision à la fin de chaque chapitre.'
+StoryWizardLengthStep:
+  chapterLengthTitle: 'Quelle sera la durée de lecture de chaque chapitre?'
+  storyLengthTitle: "Quelle sera la durée de lecture de l'histoire?"
+  text: "L'IA utilisera un nombre approximatif de mots pour correspondre au temps de lecture que vous avez défini."
+StoryWizardModeStep:
+  title: 'Voulez-vous utiliser le mode de prise de décision?'
+  text1: "En activant le mode de prise de décision, l'IA indiquera trois actions possibles à la fin de chaque chapitre pour que vous preniez au nom des personnages principaux pour continuer l'histoire."
+  text2: "Des rebondissements inattendus peuvent survenir de vos décisions, jusqu'à la fin de l'histoire!"
+StoryWizardSpecialInstructionsStep:
+  title: 'Souhaitez-vous ajouter des indications finales?'
+  inputs:
+    specialInstructions:
+      label: 'Instructions spéciales'
+      placeholder: "Inclure dans l'histoire un arbre magique au milieu d'une forêt. L'histoire enseigne une leçon sur l'importance de préserver l'environnement."
+  text: "Si vous avez des instructions spéciales pour l'IA, vous pouvez les ajouter ici. Par exemple, vous pouvez spécifier le ton, des personnages supplémentaires, des situations à couvrir, etc."
+StoryWizardStructureStep:
+  title: "Choisissez une structure de texte pour l'histoire"
+  simpleStructureText: "Une histoire d'un seul chapitre, l'IA générera toute l'histoire en une fois."
+  multiChapterStructureText: "Spécifiez un nombre fixe de chapitres pour votre histoire, l'IA générera le premier chapitre et suggérera trois idées distinctes pour continuer à générer le chapitre suivant jusqu'à la fin de votre histoire."
+  openEndingStructureText: "L'IA générera le premier chapitre et suggérera trois idées pour continuer à générer le chapitre suivant jusqu'à ce que vous décidiez quand terminer l'histoire."
+StoryWizardStyleStep:
+  title: 'Dans quel style souhaitez-vous que votre histoire soit écrite?'
+  narrativeStyleText: "L'IA générera une histoire dans un style narratif, avec un accent sur l'intrigue et les personnages."
+  scriptStyleText: "L'IA générera une histoire dans un format de script, avec un accent sur les dialogues et les actions."
+StoriesPage:
+  emptyText: "Vous n'avez pas encore d'histoires..."
+  emptyCta: 'Créer une nouvelle histoire'
+  noResultsText: 'Aucun résultat trouvé...'
+  recentStoryText: 'Histoire la plus récente...'
+StoryCard:
+  buttons:
+    delete: Supprimer
+StoryFilters:
+  inputs:
+    search:
+      label: "Recherche d'histoire"
+      placeholder: 'Rechercher une histoire'
+    style:
+      label: "Type d'histoire"
+CustomGroupFilters:
+  selectText: 'Sélectionnez {title}'
+CharacterFormModal:
+  CreateTitle: 'Créer un nouveau personnage'
+  EditTitle: 'Modifier le personnage'
+  inputs:
+    name:
+      label: Nom
+    group:
+      label: Groupe
+  characterAttributes:
+    title: 'Attributs du personnage'
+    customText1: 'Ajoutez des attributs ou des caractéristiques de votre personnage qui sont pertinents à connaître comme contexte pour vos histoires, comme'
+    customText2: 'Origine: Planète Terre'
+    customText3: 'Espèce: Humain'
+    customText4: 'Passe-temps: Aime lire'
+    groupText1: 'Complétez les attributs requis pour'
+    groupText2: 'groupe, ceux-ci seront pertinents à connaître comme contexte pour vos histoires, et pour filtrer vos personnages'
+    emptyText1: "Il n'y a pas d'attributs spéciaux requis pour"
+    emptyText2: groupe
+    inputs:
+      attribute:
+        label: Attribut
+    buttons:
+      addRow: 'Ajouter une ligne'
+      cancel: Annuler
+      done: Terminé
+CharacterGroupFormModal:
+  inputs:
+    title:
+      label: 'Titre'
+    description:
+      label: Description
+      placeholder: 'Ce groupe concerne...'
+  title: 'Créer un nouveau groupe de personnages'
+  groupAttributes:
+    title: 'Attributs du groupe'
+    text1: 'Ajoutez des attributs pour le personnage de ce groupe qui sont pertinents à connaître comme contexte pour vos histoires, comme'
+    text2: 'Origine, Espèce'
+    text3: ou
+    text4: Passe-temps
+    text5: ". Ces attributs vont être requis lors de l'ajout de personnages à ce groupe. Vous pourrez rechercher et filtrer le groupe par ces attributs plus tard."
+    buttons:
+      addAttribute: 'Ajouter un attribut'
+      cancel: Annuler
+      done: Terminé
+    inputs:
+      attribute:
+        label: Attribut
+CharacterBio:
+  inputs:
+    uploadImage:
+      label: 'Télécharger une image'
+  validations:
+    image:
+      invalidFormat: "Format d'image invalide"
+      invalidSize: "La taille de l'image est trop grande"
+StoryChapter:
+  title: 'Chapitre {index}: {title}'
+  continuedText: 'À suivre...'
+  customContinuationText: 'Soudain, un dragon apparut...'
+  someoneText: "Quelqu'un"
+  makesLastDecisionText: '{name} prend la dernière décision...'
+  makesDecisionText: '{name} prend une décision pour continuer...'
+  chooseEndingText: 'Choisissez une fin...'
+  chooseContinuationText: 'Choisissez une suite...'
+  hasChosenText: '{name} a choisi...'
+  youChooseText: 'Vous choisissez...'
+  revertText: 'Revenir sur cette décision...'
+  buttons:
+    customLabel: 'Écrivez le vôtre!'
+  endText: 'La fin'
+  modals:
+    writeOwnContinuation:
+      title: 'Écrivez votre propre continuation'
+      buttons:
+        submit: 'Soumettre'
+StoryId:
+  mainRolesTitle: 'Rôles principaux'
+  secondaryRolesTitle: 'Rôles secondaires'
+  genres:
+    title: Genres
+  style:
+    title: Style
+  structure:
+    title: Structure
+  length:
+    perChapterTitle: 'Temps de lecture par chapitre'
+    perStoryTitle: 'Temps de lecture'
+  mode:
+    title: Mode
+  createdAt: 'Créé {date}'
+AppModal:
+  buttons:
+    close: Fermer
+ApiKeyModal:
+  title: 'Clé API non trouvée'
+  text1: 'Une clé API OpenAI est requise pour générer des histoires.'
+  text2: "Veuillez entrer une clé valide, nous ne la stockerons que dans votre navigateur pour l'instant."
+  text3: 'Vous pouvez créer une clé API depuis votre'
+  text4: 'compte OpenAI'
+  inputs:
+    apiKey:
+      label: 'Clé API OpenAI'
+      placeholder: 'Entrer la clé'
+  buttons:
+    ok: Ok
+WhoDecidesModal:
+  buttons:
+    done: Terminé
+CharacterActions:
+  buttons:
+    remove: Supprimer
+    edit: Modifier
+CharacterCardList:
+  noResultsText: 'Aucun résultat trouvé...'
+CharacterCardListHorizontal:
+  noResultsText: 'Aucun résultat trouvé...'
+CropperModal:
+  title: "Recadrer l'image"
+  buttons:
+    cancel: Annuler
+    done: Terminé
+useAi:
+  generatingText: "Génération d'une histoire, veuillez ne pas fermer ou actualiser la page..."
+  generatingContinuationText: "Génération d'une continuation de l'histoire, veuillez ne pas fermer ou actualiser la page..."
+  ready:
+    title: 'Votre nouvelle histoire est prête! 🥳'
+    content: "L'histoire {title} a été générée avec succès, vous pouvez la trouver dans la liste des histoires."
+    buttons:
+      readNow: 'Lisez-le maintenant!'
+  continuationReady:
+    title: 'Continuation prête!'
+    content: 'La continuation pour {title} est prête'
+    buttons:
+      readNow: 'Lisez-le maintenant!'
+  buttons:
+    cancel:
+      label: Annuler
+      title: 'Êtes-vous sûr?'
+      content: 'Si vous annulez maintenant, le texte ne sera pas généré.'
+      confirm: 'Oui, annuler'
+  errors:
+    storyNotFoundText: 'Histoire non trouvée. Veuillez réessayer plus tard.'
+    errorFetchingCharactersText: "Une erreur s'est produite lors de la récupération des personnages. Veuillez réessayer plus tard."
+    invalidKeyText: 'Clé API invalide. Veuillez vérifier votre clé API et réessayer.'
+    errorGeneratingText: "Une erreur s'est produite lors de la génération du texte. Veuillez réessayer plus tard."

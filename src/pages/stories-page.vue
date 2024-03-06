@@ -65,13 +65,13 @@ function onDeleteStory(id: string) {
     >
       <div v-if="!lastStory" class="mx-auto">
         <h2 class="mb-10 text-center text-2xl italic text-blue-500">
-          You don't have any stories yet...
+          {{ $t('StoriesPage.emptyText') }}
         </h2>
         <AppLink
           to="/new"
           class="block rounded-md bg-blue-500 px-10 py-3 text-center text-2xl font-bold text-white"
         >
-          Create a new story
+          {{ $t('StoriesPage.emptyCta') }}
         </AppLink>
       </div>
 
@@ -80,7 +80,7 @@ function onDeleteStory(id: string) {
           class="flex basis-1/3 flex-col gap-10 overflow-y-auto rounded-md bg-white p-4 ring-2 ring-gray-500 ring-offset-4 3xl:basis-1/2"
         >
           <StoryFilters v-model="filter" />
-          <div v-if="!filteredStories?.length">No results found...</div>
+          <div v-if="!filteredStories?.length">{{ $t('StoriesPage.noResultsText') }}</div>
           <ul v-else class="grid max-h-[31rem] w-full 3xl:grid-cols-2">
             <transition-group name="list" appear>
               <AppLink v-for="story in filteredStories" :key="story.id" :to="`/story/${story.id}`">
@@ -91,7 +91,7 @@ function onDeleteStory(id: string) {
         </div>
 
         <div class="mx-auto flex flex-1 flex-col">
-          <h2 class="mb-8 text-center text-2xl italic text-blue-500">Most recent story...</h2>
+          <h2 class="mb-8 text-center text-2xl italic text-blue-500">{{ $t('StoriesPage.recentStoryText') }}</h2>
           <article class="prose prose-lg mx-auto max-w-3xl font-garamond prose-p:font-sans">
             <h1 class="mb-16 text-center text-blue-600">{{ lastStory.title }}</h1>
             <StoryChapter

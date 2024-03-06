@@ -12,28 +12,29 @@ function onOkClick(close: () => void) {
 
 <template>
   <GenericModal v-if="model" v-model="model.visible" @close="model = undefined">
-    <template #title><h1 class="text-lg font-bold">API key not found</h1></template>
+    <template #title>
+      <h1 class="text-lg font-bold">{{ $t('ApiKeyModal.title') }}</h1>
+    </template>
 
     <p class="mb-6 text-gray-800">
-      An OpenAI API key is required to generate stories. <br />
-      Please enter a valid key, we will only store it in your browser for now.
-      <br /><br />
-      You can create an API key from your
+      {{ $t('ApiKeyModal.text1') }}<br />
+      {{ $t('ApiKeyModal.text2') }}<br /><br />
+      {{ $t('ApiKeyModal.text3') }}
       <a
         class="text-blue-500 underline"
         href="https://beta.openai.com/account/api-keys"
         target="_blank"
         rel="noopener noreferrer"
       >
-        OpenAI account
+        {{ $t('ApiKeyModal.text4') }}
       </a>
     </p>
 
     <label>
-      <span class="text-xs font-semibold">OpenAI API key</span>
+      <span class="text-xs font-semibold">{{ $t('ApiKeyModal.inputs.apiKey.label') }}</span>
       <input
         v-model="apiKeyModel"
-        placeholder="Enter key"
+        :placeholder="$t('ApiKeyModal.inputs.apiKey.placeholder')"
         class="mt-1 w-full rounded-md border-2 border-gray-300 p-2 focus:border-blue-500 focus:outline-none focus:ring-teal-500"
         :class="{ 'border-red-500/75': !apiKeyModel }"
       />
@@ -47,7 +48,7 @@ function onOkClick(close: () => void) {
           :disabled="!apiKeyModel"
           @click="onOkClick(close)"
         >
-          Ok
+          {{ $t('ApiKeyModal.buttons.ok') }}
         </button>
       </div>
     </template>

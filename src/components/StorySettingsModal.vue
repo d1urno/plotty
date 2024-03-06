@@ -17,9 +17,11 @@ import MultiSelectInput from '@/components/form/MultiSelectInput.vue'
 import WhoDecidesModal from '@/components/WhoDecidesModal.vue'
 import { storeToRefs } from 'pinia'
 import { useStore } from '@/stores'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import useStoryForm from '@/composables/useStoryForm'
 import useStoryFormActions from '@/composables/useStoryFormActions'
+import type { ListOption } from '@/types/local'
+import useEnum from '@/composables/useEnum'
 
 const model = defineModel<{ visible: boolean }>()
 
@@ -35,13 +37,12 @@ const { onStoryStructureSelect, onStoryModeSelect, onGenreSelect, isGenreDisable
 
 const whoDecidesModal = ref<{ visible: boolean }>()
 
-const filteredGenres = computed(() =>
-  Object.values(StoryGenre).filter((genre) => genre !== StoryGenre.AI)
-)
-
-function onStoryModeChange(mode: StoryMode) {
-  onStoryModeSelect(mode)
-  if (mode === StoryMode.DECISION_MAKING && storyFormData.value.mainCharacters.length > 1)
+function onModeChange(modeOption: ListOption<StoryMode>) {
+  onStoryModeSelect(modeOption.value)
+  if (
+    modeOption.value === StoryMode.DECISION_MAKING &&
+    storyFormData.value.mainCharacters.length > 1
+  )
     whoDecidesModal.value = { visible: true }
 }
 
@@ -60,13 +61,13 @@ function onGenerateStory(close: () => void) {
   >
     <template #title>
       <div class="flex items-center justify-between">
-        <h1 class="text-lg font-bold">Story settings</h1>
+        <h1 class="text-lg font-bold">{{ $t('StorySettingsModal.title') }}</h1>
         <button
           class="text-sm font-bold text-blue-500 underline"
           type="button"
           @click="$emit('openWizard')"
         >
-          Use story wizard
+          {{ $t('StorySettingsModal.buttons.wizard') }}
         </button>
       </div>
     </template>
@@ -74,10 +75,8 @@ function onGenerateStory(close: () => void) {
     <div class="grid grid-cols-4 gap-6 py-2 md:grid-cols-6">
       <SwitcherInput
         :model-value="storyFormData.storyStructure"
-        label="Structure"
-        :options="
-          Object.values(StoryStructure).map((structure) => ({ label: structure, value: structure }))
-        "
+        :label="$t('StorySettingsModal.inputs.structure.label')"
+        :options="useEnum(StoryStructure).toOptions()"
         class="col-span-4 mx-auto w-full md:col-span-3"
         @update:model-value="onStoryStructureSelect"
       />
@@ -86,17 +85,17 @@ function onGenerateStory(close: () => void) {
         v-model="storyFormData.storyLength"
         :label="
           storyFormData.storyStructure !== StoryStructure.SIMPLE
-            ? 'Reading time per chapter'
-            : 'Reading time'
+            ? $t('StorySettingsModal.inputs.length.perChapterLabel')
+            : $t('StorySettingsModal.inputs.length.label')
         "
-        :options="Object.values(StoryLength).map((len) => ({ label: len.slice(0, 5), value: len }))"
+        :options="useEnum(StoryLength).toOptions()"
         class="col-span-3 mx-auto w-full md:col-span-2"
       />
 
       <NumberInput
         v-if="storyFormData.storyStructure === StoryStructure.MULTI_CHAPTER"
         v-model="storyFormData.totalChapters"
-        label="Chapters"
+        :label="$t('StorySettingsModal.inputs.chapters.label')"
         class="w-20"
         :max="MAX_CHAPTERS"
         :min="2"
@@ -105,65 +104,67 @@ function onGenerateStory(close: () => void) {
       <div class="col-span-4 grid grid-cols-2 gap-6">
         <DropdownInput
           v-model="storyFormData.storyStyle"
-          label="Style"
+          :label="$t('StorySettingsModal.inputs.style.label')"
           class="col-span-1 w-full"
-          :options="Object.values(StoryStyle).map((style) => ({ label: style, value: style }))"
+          :options="useEnum(StoryStyle).toOptions()"
         />
 
         <MultiSelectInput
-          :model-value="storyFormData.storyGenres"
+          :model-value="useEnum(StoryGenre).toOptions(storyFormData.storyGenres)"
           :placeholder-value="StoryGenre.AI"
           :options="
-            filteredGenres.map((genre) => ({
-              label: genre,
-              value: genre,
-              disabled: isGenreDisabled(genre)
-            }))
+            useEnum(StoryGenre).toOptions({
+              excludeValues: [StoryGenre.AI],
+              extraProps: (_, value) => ({ disabled: isGenreDisabled(value) })
+            })
           "
           class="col-span-1 w-full"
           multiple
-          label="Genres"
-          @update:model-value="onGenreSelect"
+          :label="$t('StorySettingsModal.inputs.genres.label')"
+          @update:model-value="onGenreSelect($event.map((g: ListOption<StoryGenre>) => g.value))"
         />
       </div>
 
       <CheckInput
         v-if="storyFormData.storyStructure !== StoryStructure.SIMPLE"
-        :model-value="storyFormData.storyMode"
-        label="Decision Making Mode"
+        :model-value="useEnum(StoryMode).toOption(storyFormData.storyMode)"
+        :label="$t('StorySettingsModal.inputs.mode.label')"
         tag-style
         color="orange"
         class="col-span-4 mx-auto mb-1 mt-auto md:col-span-2"
-        :options="[StoryMode.NORMAL, StoryMode.DECISION_MAKING]"
-        @update:model-value="onStoryModeChange"
+        :options="[
+          useEnum(StoryMode).toOption(StoryMode.NORMAL),
+          useEnum(StoryMode).toOption(StoryMode.DECISION_MAKING)
+        ]"
+        @update:model-value="onModeChange"
       />
 
       <TextInput
         v-model="storyFormData.customInstructions"
-        label="Special instructions"
+        :label="$t('StorySettingsModal.inputs.customInstructions.label')"
         type="textarea"
-        placeholder="Special instructions for the AI, e.g. tone, extra characters, situations to cover, etc."
+        :placeholder="$t('StorySettingsModal.inputs.customInstructions.placeholder')"
         rows="4"
         class="col-span-4 md:col-span-6"
       />
 
       <TextInput
         v-model="apiKey"
-        label="API Key"
+        :label="$t('StorySettingsModal.inputs.apiKey.label')"
         class="col-span-4 md:col-span-6"
         type="password"
-        placeholder="Enter key"
+        :placeholder="$t('StorySettingsModal.inputs.apiKey.placeholder')"
         :class="{ 'border-red-500/75': !apiKey }"
       >
         <template #label>
-          OpenAI API key, get one
+          {{ $t('StorySettingsModal.inputs.apiKey.extendedLabel.text1') }}
           <a
             class="text-blue-500 underline"
             href="https://beta.openai.com/account/api-keys"
             target="_blank"
             rel="noopener noreferrer"
           >
-            here
+            {{ $t('StorySettingsModal.inputs.apiKey.extendedLabel.text2') }}
           </a>
         </template>
       </TextInput>
@@ -172,14 +173,14 @@ function onGenerateStory(close: () => void) {
     <template #footer="{ close }">
       <div class="flex justify-end gap-4">
         <button class="rounded-md px-10 py-2 font-bold text-gray-600" type="button" @click="close">
-          Close
+          {{ $t('StorySettingsModal.buttons.close') }}
         </button>
         <button
           type="button"
           class="rounded-md bg-blue-500 px-7 py-2 font-bold text-white hover:bg-blue-700"
           @click="onGenerateStory(close)"
         >
-          Generate story
+          {{ $t('StorySettingsModal.buttons.cta') }}
         </button>
       </div>
     </template>

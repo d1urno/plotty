@@ -49,7 +49,7 @@ const { appModal } = storeToRefs(useStore())
           class="rounded-md bg-gray-200 px-6 py-2 font-semibold text-gray-500"
           @click="close"
         >
-          Close
+          {{ $t('AppModal.buttons.close') }}
         </button>
         <template v-for="button in appModal.buttons" :key="button.label">
           <button

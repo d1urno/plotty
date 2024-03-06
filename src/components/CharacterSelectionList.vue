@@ -75,7 +75,7 @@ function onDragLeave() {
         v-else-if="!selectedCharacters?.length && !readonly"
         class="absolute inset-0 flex h-full items-center justify-center p-4 text-center text-blue-700/65"
       >
-        <p class="w-48 select-none">Drag and drop characters here...</p>
+        <p class="w-48 select-none">{{ $t('CharacterSelectionList.placeholder') }}</p>
       </div>
 
       <ul

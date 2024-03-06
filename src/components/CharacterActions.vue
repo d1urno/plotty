@@ -49,8 +49,12 @@ function onDeleteCharacter() {
     <div
       class="space-x-2 divide-x divide-gray-200 rounded-md bg-gray-100 px-2 py-1 text-xs font-semibold"
     >
-      <button type="button" class="text-red-400" @click.stop="onDeleteCharacter">Remove</button>
-      <button type="button" class="pl-2 text-gray-400" @click.stop="onEditCharacter">Edit</button>
+      <button type="button" class="text-red-400" @click.stop="onDeleteCharacter">
+        {{ $t('CharacterActions.buttons.remove') }}
+      </button>
+      <button type="button" class="pl-2 text-gray-400" @click.stop="onEditCharacter">
+        {{ $t('CharacterActions.buttons.edit') }}
+      </button>
     </div>
     <CharacterFormModal v-if="characterFormModal" v-model="characterFormModal" />
   </div>

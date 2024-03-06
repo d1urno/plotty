@@ -158,8 +158,8 @@ onBeforeUnmount(() => {
     @close="model = undefined"
   >
     <template #title>
-      <span v-if="!model.isEditing"> Create a new character</span>
-      <span v-else>Edit character</span>
+      <span v-if="!model.isEditing">{{ $t('CharacterFormModal.CreateTitle') }}</span>
+      <span v-else>{{ $t('CharacterFormModal.EditTitle') }}</span>
     </template>
 
     <div>
@@ -168,14 +168,14 @@ onBeforeUnmount(() => {
           <div class="flex w-full flex-col gap-4">
             <TextInput
               v-model="characterFormData.name"
-              label="Character name"
+              :label="$t('CharacterFormModal.inputs.name.label')"
               autocomplete="off"
               class="flex-1"
             />
             <DropdownInput
               v-model="groupIdModel"
               :options="groupOptions"
-              label="Group"
+              :label="$t('CharacterFormModal.inputs.group.label')"
               class="flex-1"
             />
           </div>
@@ -198,7 +198,7 @@ onBeforeUnmount(() => {
         </div>
         <div class="mx-8 flex items-center justify-center gap-8">
           <hr class="flex-1" />
-          Character attributes
+          {{ $t('CharacterFormModal.characterAttributes.title') }}
           <hr class="flex-1" />
         </div>
         <div
@@ -216,22 +216,28 @@ onBeforeUnmount(() => {
             }"
           >
             <template v-if="groupIdModel === CUSTOM_CHARACTER_GROUP_ID">
-              Add attributes or characteristics of your character that are relevant to know as
-              context for your stories, like
-              <span class="font-bold">Origin</span>: <span class="font-bold">Planet Earth</span>,
-              <span class="font-bold">Species</span>: <span class="font-bold">Human</span>,
-              <span class="font-bold">Hobby</span>: <span class="font-bold">Likes to read</span>
+              {{ $t('CharacterFormModal.characterAttributes.customText1') }}
+              <span class="font-bold">
+                {{ $t('CharacterFormModal.characterAttributes.customText2') }} </span
+              >,
+              <span class="font-bold">
+                {{ $t('CharacterFormModal.characterAttributes.customText3') }} </span
+              >,
+              <span class="font-bold">
+                {{ $t('CharacterFormModal.characterAttributes.customText4') }}
+              </span>
             </template>
 
             <template v-else-if="infoRows.length">
-              Complete the attributes required for
-              <span class="font-semibold">{{ groupTitle }}</span> group, these will be relevant to
-              know as context for your stories, and to filter your characters
+              {{ $t('CharacterFormModal.characterAttributes.groupText1') }}
+              <span class="font-semibold">{{ groupTitle }}</span>
+              {{ $t('CharacterFormModal.characterAttributes.groupText2') }}
             </template>
 
             <template v-else>
-              There are no special attributes required for
-              <span class="font-semibold">{{ groupTitle }}</span> group
+              {{ $t('CharacterFormModal.characterAttributes.emptyText1') }}
+              <span class="font-semibold">{{ groupTitle }}</span>
+              {{ $t('CharacterFormModal.characterAttributes.emptyText2') }}
             </template>
           </p>
           <button
@@ -242,7 +248,7 @@ onBeforeUnmount(() => {
             @click="infoRows = [...(infoRows ?? []), ['', '']]"
           >
             <PlusCircleIcon class="h-5 w-5" />
-            Add row
+            {{ $t('CharacterFormModal.characterAttributes.buttons.addRow') }}
           </button>
           <div
             v-for="(row, i) in infoRows"
@@ -253,7 +259,7 @@ onBeforeUnmount(() => {
             <TextInput
               v-if="groupIdModel === CUSTOM_CHARACTER_GROUP_ID"
               :model-value="row[0]"
-              label="Attribute"
+              :label="$t('CharacterFormModal.characterAttributes.inputs.attribute.label')"
               @update:model-value="onUpdateKey($event, i)"
             />
             <span v-if="groupIdModel === CUSTOM_CHARACTER_GROUP_ID" class="mt-8">:</span>
@@ -283,7 +289,7 @@ onBeforeUnmount(() => {
           class="rounded-md bg-gray-200 px-10 py-2 font-bold text-gray-400"
           @click="close"
         >
-          Cancel
+          {{ $t('CharacterFormModal.characterAttributes.buttons.cancel') }}
         </button>
         <button
           type="button"
@@ -291,7 +297,7 @@ onBeforeUnmount(() => {
           :disabled="!characterFormData.name || infoRows.some((row) => !row[0] || !row[1])"
           @click="onSaveCharacter(close)"
         >
-          Done
+          {{ $t('CharacterFormModal.characterAttributes.buttons.done') }}
         </button>
       </div>
     </template>
