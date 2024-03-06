@@ -12,6 +12,7 @@ export default [
     storyMode: 'Normal',
     storyLength: '1 minute',
     storyGenres: ['Comedy'],
+    storyLanguage: 'English from United States',
     decisionMakers: [],
     chapters: [
       {

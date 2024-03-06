@@ -64,6 +64,11 @@ export default function buildContinuationPrompt(options: GetContinuationPromptOp
     options.story.customInstructions
   )
 
+  const languageBlock = getBlock(
+    'Given this required language for the story',
+    options.story.storyLanguage
+  )
+
   const structureBlock = getBlock(
     'Given this typescript definition we need as response',
     `
@@ -100,6 +105,7 @@ ${secondaryCharactersBlock}
 ${decisionMakersCharactersBlock}
 ${nextChapterBlock}
 ${userInstructionsBlock}
+${languageBlock}
 ${structureBlock}
 ${instructionsBlock}`
 }

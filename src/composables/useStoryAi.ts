@@ -13,12 +13,13 @@ import type { GetCharacterItemsByIdsQueryVariables } from '@/types/generated'
 import useStoryForm from '@/composables/useStoryForm'
 import type { StoryGenre } from '@/constants/rules'
 import { useI18n } from 'vue-i18n'
+import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
 
 function useStoryAi() {
   const { stories, isPromptLoading, isAiLoading, apiKey } = storeToRefs(useStore())
   const { formData: storyFormData } = useStoryForm()
   const { showModal } = useModal()
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const { showToast, hideToast } = useToast()
 
   const variables = ref<GetCharacterItemsByIdsQueryVariables>({ ids: [] })
@@ -58,7 +59,8 @@ function useStoryAi() {
         storyStyle: storyFormData.value.storyStyle,
         storyGenres: storyFormData.value.storyGenres,
         specialInstructions: storyFormData.value.customInstructions,
-        storyStructure: storyFormData.value.storyStructure
+        storyStructure: storyFormData.value.storyStructure,
+        storyLanguage: getLanguageFromLocale(locale.value)
       })
     } catch (e) {
       console.error(e)
@@ -108,6 +110,7 @@ function useStoryAi() {
       ...storyFormData.value,
       id: generateUniqueId(),
       created: new Date().toISOString(),
+      storyLanguage: getLanguageFromLocale(locale.value),
       title: ''
     }
 
