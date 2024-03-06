@@ -20,7 +20,7 @@ const route = useRoute<'/story/[storyId]'>()
 const storyId = computed(() => route.params.storyId)
 
 const { stories, apiKey } = storeToRefs(useStore())
-const story = computed(() => stories.value.find((s) => s.id === storyId.value))
+const story = computed<Story | undefined>(() => stories.value.find((s) => s.id === storyId.value))
 
 const variables = computed(
   () =>
