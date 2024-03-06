@@ -6,6 +6,7 @@ import { getFileBasedRouteName } from 'unplugin-vue-router'
 import Layouts from 'vite-plugin-vue-layouts'
 import { webfontDownload } from 'vite-plugin-webfont-dl'
 import VueDevTools from 'vite-plugin-vue-devtools'
+import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -20,6 +21,13 @@ export default defineConfig({
     }),
     vue(),
     Layouts({ defaultLayout: 'default-layout' }),
+    // https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n
+    VueI18n({
+      runtimeOnly: true,
+      compositionOnly: true,
+      fullInstall: true,
+      include: [fileURLToPath(new URL('./locales/**', import.meta.url))]
+    }),
     webfontDownload(),
     VueDevTools()
   ],
