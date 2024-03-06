@@ -7,10 +7,12 @@ import LinkTabs from '@/components/LinkTabs.vue'
 import Pattern from '@/assets/bg-pattern.svg'
 import AppLink from '@/components/AppLink.vue'
 import useCharacterList from '@/composables/useCharacterList'
+import useNavLinks from '@/composables/useNavLinks'
 
 const router = useRouter()
 const breakpoints = useBreakpoints({ lg: 992 })
 const lgAndLarger = breakpoints.greaterOrEqual('lg')
+const navLinks = useNavLinks()
 
 useCharacterList(undefined, undefined, { isReady: router.currentRoute.value.path !== '/new' }) // To preload the characters
 
@@ -36,15 +38,11 @@ router.afterEach((to, from) => {
               </span>
             </AppLink>
 
-            <div v-if="lgAndLarger" class="ml-10 flex items-center align-middle">
-              <LinkTabs
-                :options="[
-                  { label: 'Home', value: '/', bgColorClass: 'bg-blue-600/80' },
-                  { label: 'Stories', value: '/stories', bgColorClass: 'bg-teal-500/80' },
-                  { label: 'New story', value: '/new', bgColorClass: 'bg-orange-500' }
-                ]"
-                class="w-80"
-              />
+            <div
+              v-if="lgAndLarger"
+              class="ml-10 flex w-full items-center justify-between align-middle"
+            >
+              <LinkTabs :options="navLinks" class="w-[28rem]" />
             </div>
 
             <div v-else class="flex items-center gap-6">
