@@ -207,25 +207,29 @@ export default function useStoryFormActions() {
     return true
   }
 
-  function onGenreSelect(genre: StoryGenre | StoryGenre[]) {
-    if (Array.isArray(genre)) {
-      if (!genre.length)
-        storyFormData.value.storyGenres = [StoryGenre.AI] // Reset to Let AI decide
-      else storyFormData.value.storyGenres = genre.filter((g) => g !== StoryGenre.AI)
-      return
+  function onMultipleGenreSelect(genre: StoryGenre[]) {
+    if (!genre.length) {
+      storyFormData.value.storyGenres = [StoryGenre.AI] // Reset to Let AI decide
+      return true
     }
+    storyFormData.value.storyGenres = genre.reduce(
+      (acc, curr) => (curr !== StoryGenre.AI ? [...acc, curr] : acc),
+      [] as StoryGenre[]
+    )
+    return true
+  }
 
+  function onGenreSelect(genre: StoryGenre | StoryGenre[]) {
+    if (Array.isArray(genre)) return onMultipleGenreSelect(genre)
     if (storyFormData.value.storyGenres.includes(genre)) {
-      if (storyFormData.value.storyGenres.length === 1) {
-        storyFormData.value.storyGenres = [StoryGenre.AI] // Reset to Let AI decide
-        return
-      }
       storyFormData.value.storyGenres = storyFormData.value.storyGenres.filter((g) => g !== genre)
-    } else
+    } else {
       storyFormData.value.storyGenres = [
         ...storyFormData.value.storyGenres.filter((g) => g !== StoryGenre.AI),
         genre
       ]
+    }
+    return true
   }
 
   function isGenreDisabled(genre: StoryGenre) {

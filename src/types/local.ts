@@ -10,6 +10,12 @@ import type {
 
 export type AppModule = (context: { app: App; routes: RouteRecordRaw[]; baseUrl: string }) => void
 
+export interface ListOption<T> {
+  label: string
+  value: T
+  disabled?: boolean
+}
+
 export interface GetStoryPromptOptions {
   mainCharacters?: BaseCharacter[]
   secondaryCharacters?: BaseCharacter[]
