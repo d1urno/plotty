@@ -55,6 +55,17 @@ export enum StoryGenre {
   AI = 'Let AI decide'
 }
 
+// To have access to the translation keys in useEnum composable
+export const ENUMS: Record<string, unknown> = {
+  StoryStyle,
+  StoryMode,
+  StoryStructure,
+  StoryLength,
+  StoryGenre
+}
+
+export const ENUMS_TRANSLATION_KEY = 'enums'
+
 export enum PresetCharacterGroups {
   RICK_AND_MORTY = 'Rick and Morty'
 }
