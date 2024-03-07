@@ -192,6 +192,7 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
       }
       return null
     } finally {
+      if (toastId) hideToast(toastId)
       isAiLoading.value = false
     }
   }

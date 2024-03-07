@@ -170,6 +170,7 @@ function useStoryAi() {
       }
       return null
     } finally {
+      if (toastId) hideToast(toastId)
       isAiLoading.value = false
     }
   }
