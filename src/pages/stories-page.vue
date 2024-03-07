@@ -25,7 +25,15 @@ const { loading } = useCharacterListByIds(variables) // To load all stories char
 const filteredStories = computed(() => {
   const { name, style } = filter.value
   return stories.value.filter((s) => {
-    if (name && !s.title.toLowerCase().includes(name.toLowerCase())) return false
+    if (
+      name &&
+      !s.title
+        .normalize('NFD')
+        .replace(/[\u0300-\u036F]/g, '')
+        .toLocaleLowerCase()
+        .includes(name.toLocaleLowerCase())
+    )
+      return false
     return !(style && s.storyStyle !== style)
   })
 })

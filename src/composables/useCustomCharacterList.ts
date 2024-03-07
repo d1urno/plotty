@@ -26,7 +26,11 @@ export default function useCustomCharacterList(
       filteredList = filteredList?.filter(
         (c) =>
           unrefVariables.value?.filter?.name &&
-          c.name.toLocaleLowerCase().includes(unrefVariables.value.filter.name.toLocaleLowerCase())
+          c.name
+            .normalize('NFD')
+            .replace(/[\u0300-\u036F]/g, '')
+            .toLocaleLowerCase()
+            .includes(unrefVariables.value.filter.name.toLocaleLowerCase())
       )
     }
 
