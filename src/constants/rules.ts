@@ -64,6 +64,13 @@ export enum StoryLanguage {
   AFRIKAANS = 'Afrikaans from South Africa'
 }
 
+export enum StoryAudience {
+  ALL = 'All',
+  KIDS = 'Kids',
+  TEENS = 'Teens',
+  ADULTS = 'Adults'
+}
+
 // To have access to the translation keys in useEnum composable
 export const ENUMS: Record<string, unknown> = {
   StoryStyle,
@@ -71,7 +78,8 @@ export const ENUMS: Record<string, unknown> = {
   StoryStructure,
   StoryLength,
   StoryGenre,
-  StoryLanguage
+  StoryLanguage,
+  StoryAudience
 }
 
 export const ENUMS_TRANSLATION_KEY = 'enums'

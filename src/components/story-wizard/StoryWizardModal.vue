@@ -11,6 +11,7 @@ import StoryWizardLengthStep from '@/components/story-wizard/StoryWizardLengthSt
 import StoryWizardModeStep from '@/components/story-wizard/StoryWizardModeStep.vue'
 import StoryWizardSpecialInstructionsStep from '@/components/story-wizard/StoryWizardSpecialInstructionsStep.vue'
 import StoryWizardCharacterStep from '@/components/story-wizard/StoryWizardCharacterStep.vue'
+import StoryWizardAudienceStep from '@/components/story-wizard/StoryWizardAudienceStep.vue'
 import useStoryForm from '@/composables/useStoryForm'
 
 const model = defineModel<{ visible: boolean }>()
@@ -41,10 +42,10 @@ function needsToSelectWhoDecides() {
 
 const percentage = computed(() => {
   let base: number
-  if (storyFormData.value.storyStructure === StoryStructure.SIMPLE) base = 5
-  else if (storyFormData.value.storyStructure === StoryStructure.OPEN_ENDING) base = 6
-  else if (storyFormData.value.storyStructure === StoryStructure.MULTI_CHAPTER) base = 7
-  else base = 8
+  if (storyFormData.value.storyStructure === StoryStructure.SIMPLE) base = 6
+  else if (storyFormData.value.storyStructure === StoryStructure.OPEN_ENDING) base = 7
+  else if (storyFormData.value.storyStructure === StoryStructure.MULTI_CHAPTER) base = 8
+  else base = 9
 
   if (needsToSelectWhoDecides()) base += 1
 
@@ -52,7 +53,7 @@ const percentage = computed(() => {
 })
 
 function onNextStep() {
-  if (step.value < 8) step.value += 1
+  if (step.value < 9) step.value += 1
 }
 
 function onPrevStep() {
@@ -64,7 +65,7 @@ function onGenerateStory(close: () => void) {
   emit('generateStory')
 }
 
-function getFourthStepComponent() {
+function getFifthStepComponent() {
   switch (storyFormData.value.storyStructure) {
     case StoryStructure.MULTI_CHAPTER:
       return StoryWizardChaptersStep
@@ -75,7 +76,7 @@ function getFourthStepComponent() {
   }
 }
 
-function getFifthStepComponent() {
+function getSixthStepComponent() {
   switch (storyFormData.value.storyStructure) {
     case StoryStructure.MULTI_CHAPTER:
       return StoryWizardLengthStep
@@ -86,7 +87,7 @@ function getFifthStepComponent() {
   }
 }
 
-function getSixthStepComponent() {
+function getSeventhStepComponent() {
   switch (storyFormData.value.storyStructure) {
     case StoryStructure.MULTI_CHAPTER:
       return StoryWizardModeStep
@@ -98,7 +99,7 @@ function getSixthStepComponent() {
   }
 }
 
-function getSeventhStepComponent() {
+function getEighthStepComponent() {
   switch (storyFormData.value.storyStructure) {
     case StoryStructure.MULTI_CHAPTER:
       if (needsToSelectWhoDecides()) return StoryWizardCharacterStep
@@ -110,7 +111,7 @@ function getSeventhStepComponent() {
   }
 }
 
-function getEighthStepComponent() {
+function getNinthStepComponent() {
   return StoryWizardSpecialInstructionsStep
 }
 
@@ -119,11 +120,11 @@ const stepComponent = computed(() => {
     case 1:
       return StoryWizardGenresStep
     case 2:
-      return StoryWizardStyleStep
+      return StoryWizardAudienceStep
     case 3:
-      return StoryWizardStructureStep
+      return StoryWizardStyleStep
     case 4:
-      return getFourthStepComponent()
+      return StoryWizardStructureStep
     case 5:
       return getFifthStepComponent()
     case 6:
@@ -132,6 +133,8 @@ const stepComponent = computed(() => {
       return getSeventhStepComponent()
     case 8:
       return getEighthStepComponent()
+    case 9:
+      return getNinthStepComponent()
     default:
       return ''
   }
@@ -163,7 +166,7 @@ const stepComponent = computed(() => {
     </div>
 
     <template #footer="{ close }">
-      <div class="relative flex md:items-center justify-center">
+      <div class="relative flex justify-center md:items-center">
         <button
           class="absolute left-0 mx-auto hidden text-xs font-bold text-gray-500 md:block"
           type="button"

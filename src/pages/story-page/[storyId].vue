@@ -13,7 +13,14 @@ import type { BaseCharacter, Story } from '@/types/local'
 import getGenreImg from '@/functions/getGenreImg'
 import StoryChapter from '@/components/StoryChapter.vue'
 import GenericCard from '@/components/GenericCard.vue'
-import { StoryGenre, StoryLength, StoryMode, StoryStructure, StoryStyle } from '@/constants/rules'
+import {
+  StoryAudience,
+  StoryGenre,
+  StoryLength,
+  StoryMode,
+  StoryStructure,
+  StoryStyle
+} from '@/constants/rules'
 import useEnum from '@/composables/useEnum'
 import useDate from '@/composables/useDate'
 
@@ -184,6 +191,12 @@ function onDecisionRevert(chapterIndex: number) {
               <span class="block text-xs font-semibold">{{ $t('StoryId.mode.title') }}</span>
               <span class="pointer-events-none text-gray-500">
                 {{ useEnum(StoryMode).toLabel(story.storyMode) }}
+              </span>
+            </li>
+            <li>
+              <span class="block text-xs font-semibold">{{ $t('StoryId.audience.title') }}</span>
+              <span class="pointer-events-none text-gray-500">
+                {{ useEnum(StoryAudience).toLabel(story.storyAudience) }}
               </span>
             </li>
           </ul>

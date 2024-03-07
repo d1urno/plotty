@@ -32,6 +32,11 @@ enums:
     ADVENTURE: 'Avontuur'
     DRAMA: 'Drama'
     AI: 'AI besluit'
+  StoryAudience:
+    ALL: 'Almal'
+    KIDS: 'Kinders'
+    TEENS: 'Tieners'
+    ADULTS: 'Volwassenes'
 layout:
   default:
     nav:
@@ -120,6 +125,8 @@ StorySettingsModal:
       label: Genres
     mode:
       label: 'Besluitnemingsmodus'
+    audience:
+      label: Gehoor
     customInstructions:
       label: 'Spesiale instruksies'
       placeholder: 'Spesiale instruksies vir die AI, bv. toon, ekstra karakters, situasies om te dek, ens.'
@@ -137,6 +144,9 @@ StoryWizardModal:
     generateStory: 'Genereer storie'
 StoryWizardGenresStep:
   title: 'Watter van hierdie genres beskryf jou storie?'
+StoryWizardAudienceStep:
+  title: 'Vir wie is jou storie?'
+  text: 'Kies die gehoor vir jou storie, dit sal die AI help om die teks met die regte woorde en inhoud te genereer.'
 StoryWizardChaptersStep:
   title: 'Hoeveel hoofstukke sal jou storie hê?'
   inputs:
@@ -273,6 +283,8 @@ StoryId:
     perStoryTitle: 'Leestyd'
   mode:
     title: Modus
+  audience:
+    title: Gehoor
   createdAt: 'Geskep {date}'
 AppModal:
   buttons:

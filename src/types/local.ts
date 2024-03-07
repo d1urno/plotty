@@ -8,6 +8,7 @@ import type {
   StoryStructure,
   StoryLanguage
 } from '@/constants/rules'
+import { StoryAudience } from '@/constants/rules'
 
 export type AppModule = (context: { app: App; routes: RouteRecordRaw[]; baseUrl: string }) => void
 
@@ -29,6 +30,7 @@ export interface GetStoryPromptOptions {
   storyStructure: StoryStructure
   storyGenres: StoryGenre[]
   storyLanguage: StoryLanguage
+  storyAudience: StoryAudience
 }
 
 export interface GetContinuationPromptOptions {
@@ -70,6 +72,7 @@ export interface Story {
   storyLength: StoryLength
   storyGenres: StoryGenre[]
   storyLanguage: StoryLanguage
+  storyAudience: StoryAudience
   customInstructions: string
 }
 

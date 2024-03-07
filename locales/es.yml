@@ -32,6 +32,11 @@ enums:
     ADVENTURE: 'Aventura'
     DRAMA: 'Drama'
     AI: 'AI decide'
+  StoryAudience:
+    ALL: 'Todos'
+    KIDS: 'Niños'
+    TEENS: 'Adolescentes'
+    ADULTS: 'Adultos'
 layout:
   default:
     nav:
@@ -120,6 +125,8 @@ StorySettingsModal:
       label: Géneros
     mode:
       label: 'Modo Toma de Decisiones'
+    audience:
+      label: Audiencia
     customInstructions:
       label: 'Instrucciones especiales'
       placeholder: 'Instrucciones especiales para la IA, por ejemplo, tono, personajes adicionales, situaciones a cubrir, etc.'
@@ -137,6 +144,9 @@ StoryWizardModal:
     generateStory: 'Generar historia'
 StoryWizardGenresStep:
   title: '¿Cuáles de estos géneros describen tu historia?'
+StoryWizardAudienceStep:
+  title: 'Para quién es tu historia?'
+  text: 'Seleccioná la audiencia para tu historia, esto ayudará a la IA a generar el texto con las palabras y el contenido adecuados.'
 StoryWizardChaptersStep:
   title: '¿Cuántos capítulos tendrá tu historia?'
   inputs:
@@ -276,6 +286,8 @@ StoryId:
     perStoryTitle: 'Tiempo de lectura'
   mode:
     title: Modo
+  audience:
+    title: Audiencia
   createdAt: 'Creado {date}'
 AppModal:
   buttons:

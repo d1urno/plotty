@@ -69,6 +69,11 @@ export default function buildContinuationPrompt(options: GetContinuationPromptOp
     options.story.storyLanguage
   )
 
+  const audienceBlock = getBlock(
+    'Given this audience for the story (consider appropriate words and depth for the audience)',
+    options.story.storyAudience
+  )
+
   const structureBlock = getBlock(
     'Given this typescript definition we need as response',
     `
@@ -106,6 +111,7 @@ ${decisionMakersCharactersBlock}
 ${nextChapterBlock}
 ${userInstructionsBlock}
 ${languageBlock}
+${audienceBlock}
 ${structureBlock}
 ${instructionsBlock}`
 }

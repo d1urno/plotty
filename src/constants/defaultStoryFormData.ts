@@ -1,4 +1,11 @@
-import { StoryGenre, StoryLength, StoryMode, StoryStructure, StoryStyle } from '@/constants/rules'
+import {
+  StoryAudience,
+  StoryGenre,
+  StoryLength,
+  StoryMode,
+  StoryStructure,
+  StoryStyle
+} from '@/constants/rules'
 import type { StoryFormData } from '@/types/local'
 
 export default {
@@ -12,6 +19,7 @@ export default {
   storyMode: StoryMode.NORMAL,
   storyLength: StoryLength.SHORT,
   storyGenres: [StoryGenre.COMEDY],
+  storyAudience: StoryAudience.ALL,
   decisionMakers: [] as string[],
   chapters: [],
   customInstructions: ''

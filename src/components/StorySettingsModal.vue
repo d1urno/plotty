@@ -2,6 +2,7 @@
 import GenericModal from '@/components/GenericModal.vue'
 import {
   MAX_CHAPTERS,
+  StoryAudience,
   StoryGenre,
   StoryLength,
   StoryMode,
@@ -101,29 +102,34 @@ function onGenerateStory(close: () => void) {
         :min="2"
       />
 
-      <div class="col-span-4 grid grid-cols-2 gap-6">
-        <DropdownInput
-          v-model="storyFormData.storyStyle"
-          :label="$t('StorySettingsModal.inputs.style.label')"
-          class="col-span-1 w-full"
-          :options="useEnum(StoryStyle).toOptions()"
-        />
+      <DropdownInput
+        v-model="storyFormData.storyStyle"
+        :label="$t('StorySettingsModal.inputs.style.label')"
+        class="col-span-2 w-full"
+        :options="useEnum(StoryStyle).toOptions()"
+      />
 
-        <MultiSelectInput
-          :model-value="useEnum(StoryGenre).toOptions(storyFormData.storyGenres)"
-          :placeholder-value="StoryGenre.AI"
-          :options="
-            useEnum(StoryGenre).toOptions({
-              excludeValues: [StoryGenre.AI],
-              extraProps: (_, value) => ({ disabled: isGenreDisabled(value) })
-            })
-          "
-          class="col-span-1 w-full"
-          multiple
-          :label="$t('StorySettingsModal.inputs.genres.label')"
-          @update:model-value="onGenreSelect($event.map((g: ListOption<StoryGenre>) => g.value))"
-        />
-      </div>
+      <MultiSelectInput
+        :model-value="useEnum(StoryGenre).toOptions(storyFormData.storyGenres)"
+        :placeholder-value="StoryGenre.AI"
+        :options="
+          useEnum(StoryGenre).toOptions({
+            excludeValues: [StoryGenre.AI],
+            extraProps: (_, value) => ({ disabled: isGenreDisabled(value) })
+          })
+        "
+        class="col-span-2 w-full"
+        multiple
+        :label="$t('StorySettingsModal.inputs.genres.label')"
+        @update:model-value="onGenreSelect($event.map((g: ListOption<StoryGenre>) => g.value))"
+      />
+
+      <DropdownInput
+        v-model="storyFormData.storyAudience"
+        :label="$t('StorySettingsModal.inputs.audience.label')"
+        class="col-span-2 w-full"
+        :options="useEnum(StoryAudience).toOptions()"
+      />
 
       <CheckInput
         v-if="storyFormData.storyStructure !== StoryStructure.SIMPLE"

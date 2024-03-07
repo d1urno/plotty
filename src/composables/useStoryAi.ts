@@ -60,7 +60,8 @@ function useStoryAi() {
         storyGenres: storyFormData.value.storyGenres,
         specialInstructions: storyFormData.value.customInstructions,
         storyStructure: storyFormData.value.storyStructure,
-        storyLanguage: getLanguageFromLocale(locale.value)
+        storyLanguage: getLanguageFromLocale(locale.value),
+        storyAudience: storyFormData.value.storyAudience
       })
     } catch (e) {
       console.error(e)

@@ -13,6 +13,7 @@ export default [
     storyLength: '1 minute',
     storyGenres: ['Comedy'],
     storyLanguage: 'English from United States',
+    storyAudience: 'All',
     decisionMakers: [],
     chapters: [
       {
@@ -37,6 +38,7 @@ export default [
     storyMode: 'Normal',
     storyLength: '1 minute',
     storyGenres: ['Comedy'],
+    storyAudience: 'All',
     decisionMakers: [],
     chapters: [
       {
@@ -62,6 +64,7 @@ export default [
     storyMode: 'Normal',
     storyLength: '1 minute',
     storyGenres: ['Comedy'],
+    storyAudience: 'All',
     decisionMakers: [],
     chapters: [
       {
@@ -87,6 +90,7 @@ export default [
     storyMode: 'Normal',
     storyLength: '1 minute',
     storyGenres: ['Comedy'],
+    storyAudience: 'All',
     decisionMakers: [],
     chapters: [
       {
@@ -112,6 +116,7 @@ export default [
     storyMode: 'Normal',
     storyLength: '1 minute',
     storyGenres: ['Comedy'],
+    storyAudience: 'All',
     decisionMakers: [],
     chapters: [
       {
@@ -137,6 +142,7 @@ export default [
     storyMode: 'Normal',
     storyLength: '1 minute',
     storyGenres: ['Comedy'],
+    storyAudience: 'All',
     decisionMakers: [],
     chapters: [
       {

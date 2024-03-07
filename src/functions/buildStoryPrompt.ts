@@ -59,6 +59,11 @@ export default function buildStoryPrompt(options: GetStoryPromptOptions) {
     options.storyLanguage
   )
 
+  const audienceBlock = getBlock(
+    'Given this audience for the story (consider appropriate words and depth for the audience)',
+    options.storyAudience
+  )
+
   const structureBlock = getBlock(
     'Given this typescript definition we need as response',
     `
@@ -105,6 +110,7 @@ ${secondaryCharactersBlock}
 ${decisionMakersCharactersBlock}
 ${userInstructionsBlock}
 ${languageBlock}
+${audienceBlock}
 ${structureBlock}
 ${instructionsBlock}`
 }
