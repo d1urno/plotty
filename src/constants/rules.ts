@@ -60,7 +60,8 @@ export enum StoryLanguage {
   SPANISH = 'Spanish from Argentina',
   FRENCH = 'French from France',
   GERMAN = 'German from Germany',
-  PORTUGUESE = 'Portuguese from Brazil'
+  PORTUGUESE = 'Portuguese from Brazil',
+  AFRIKAANS = 'Afrikaans from South Africa'
 }
 
 // To have access to the translation keys in useEnum composable

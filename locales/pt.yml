@@ -4,6 +4,7 @@ enums:
     es: 'Español'
     fr: 'Français'
     de: 'Deutsch'
+    af: 'Afrikaans'
   StoryStructure:
     SIMPLE: 'Simples'
     MULTI_CHAPTER: 'Multi capítulo'

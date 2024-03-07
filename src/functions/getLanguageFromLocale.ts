@@ -10,6 +10,8 @@ export default function getLanguageFromLocale(locale: string) {
       return StoryLanguage.GERMAN
     case 'pt':
       return StoryLanguage.PORTUGUESE
+    case 'af':
+      return StoryLanguage.AFRIKAANS
     default:
       return StoryLanguage.ENGLISH
   }

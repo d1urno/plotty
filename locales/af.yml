@@ -1,0 +1,331 @@
+enums:
+  languages:
+    es: 'Español'
+    pt: 'Português'
+    fr: 'Français'
+    de: 'Deutsch'
+    en: 'English'
+  StoryStructure:
+    SIMPLE: 'Eenvoudig'
+    MULTI_CHAPTER: 'Meerhoofstuk'
+    OPEN_ENDING: 'Oop einde'
+  StoryLength:
+    SHORT: '1 min'
+    MEDIUM: '3 min'
+    LONG: '5 min'
+  StoryStyle:
+    all: 'Alle style'
+    NARRATIVE: 'Narratief'
+    SCRIPT: 'Draaiboek'
+  StoryMode:
+    NORMAL: 'Normaal'
+    DECISION_MAKING: 'Besluitneming'
+  StoryGenre:
+    FANTASY: 'Fantasie'
+    SCI_FI: 'Wetenskapfiksie'
+    ROMANCE: 'Romanse'
+    MYSTERY: 'Misterie'
+    HISTORICAL: 'Histories'
+    FUTURISTIC: 'Futuristies'
+    COMEDY: 'Komedie'
+    ACTION: 'Aksie'
+    ADVENTURE: 'Avontuur'
+    DRAMA: 'Drama'
+    AI: 'AI besluit'
+layout:
+  default:
+    nav:
+      home: 'Tuis'
+      stories: 'Stories'
+      new: 'Nuwe storie'
+home:
+  header:
+    title: 'Skryf, publiseer en deel jou stories met die wêreld'
+    subtitle: "Plotty is 'n eenvoudige, maklik om te gebruik, AI-teks skeppingsinstrument. Dit is ontwerp om jou te help om pragtige tekste te skep gebaseer op karakterkeuses en aanpassings binne minute. Dit is perfek om verstommende inhoud te skep om met jou vriende en familie te deel"
+    cta: 'Begin skryf'
+  features:
+    title: 'Kenmerke'
+    items:
+      1:
+        title: 'Eenvoudig en maklik om te gebruik'
+        description: 'Ontwerp om eenvoudig en maklik om te gebruik te wees. Jy kan pragtige tekste binne sekondes skep'
+      2:
+        title: 'AI-aangedrewe'
+        description: 'Gebruik AI om pragtige tekste te skep gebaseer op karakterkeuses en aanpassings'
+      3:
+        title: 'Aanpasbaar'
+        description: 'Jy kan jou karakters en die teks aanpas om die perfekte storie te skep'
+  howItWorks:
+    title: 'Hoe dit werk'
+    text: "Jy kan begin deur 'n nuwe storie te skep en die karakters te kies wat jy as hoof- of byrolle wil insluit. Dan kan jy kies tussen teksmodusse soos draaiboek, storie of artikel. Sodra jy klaar is, klik op 'genereer storie' en jy sal jou storie kan lees."
+  exampleStory:
+    title: 'Voorbeeld storie...'
+  getStarted:
+    title: 'Begin'
+    text: "Gereed om te begin? Skep 'n storie en deel dit met jou vriende en familie."
+    cta: "Skep 'n storie"
+GroupActionsBar:
+  characterSearch:
+    label: 'Karakter soektog'
+    placeholder: "Soek vir 'n karakter"
+  characterGroup:
+    label: 'Karaktergroep'
+  newCharacter: 'Nuwe karakter'
+  newGroup: 'Nuwe groep'
+StoryForm:
+  modals:
+    settingsWelcome:
+      title: 'Welkom by Plotty! 🥳'
+      content: 'Jou karakterkeuse lyk goed. Nou sal ons jou help om jou storie vir die eerste keer op te stel...'
+      buttons:
+        ok: Ok
+  mainRoles:
+    label: 'Hoofrolle'
+  secondaryRoles:
+    label: 'Byrolle'
+StoryFormStickyButtons:
+  cta: 'Genereer {style}'
+  loadingCta: 'Genereer {style}...'
+  story: 'storie'
+  script: 'draaiboek'
+CharacterSelectionList:
+  placeholder: 'Sleep en laat val karakters hier...'
+CharacterDetailsModal:
+  title: 'Karakterbesonderhede'
+  buttons:
+    close: 'Sluit'
+    secondaryRoles:
+      add: 'Voeg by byrolle'
+      full: 'Byrolle is vol'
+    mainRoles:
+      add: 'Voeg by hoofrolle'
+      full: 'Hoofrolle is vol'
+StorySettingsModal:
+  title: 'Storie-instellings'
+  buttons:
+    wizard: 'Gebruik storie-towenaar'
+    close: Sluit
+    cta: 'Genereer storie'
+  inputs:
+    structure:
+      label: 'Struktuur'
+    length:
+      perChapterLabel: 'Leestyd per hoofstuk'
+      label: 'Leestyd'
+    chapters:
+      label: Hoofstukke
+    style:
+      label: Styl
+    genres:
+      label: Genres
+    mode:
+      label: 'Besluitnemingsmodus'
+    customInstructions:
+      label: 'Spesiale instruksies'
+      placeholder: 'Spesiale instruksies vir die AI, bv. toon, ekstra karakters, situasies om te dek, ens.'
+    apiKey:
+      label: 'API Sleutel'
+      placeholder: 'Voer sleutel in'
+      extendedLabel:
+        text1: 'OpenAI API sleutel, kry een'
+        text2: 'hier'
+StoryWizardModal:
+  buttons:
+    exit: Uitgang
+    prev: Vorige
+    next: Volgende
+    generateStory: 'Genereer storie'
+StoryWizardGenresStep:
+  title: 'Watter van hierdie genres beskryf jou storie?'
+StoryWizardChaptersStep:
+  title: 'Hoeveel hoofstukke sal jou storie hê?'
+  inputs:
+    chapters:
+      label: Hoofstukke
+  text: 'Wanneer elke hoofstuk gegenereer word, sal AI die totale aantal hoofstukke waarin jou storie verdeel is, oorweeg en die teks op hierdie lengte baseer.'
+StoryWizardCharacterStep:
+  title: 'Wie van die hoofkarakters sal besluite moet neem?'
+  text: "Die karakters wat jy hier kies, sal diegene wees wat 'n besluit moet neem aan die einde van elke hoofstuk."
+StoryWizardLengthStep:
+  chapterLengthTitle: 'Wat sal die leestyd vir elke hoofstuk wees?'
+  storyLengthTitle: 'Wat sal die leestyd vir die storie wees?'
+  text: "AI sal 'n benaderde aantal woorde gebruik om die leestyd wat jy stel, te pas."
+StoryWizardModeStep:
+  title: 'Wil jy Besluitnemingsmodus gebruik?'
+  text1: 'Deur Besluitnemingsmodus in te skakel, sal AI drie moontlike aksies aan die einde van elke hoofstuk aandui vir jou om namens die hoofkarakters te neem om die storie voort te sit.'
+  text2: 'Onverwagte wendings kan voortspruit uit jou besluite, tot die einde van die storie!'
+StoryWizardSpecialInstructionsStep:
+  title: 'Wil jy enige finale aanwysings byvoeg?'
+  inputs:
+    specialInstructions:
+      label: 'Spesiale instruksies'
+      placeholder: "Sluit in die storie 'n magiese boom in die middel van 'n woud in. Die storie leer 'n les oor die belangrikheid van die bewaring van die omgewing."
+  text: 'As jy enige spesiale instruksies vir die AI het, kan jy dit hier byvoeg. Byvoorbeeld, jy kan die toon, ekstra karakters, situasies om te dek, ens. spesifiseer.'
+StoryWizardStructureStep:
+  title: "Kies 'n teksstruktuur vir die storie"
+  simpleStructureText: " 'n Enkelhoofstuk storie, AI sal die hele storie in een keer genereer."
+  multiChapterStructureText: "Spesifiseer 'n vaste aantal hoofstukke vir jou storie, AI sal die eerste hoofstuk genereer en drie verskillende idees voorstel om die volgende hoofstuk te genereer totdat jou storie eindig."
+  openEndingStructureText: 'AI sal die eerste hoofstuk genereer, en drie idees voorstel om die volgende hoofstuk te genereer totdat jy besluit wanneer om die storie te beëindig.'
+StoryWizardStyleStep:
+  title: 'In watter styl wil jy hê jou storie moet geskryf word?'
+  narrativeStyleText: "AI sal 'n storie in 'n narratiewe styl genereer, met 'n fokus op die plot en karakters."
+  scriptStyleText: "AI sal 'n storie in 'n draaiboekformaat genereer, met 'n fokus op die dialoë en aksies."
+StoriesPage:
+  emptyText: 'Jy het nog geen stories nie...'
+  emptyCta: "Skep 'n nuwe storie"
+  noResultsText: 'Geen resultate gevind nie...'
+  recentStoryText: 'Mees onlangse storie...'
+StoryCard:
+  buttons:
+    delete: Verwyder
+StoryFilters:
+  inputs:
+    search:
+      label: 'Storie soektog'
+      placeholder: "Soek vir 'n storie"
+    style:
+      label: 'Storietipe'
+CustomGroupFilters:
+  selectText: 'Kies {title}'
+CharacterFormModal:
+  CreateTitle: "Skep 'n nuwe karakter"
+  EditTitle: 'Wysig karakter'
+  inputs:
+    name:
+      label: Naam
+    group:
+      label: Groep
+  characterAttributes:
+    title: 'Karaktereienskappe'
+    customText1: 'Voeg eienskappe of kenmerke van jou karakter by wat relevant is om te weet as konteks vir jou stories, soos'
+    customText2: 'Oorsprong: Planeet Aarde'
+    customText3: 'Spesie: Mens'
+    customText4: 'Stokperdjie: Hou van lees'
+    groupText1: 'Voltooi die eienskappe wat vereis word vir'
+    groupText2: 'groep, hierdie sal relevant wees om te weet as konteks vir jou stories, en om jou karakters te filter'
+    emptyText1: 'Daar is geen spesiale eienskappe wat vereis word vir'
+    emptyText2: groep
+    inputs:
+      attribute:
+        label: Eienskap
+    buttons:
+      addRow: 'Voeg ry by'
+      cancel: Kanselleer
+      done: Klaar
+CharacterGroupFormModal:
+  inputs:
+    title:
+      label: 'Titel'
+    description:
+      label: Beskrywing
+      placeholder: 'Hierdie groep gaan oor...'
+  title: "Skep 'n nuwe karaktergroep"
+  groupAttributes:
+    title: 'Groep eienskappe'
+    text1: 'Voeg eienskappe by vir die karakter in hierdie groep wat relevant is om te weet as konteks vir jou stories, soos'
+    text2: 'Oorsprong, Spesie'
+    text3: of
+    text4: Stokperdjie
+    text5: '. Hierdie eienskappe gaan vereis word wanneer karakters by hierdie groep gevoeg word. Jy sal later die groep volgens hierdie eienskappe kan soek en filter.'
+    buttons:
+      addAttribute: 'Voeg eienskap by'
+      cancel: Kanselleer
+      done: Klaar
+CharacterBio:
+  inputs:
+    uploadImage:
+      label: 'Laai beeld op'
+  validations:
+    image:
+      invalidFormat: 'Ongeldige beeldformaat'
+      invalidSize: 'Die beeldgrootte is te groot'
+StoryChapter:
+  title: 'Hoofstuk {index}: {title}'
+  continuedText: 'Word vervolg...'
+  customContinuationText: "Skielik verskyn 'n draak..."
+  someoneText: 'Iemand'
+  makesLastDecisionText: '{name} maak die laaste besluit...'
+  makesDecisionText: "{name} maak 'n besluit om voort te gaan..."
+  chooseEndingText: "Kies 'n einde..."
+  chooseContinuationText: "Kies 'n voortsettingswending..."
+  hasChosenText: '{name} het gekies...'
+  youChosenText: 'Jy het gekies...'
+  revertText: 'Herroep hierdie besluit...'
+  buttons:
+    customLabel: 'Skryf jou eie!'
+  endText: 'Die einde'
+  modals:
+    writeOwnContinuation:
+      title: 'Skryf jou eie voortsetting'
+      buttons:
+        submit: 'Indien'
+StoryId:
+  mainRolesTitle: 'Hoofrolle'
+  secondaryRolesTitle: 'Byrolle'
+  genres:
+    title: Genres
+  style:
+    title: Styl
+  structure:
+    title: Struktuur
+  length:
+    perChapterTitle: 'Leestyd per hoofstuk'
+    perStoryTitle: 'Leestyd'
+  mode:
+    title: Modus
+  createdAt: 'Geskep {date}'
+AppModal:
+  buttons:
+    close: Sluit
+ApiKeyModal:
+  title: 'API sleutel nie gevind nie'
+  text1: " 'n OpenAI API sleutel is nodig om stories te genereer."
+  text2: "Voer asseblief 'n geldige sleutel in, ons sal dit net in jou blaaier stoor vir nou."
+  text3: "Jy kan 'n API sleutel skep vanaf jou"
+  text4: 'OpenAI rekening'
+  inputs:
+    apiKey:
+      label: 'OpenAI API sleutel'
+      placeholder: 'Voer sleutel in'
+  buttons:
+    ok: Ok
+WhoDecidesModal:
+  buttons:
+    done: Klaar
+CharacterActions:
+  buttons:
+    remove: Verwyder
+    edit: Wysig
+CharacterCardList:
+  noResultsText: 'Geen resultate gevind nie...'
+CharacterCardListHorizontal:
+  noResultsText: 'Geen resultate gevind nie...'
+CropperModal:
+  title: 'Sny die beeld'
+  buttons:
+    cancel: Kanselleer
+    done: Klaar
+useAi:
+  generatingText: "Genereer 'n storie, moenie die bladsy sluit of herlaai nie..."
+  generatingContinuationText: "Genereer 'n storie voortsetting, moenie die bladsy sluit of herlaai nie..."
+  ready:
+    title: 'Jou nuwe storie is gereed! 🥳'
+    content: 'Die storie {title} is suksesvol gegenereer, jy kan dit in die storieslys vind.'
+    buttons:
+      readNow: 'Lees dit nou!'
+  continuationReady:
+    title: 'Voortsetting gereed!'
+    content: 'Die voortsetting vir {title} is gereed'
+    buttons:
+      readNow: 'Lees dit nou!'
+  buttons:
+    cancel:
+      label: Kanselleer
+      title: 'Is jy seker?'
+      content: 'As jy nou kanselleer, sal die teks nie gegenereer word nie.'
+      confirm: 'Ja, kanselleer'
+  errors:
+    storyNotFoundText: 'Storie nie gevind nie. Probeer asseblief later weer.'
+    errorFetchingCharactersText: " 'n Fout het voorgekom tydens die ophaal van die karakters. Probeer asseblief later weer."
+    invalidKeyText: 'Ongeldige API sleutel. Gaan asseblief jou API sleutel na en probeer weer.'
+    errorGeneratingText: " 'n Fout het voorgekom tydens die generering van die teks. Probeer asseblief later weer."

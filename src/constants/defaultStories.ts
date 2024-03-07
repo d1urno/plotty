@@ -125,5 +125,30 @@ export default [
     customInstructions: '',
     created: '2024-03-07T07:03:43.098Z',
     storyLanguage: 'French from France'
+  },
+  {
+    id: '06ded394-a717-4d66-9d6e-88ee9a18f784',
+    title: 'Ondeunde Avonture by die Citadel van Ricks',
+    mainCharacters: ['2', '3'],
+    secondaryCharacters: ['36'],
+    totalChapters: 3,
+    storyStyle: 'Narrative',
+    storyStructure: 'Simple',
+    storyMode: 'Normal',
+    storyLength: '1 minute',
+    storyGenres: ['Comedy'],
+    decisionMakers: [],
+    chapters: [
+      {
+        id: 'a236fb6a-331a-4654-982b-13e90145f509',
+        created: '2024-03-07T09:18:46.378Z',
+        title: 'Ondeunde Avonture by die Citadel van Ricks',
+        content:
+          "In 'n realiteit waar alles moontlik is en die onmoontlike 'n middagete afspraak het, vind ons Morty Smith vasgevang in 'n snaakse situasie. Verskans in die alombekende Citadel van Ricks, waar elke Rick en Morty in die multiverse kan skouers skuur, begin ons verhaal met 'n onverwagte wending.\n\nMorty, wat altyd gereed is met 'n sorgelose grap, ontdek 'n geheimsinnige toestel met 'n knoppie wat nie weerstaan kan word nie. Met elke druk van die knoppie, verander die lewe in die Citadel op mal maniere. Die eerste druk bring 'n lawine van pluizige, pratende pancakes, gevolg deur 'n sinchroniseerde dansroetine uitgevoer deur 'n bende emosionele Meeseeks.\n\nOnderwyl Morty se pret en speletjies alles in chaos dompel, is sy suster Summer Smith, op Aarde (Vervangingsdimensie), besig met haar eie avontuur. Summer voer 'n oorlog teen verveling, gewapen met net haar slimfoon en 'n onversadigbare begeerte vir likes op haar interdimensionele vlogs.\n\nDie vreemde maar tog vriendelike alien Beta-Seven, wat 'n onbestemde middelnaam dra, beland toevallig op Earth na 'n mislukte hiper-sprong. Verward, maar gehelp deur Summers onwrikbare selfvertroue, word Beta-Seven vinnig 'n Instagram-sensasie, terwyl hy allerlei memes uit sy tuiswêreld deel.\n\nIntussen sukkel Morty om die implikasies van sy onbesonne knoppiedrukke te hanteer. Die Citadel het in 'n wonderland van vreemdheid ontaard, en elke Rick werk aan sy eie mal uitvindsels om die volgende knoppiedruk voor te wees.\n\nDie storie blyk 'n lewendige les te wees in die aanvaarding van chaos met 'n glimlag. Morty leer 'n waardevolle les in selfbeheerng en die Ricks, nou verslaaf aan pannekoek met emosies, probeer om die beste stroop-resepte te vind.\n\nUiteraard is die lewe nooit vervelig met die Smiths nie en ons kan altyd 'n paar goed geoefende buikspiere verwag na 'n dag vol lag en multiversum-dwarsery. Soms is alles wat jy nodig het 'n bietjie chaos om 'n alledaagse dag in 'n absurde avontuur te verander."
+      }
+    ],
+    customInstructions: '',
+    created: '2024-03-07T09:17:57.976Z',
+    storyLanguage: 'Afrikaans from South Africa'
   }
 ] as Story[]
