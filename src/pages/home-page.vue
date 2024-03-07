@@ -2,8 +2,15 @@
 import AppLink from '@/components/AppLink.vue'
 import StoryChapter from '@/components/StoryChapter.vue'
 import defaultStories from '@/constants/defaultStories'
+import { useI18n } from 'vue-i18n'
+import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
+import { computed } from 'vue'
 
-const exampleStory = defaultStories[0]
+const { locale } = useI18n()
+
+const exampleStory = computed(() =>
+  defaultStories.find((story) => story.storyLanguage === getLanguageFromLocale(locale.value))
+)
 </script>
 
 <template>
@@ -65,6 +72,7 @@ const exampleStory = defaultStories[0]
       </section>
 
       <section
+        v-if="exampleStory"
         class="mx-auto mb-20 mt-10 flex flex-1 flex-col rounded-md py-8 md:bg-blue-50 md:px-10 md:shadow-lg"
       >
         <h2 class="mb-12 text-center text-2xl italic text-blue-500">

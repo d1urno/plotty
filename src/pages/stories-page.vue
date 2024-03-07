@@ -8,9 +8,12 @@ import StoryCard from '@/components/StoryCard.vue'
 import StoryFilters from '@/components/StoryFilters.vue'
 import StoryChapter from '@/components/StoryChapter.vue'
 import AppLink from '@/components/AppLink.vue'
+import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
+import { useI18n } from 'vue-i18n'
 
 const { showModal } = useModal()
 const { stories } = storeToRefs(useStore())
+const { locale } = useI18n()
 const lastStory = computed(() => stories.value[0])
 const filter = ref({ name: '', style: '' })
 
@@ -25,6 +28,7 @@ const { loading } = useCharacterListByIds(variables) // To load all stories char
 const filteredStories = computed(() => {
   const { name, style } = filter.value
   return stories.value.filter((s) => {
+    if (s.storyLanguage !== getLanguageFromLocale(locale.value)) return false
     if (
       name &&
       !s.title
@@ -91,7 +95,9 @@ function onDeleteStory(id: string) {
         </div>
 
         <div class="mx-auto flex flex-1 flex-col">
-          <h2 class="mb-8 text-center text-2xl italic text-blue-500">{{ $t('StoriesPage.recentStoryText') }}</h2>
+          <h2 class="mb-8 text-center text-2xl italic text-blue-500">
+            {{ $t('StoriesPage.recentStoryText') }}
+          </h2>
           <article class="prose prose-lg mx-auto max-w-3xl font-garamond prose-p:font-sans">
             <h1 class="mb-16 text-center text-blue-600">{{ lastStory.title }}</h1>
             <StoryChapter
