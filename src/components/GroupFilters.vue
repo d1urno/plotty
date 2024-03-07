@@ -55,7 +55,6 @@ function onStatusChange(event: Event) {
           { label: 'Human', value: 'Human' },
           { label: 'Alien', value: 'Alien' },
           { label: 'Humanoid', value: 'Humanoid' },
-          { label: 'Poopybutthole', value: 'Poopybutthole' },
           { label: 'Mythological Creature', value: 'Mythological Creature' },
           { label: 'Animal', value: 'Animal' },
           { label: 'Robot', value: 'Robot' },
