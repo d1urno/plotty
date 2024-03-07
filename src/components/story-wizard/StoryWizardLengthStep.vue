@@ -2,6 +2,7 @@
 import GenericCard from '@/components/GenericCard.vue'
 import { StoryLength, StoryStructure } from '@/constants/rules'
 import useStoryForm from '@/composables/useStoryForm'
+import useEnum from '@/composables/useEnum'
 
 const { formData: storyFormData } = useStoryForm()
 </script>
@@ -15,24 +16,25 @@ const { formData: storyFormData } = useStoryForm()
       "
       class="text-center text-lg font-bold text-gray-800"
     >
-      What will the reading time for each chapter be?
+      {{ $t('StoryWizardLengthStep.chapterLengthTitle') }}
     </h1>
     <h1 v-else class="text-center text-lg font-bold text-gray-800">
-      What will the reading time for the story be?
+      {{ $t('StoryWizardLengthStep.storyLengthTitle') }}
     </h1>
     <div class="mx-auto mb-12 mt-6 grid w-full max-w-xl lg:grid-cols-3">
       <GenericCard
         v-for="storyLength in StoryLength"
         :key="storyLength"
-        :item="{ id: storyLength, title: storyLength }"
+        :item="{
+          id: storyLength,
+          title: useEnum(StoryLength).toLabel(storyLength)
+        }"
         :selected="storyFormData.storyLength === storyLength"
         class="w-full"
         @click="storyFormData.storyLength = storyLength"
       />
     </div>
-    <p class="mx-auto mb-8 max-w-xl">
-      AI will use an approximate amount of words to match the reading time you set.
-    </p>
+    <p class="mx-auto mb-8 max-w-xl">{{ $t('StoryWizardLengthStep.text') }}</p>
   </div>
 </template>
 

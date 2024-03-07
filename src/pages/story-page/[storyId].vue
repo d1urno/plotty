@@ -5,16 +5,17 @@ import { computed, ref } from 'vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import CharacterSelectionList from '@/components/CharacterSelectionList.vue'
 import CharacterDetailsModal from '@/components/CharacterDetailsModal.vue'
-import { useDateFormat } from '@vueuse/core'
 import { useRoute } from 'vue-router'
 import useContinuationAi from '@/composables/useContinuationAi'
 import useModal from '@/composables/useModal'
 import ApiKeyModal from '@/components/ApiKeyModal.vue'
-import type { BaseCharacter } from '@/types/local'
+import type { BaseCharacter, Story } from '@/types/local'
 import getGenreImg from '@/functions/getGenreImg'
 import StoryChapter from '@/components/StoryChapter.vue'
 import GenericCard from '@/components/GenericCard.vue'
-import { StoryStructure } from '@/constants/rules'
+import { StoryGenre, StoryLength, StoryMode, StoryStructure, StoryStyle } from '@/constants/rules'
+import useEnum from '@/composables/useEnum'
+import useDate from '@/composables/useDate'
 
 const route = useRoute<'/story/[storyId]'>()
 const storyId = computed(() => route.params.storyId)
@@ -32,7 +33,7 @@ const { getContinuationPrompt, generateContinuation, isPromptLoading, isAiLoadin
   useContinuationAi(storyId)
 const { showModal } = useModal()
 
-const createdDate = useDateFormat(new Date(story.value?.created ?? ''), 'HH:mm, MMMM D, YYYY').value
+const { formattedDate } = useDate(story.value?.created)
 
 const apiKeyModal = ref<{ visible: boolean }>()
 const characterModal = ref<{ visible: boolean; character: BaseCharacter }>()
@@ -112,7 +113,7 @@ function onDecisionRevert(chapterIndex: number) {
         class="xl:order-0 order-1 flex h-min max-w-xl basis-1/3 flex-col gap-10 rounded-md bg-white/50 p-4 ring-2 ring-gray-500 ring-offset-4"
       >
         <div>
-          <h2 class="mb-4 text-left text-xl font-bold">Main roles</h2>
+          <h2 class="mb-4 text-left text-xl font-bold">{{ $t('StoryId.mainRolesTitle') }}</h2>
           <CharacterSelectionList
             cache-only
             :loading="loading"
@@ -125,7 +126,7 @@ function onDecisionRevert(chapterIndex: number) {
         </div>
 
         <div v-if="story.secondaryCharacters.length">
-          <h2 class="mb-4 text-left text-xl font-bold">Secondary roles</h2>
+          <h2 class="mb-4 text-left text-xl font-bold">{{ $t('StoryId.secondaryRolesTitle') }}</h2>
           <CharacterSelectionList
             cache-only
             :loading="loading"
@@ -136,11 +137,15 @@ function onDecisionRevert(chapterIndex: number) {
         </div>
 
         <div>
-          <h2 class="mb-4 text-left text-xl font-bold">Genres</h2>
+          <h2 class="mb-4 text-left text-xl font-bold">{{ $t('StoryId.genres.title') }}</h2>
           <ul class="grid list-inside grid-cols-3 text-lg">
             <li v-for="genre in story.storyGenres" :key="genre">
               <GenericCard
-                :item="{ id: genre, title: genre, img: getGenreImg(genre) }"
+                :item="{
+                  id: genre,
+                  title: useEnum(StoryGenre).toLabel(genre),
+                  img: getGenreImg(genre)
+                }"
                 class="pointer-events-none h-48"
               />
             </li>
@@ -152,28 +157,41 @@ function onDecisionRevert(chapterIndex: number) {
         <div>
           <ul class="ml-2 flex list-inside flex-wrap gap-6 text-lg">
             <li>
-              <span class="block text-xs font-semibold">Style</span>
-              <span class="pointer-events-none text-gray-500">{{ story.storyStyle }}</span>
+              <span class="block text-xs font-semibold">{{ $t('StoryId.style.title') }}</span>
+              <span class="pointer-events-none text-gray-500">
+                {{ useEnum(StoryStyle).toLabel(story.storyStyle) }}
+              </span>
             </li>
             <li>
-              <span class="block text-xs font-semibold">Structure</span>
-              <span class="pointer-events-none text-gray-500">{{ story.storyStructure }}</span>
+              <span class="block text-xs font-semibold">{{ $t('StoryId.structure.title') }}</span>
+              <span class="pointer-events-none text-gray-500">
+                {{ useEnum(StoryStructure).toLabel(story.storyStructure) }}
+              </span>
             </li>
             <li>
               <span class="block text-xs font-semibold">
-                Reading time
-                {{ story.storyStructure !== StoryStructure.SIMPLE ? 'per chapter' : '' }}
+                {{
+                  story.storyStructure !== StoryStructure.SIMPLE
+                    ? $t('StoryId.length.perChapterTitle')
+                    : $t('StoryId.length.perStoryTitle')
+                }}
               </span>
-              <span class="pointer-events-none text-gray-500">{{ story.storyLength }}</span>
+              <span class="pointer-events-none text-gray-500">
+                {{ useEnum(StoryLength).toLabel(story.storyLength) }}
+              </span>
             </li>
             <li>
-              <span class="block text-xs font-semibold">Mode</span>
-              <span class="pointer-events-none text-gray-500">{{ story.storyMode }}</span>
+              <span class="block text-xs font-semibold">{{ $t('StoryId.mode.title') }}</span>
+              <span class="pointer-events-none text-gray-500">
+                {{ useEnum(StoryMode).toLabel(story.storyMode) }}
+              </span>
             </li>
           </ul>
         </div>
 
-        <time class="mx-auto block text-xs text-gray-500">Created at {{ createdDate }}</time>
+        <time class="mx-auto block text-xs text-gray-500">
+          {{ $t('StoryId.createdAt', { date: formattedDate }) }}
+        </time>
       </div>
 
       <div class="order-0 mx-auto flex flex-col px-6 py-6 xl:order-1 xl:px-10 xl:py-16">

@@ -53,7 +53,9 @@ function onDragEnd() {
   <div ref="infiniteScrollRoot" class="scrollbar-gutter flex h-full flex-col overflow-y-auto">
     <LoadingSpinner v-if="loading" class="mx-auto pt-8" />
 
-    <div v-else-if="!filteredCharacterList?.length" class="pt-8">No results found...</div>
+    <div v-else-if="!filteredCharacterList?.length" class="pt-8">
+      {{ $t('CharacterCardList.noResultsText') }}
+    </div>
 
     <div v-else class="relative pb-[80px]">
       <Container

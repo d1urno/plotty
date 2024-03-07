@@ -3,10 +3,13 @@ import { onClickOutside, useSwipe, useFocus } from '@vueuse/core'
 import { ref, watch } from 'vue'
 import AppHamburger from '@/components/AppHamburger.vue'
 import AppLink from '@/components/AppLink.vue'
+import useNavLinks from '@/composables/useNavLinks'
+import AppLocaleSwitcher from '@/components/AppLocaleSwitcher.vue'
 
 const isOpen = ref(false)
 const root = ref<HTMLElement | null>(null)
 const { focused } = useFocus(root)
+const navLinks = useNavLinks()
 
 function afterEnter() {
   focused.value = true
@@ -62,39 +65,19 @@ watch(direction, (value) => {
       class="absolute inset-x-0 top-24 z-20 mx-auto mt-3 w-full max-w-xs rounded-md bg-white p-2"
     >
       <div class="overscroll-contain rounded-md p-3">
-        <!--        <div class="flex justify-end gap-5">-->
-        <!--          <AppThemeSwitcher />-->
-        <!--          <AppLocaleSwitcher />-->
-        <!--        </div>-->
-        <ul class="space-y-3 py-8 text-center text-lg font-medium dark:text-gray-200">
-          <li>
+        <div class="flex justify-end gap-5">
+          <!--          <AppThemeSwitcher />-->
+          <AppLocaleSwitcher />
+        </div>
+        <ul class="space-y-3 py-8 text-center text-lg font-medium">
+          <li v-for="link in navLinks" :key="link.value">
             <AppLink
-              to="/"
+              :to="link.value"
               class="rounded-md px-2 py-1 transition-colors ease-out"
               active-class="bg-blue-600 text-white"
               @click="onClose"
             >
-              Home
-            </AppLink>
-          </li>
-          <li>
-            <AppLink
-              to="/stories"
-              class="rounded-md px-2 py-1 transition-colors ease-out"
-              active-class="bg-blue-600 text-white"
-              @click="onClose"
-            >
-              Stories
-            </AppLink>
-          </li>
-          <li>
-            <AppLink
-              to="/new"
-              class="rounded-md px-2 py-1 transition-colors ease-out"
-              active-class="bg-blue-600 text-white"
-              @click="onClose"
-            >
-              New story
+              {{ link.label }}
             </AppLink>
           </li>
         </ul>

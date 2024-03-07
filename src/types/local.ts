@@ -5,7 +5,8 @@ import type {
   StoryGenre,
   StoryLength,
   StoryMode,
-  StoryStructure
+  StoryStructure,
+  StoryLanguage
 } from '@/constants/rules'
 
 export type AppModule = (context: { app: App; routes: RouteRecordRaw[]; baseUrl: string }) => void
@@ -27,6 +28,7 @@ export interface GetStoryPromptOptions {
   storyLength: StoryLength
   storyStructure: StoryStructure
   storyGenres: StoryGenre[]
+  storyLanguage: StoryLanguage
 }
 
 export interface GetContinuationPromptOptions {
@@ -67,10 +69,14 @@ export interface Story {
   storyMode: StoryMode
   storyLength: StoryLength
   storyGenres: StoryGenre[]
+  storyLanguage: StoryLanguage
   customInstructions: string
 }
 
-export type StoryFormData = Omit<Story, 'created' | 'updated' | 'title' | '__typename'>
+export type StoryFormData = Omit<
+  Story,
+  'created' | 'updated' | 'title' | 'storyLanguage' | '__typename'
+>
 
 export interface CustomCharacter extends Record<string, string | undefined> {
   id: string

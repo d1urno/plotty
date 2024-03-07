@@ -34,7 +34,7 @@ function onDone(close: () => void) {
     max-width-class="max-w-xl"
     @close="model = undefined"
   >
-    <template #title>Crop the image</template>
+    <template #title>{{ $t('CropperModal.title') }}</template>
     <div class="flex h-full flex-col items-center justify-center">
       <Cropper
         ref="cropperRef"
@@ -56,14 +56,14 @@ function onDone(close: () => void) {
           class="rounded-md bg-gray-200 px-10 py-2 font-bold text-gray-400"
           @click="close"
         >
-          Cancel
+          {{ $t('CropperModal.buttons.cancel') }}
         </button>
         <button
           type="button"
           class="rounded-md bg-blue-500 px-10 py-2 font-bold text-white"
           @click="onDone(close)"
         >
-          Done
+          {{ $t('CropperModal.buttons.done') }}
         </button>
       </div>
     </template>

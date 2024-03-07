@@ -7,10 +7,13 @@ import LinkTabs from '@/components/LinkTabs.vue'
 import Pattern from '@/assets/bg-pattern.svg'
 import AppLink from '@/components/AppLink.vue'
 import useCharacterList from '@/composables/useCharacterList'
+import useNavLinks from '@/composables/useNavLinks'
+import AppLocaleSwitcher from '@/components/AppLocaleSwitcher.vue'
 
 const router = useRouter()
 const breakpoints = useBreakpoints({ lg: 992 })
 const lgAndLarger = breakpoints.greaterOrEqual('lg')
+const navLinks = useNavLinks()
 
 useCharacterList(undefined, undefined, { isReady: router.currentRoute.value.path !== '/new' }) // To preload the characters
 
@@ -23,7 +26,7 @@ router.afterEach((to, from) => {
 
 <template>
   <div class="flex h-screen flex-col">
-    <nav class="relative flex-none bg-white shadow-md z-10">
+    <nav class="relative z-10 flex-none bg-white shadow-md">
       <div class="mx-auto px-4 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
           <div class="flex flex-1 items-center justify-between lg:items-stretch lg:justify-start">
@@ -36,23 +39,21 @@ router.afterEach((to, from) => {
               </span>
             </AppLink>
 
-            <div v-if="lgAndLarger" class="ml-10 flex items-center align-middle">
-              <LinkTabs
-                :options="[
-                  { label: 'Home', value: '/', bgColorClass: 'bg-blue-600/80' },
-                  { label: 'Stories', value: '/stories', bgColorClass: 'bg-teal-500/80' },
-                  { label: 'New story', value: '/new', bgColorClass: 'bg-orange-500' }
-                ]"
-                class="w-80"
-              />
+            <div
+              v-if="lgAndLarger"
+              class="ml-10 flex w-full items-center justify-between align-middle"
+            >
+              <LinkTabs :options="navLinks" class="w-[28rem]" />
+
+              <AppLocaleSwitcher />
             </div>
 
-            <div v-else class="flex items-center gap-6">
+            <div v-else class="ml-6 flex items-center gap-6">
               <AppLink
                 to="/new"
-                class="rounded-md bg-blue-500/80 px-2 py-1 font-semibold text-white ring-2 ring-blue-600 transition-colors ease-out"
+                class="block rounded-md bg-blue-500/80 px-2 py-1 text-center text-xs font-semibold text-white ring-2 ring-blue-600 transition-colors ease-out"
               >
-                New story
+                {{ $t('layout.default.nav.new') }}
               </AppLink>
               <AppMobileMenu />
             </div>

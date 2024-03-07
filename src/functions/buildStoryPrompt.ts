@@ -54,6 +54,11 @@ export default function buildStoryPrompt(options: GetStoryPromptOptions) {
     options.specialInstructions
   )
 
+  const languageBlock = getBlock(
+    'Given this required language for the story',
+    options.storyLanguage
+  )
+
   const structureBlock = getBlock(
     'Given this typescript definition we need as response',
     `
@@ -99,6 +104,7 @@ ${mainCharactersBlock}
 ${secondaryCharactersBlock}
 ${decisionMakersCharactersBlock}
 ${userInstructionsBlock}
+${languageBlock}
 ${structureBlock}
 ${instructionsBlock}`
 }

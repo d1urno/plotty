@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import CharacterThumb from '@/components/CharacterThumb.vue'
-import { useTimeAgo } from '@vueuse/core'
 import { computed } from 'vue'
 import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import type { Story } from '@/types/local'
+import useDate from '@/composables/useDate'
 
 const props = defineProps<{
   story: Story
@@ -19,7 +19,7 @@ const variables = computed(() => ({
   ids: [...props.story.mainCharacters, ...props.story.secondaryCharacters]
 }))
 const { characterList } = useCharacterListByIds(variables, true)
-const timeAgo = useTimeAgo(new Date(props.story.created)).value
+const { timeAgo } = useDate(props.story.created)
 </script>
 
 <template>
@@ -44,7 +44,7 @@ const timeAgo = useTimeAgo(new Date(props.story.created)).value
         @click.prevent="$emit('delete', story.id)"
         @mousedown.prevent
       >
-        Delete
+        {{ $t('StoryCard.buttons.delete') }}
       </button>
     </div>
   </div>

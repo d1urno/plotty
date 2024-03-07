@@ -37,7 +37,7 @@ function onStatusChange(event: Event) {
         mini
         :model-value="filterURLModel.gender"
         :options="[
-          { label: 'All genders', value: '' },
+          { label: $t('CustomGroupFilters.selectText', { title: 'gender' }), value: '' },
           { label: 'Male', value: 'Male' },
           { label: 'Female', value: 'Female' },
           { label: 'Unknown', value: 'unknown' },
@@ -51,7 +51,7 @@ function onStatusChange(event: Event) {
         mini
         :model-value="filterURLModel.species"
         :options="[
-          { label: 'All Species', value: '' },
+          { label: $t('CustomGroupFilters.selectText', { title: 'species' }), value: '' },
           { label: 'Human', value: 'Human' },
           { label: 'Alien', value: 'Alien' },
           { label: 'Humanoid', value: 'Humanoid' },
@@ -70,7 +70,7 @@ function onStatusChange(event: Event) {
         mini
         :model-value="filterURLModel.status"
         :options="[
-          { label: 'All status', value: '' },
+          { label: $t('CustomGroupFilters.selectText', { title: 'status' }), value: '' },
           { label: 'Alive', value: 'Alive' },
           { label: 'Dead', value: 'Dead' },
           { label: 'Unknown', value: 'unknown' }

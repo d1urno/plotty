@@ -9,6 +9,7 @@ import CharacterThumb from '@/components/CharacterThumb.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import useModal from '@/composables/useModal'
 import AppLink from '@/components/AppLink.vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   storyId: string
@@ -26,9 +27,10 @@ const emit = defineEmits<{
 }>()
 
 const { stories } = storeToRefs(useStore())
+const { t } = useI18n()
 const { showModal } = useModal()
 
-const customContinuation = ref<string>('Suddenly a dragon appeared...')
+const customContinuation = ref<string>(t('StoryChapter.customContinuationText'))
 
 const story = computed(() => stories.value.find((s) => s.id === props.storyId))
 
@@ -40,7 +42,7 @@ const nextDecidingCharacter = computed(() => {
 
 const nextDecidingCharacterName = computed(() => {
   const lastChapter = story.value?.chapters[story.value.chapters.length - 1]
-  if (!lastChapter) return 'Someone'
+  if (!lastChapter) return t('StoryChapter.someoneText')
   return lastChapter.decidingCharacterName
 })
 
@@ -48,15 +50,15 @@ const makesDecisionText = computed(() => {
   if (!story.value) return ''
   return story.value.storyStructure !== StoryStructure.OPEN_ENDING &&
     story.value.chapters.length + 1 === story.value.totalChapters
-    ? `...${nextDecidingCharacterName.value} makes a last decision`
-    : `...${nextDecidingCharacterName.value} makes a decision to continue`
+    ? t('StoryChapter.makesLastDecisionText', { name: nextDecidingCharacterName.value })
+    : t('StoryChapter.makesDecisionText', { name: nextDecidingCharacterName.value })
 })
 
 const chooseNextText = computed(() => {
   if (!story.value) return ''
   return story.value.chapters.length + 1 === story.value.totalChapters
-    ? '...choose an ending'
-    : '...choose a continuation twist'
+    ? t('StoryChapter.chooseEndingText')
+    : t('StoryChapter.chooseContinuationText')
 })
 
 const seesNextBoxes = computed(() => {
@@ -88,8 +90,8 @@ const showToBeContinued = computed(() => {
 
 function getChosenChoiceTitleText() {
   return props.chapter.decidingCharacterName
-    ? `${props.chapter.decidingCharacterName} has chosen`
-    : 'You have chosen'
+    ? t('StoryChapter.hasChosenText', { name: props.chapter.decidingCharacterName })
+    : t('StoryChapter.youChosenText', { name: props.chapter.decidingCharacterName })
 }
 
 function onDecisionRevert() {
@@ -106,11 +108,11 @@ function onCharacterThumbClick(character: BaseCharacter) {
 
 function onWriteCustomContinuation() {
   showModal({
-    title: 'Write your own continuation',
+    title: t('StoryChapter.modals.writeOwnContinuation.title'),
     input: customContinuation.value,
     buttons: [
       {
-        label: 'Submit',
+        label: t('StoryChapter.modals.writeOwnContinuation.buttons.submit'),
         type: 'success',
         callbackOrLink: async (close, output) => {
           if (!output) return
@@ -126,14 +128,14 @@ function onWriteCustomContinuation() {
 <template>
   <section v-if="story">
     <h2 v-if="story.storyStructure !== StoryStructure.SIMPLE">
-      Chapter {{ index }}: {{ chapter.title }}
+      {{ $t('StoryChapter.title', { index, title: chapter.title }) }}
     </h2>
 
     <VueMarkdown :source="chapter.content" />
 
     <h2 v-if="showToBeContinued" class="mt-10 text-center font-garamond text-3xl font-bold">
       <AppLink :to="`/story/${story.id}`" class="font-semibold text-blue-500">
-        To be continued...
+        {{ $t('StoryChapter.continuedText') }}
       </AppLink>
     </h2>
 
@@ -155,7 +157,7 @@ function onWriteCustomContinuation() {
         type="button"
         @click="onDecisionRevert"
       >
-        Revert this decision...
+        {{ $t('StoryChapter.revertText') }}
       </button>
     </div>
 
@@ -194,7 +196,7 @@ function onWriteCustomContinuation() {
           :disabled="isLoading"
           @click="onWriteCustomContinuation"
         >
-          Write your own!
+          {{ $t('StoryChapter.buttons.customLabel') }}
         </button>
         <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center">
           <LoadingSpinner />
@@ -202,7 +204,9 @@ function onWriteCustomContinuation() {
       </div>
     </div>
 
-    <h2 v-else class="mt-10 text-center font-garamond text-3xl font-bold">The end</h2>
+    <h2 v-else class="mt-10 text-center font-garamond text-3xl font-bold">
+      {{ $t('StoryChapter.endText') }}
+    </h2>
   </section>
 </template>
 

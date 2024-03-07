@@ -39,7 +39,7 @@ onBeforeUnmount(() => {
     max-width-class="max-w-2xl"
     @close="model = undefined"
   >
-    <template #title>Create a new character group</template>
+    <template #title>{{ $t('CharacterGroupFormModal.title') }}</template>
 
     <div>
       <div class="mb-4 flex flex-col gap-4">
@@ -47,32 +47,31 @@ onBeforeUnmount(() => {
           <div class="flex w-full flex-col gap-4">
             <TextInput
               v-model="characterGroupFormData.title"
-              label="Group title"
+              :label="$t('CharacterGroupFormModal.inputs.title.label')"
               autocomplete="off"
               class="flex-1"
             />
             <TextInput
               v-model="characterGroupFormData.description"
-              label="Description"
+              :label="$t('CharacterGroupFormModal.inputs.description.label')"
               type="textarea"
-              placeholder="This group is about..."
+              :placeholder="$t('CharacterGroupFormModal.inputs.description.placeholder')"
               rows="3"
             />
           </div>
         </div>
         <div class="mx-8 flex items-center justify-center gap-8">
           <hr class="flex-1" />
-          Group attributes
+          {{ $t('CharacterGroupFormModal.groupAttributes.title') }}
           <hr class="flex-1" />
         </div>
         <div class="grid grid-cols-3 gap-4 rounded-md bg-green-200/30 p-4">
           <p class="col-span-3 text-xs text-green-500">
-            Add attributes for the character on this group that are relevant to know as context for
-            your stories, like
-            <span class="font-bold">Origin</span>, <span class="font-bold">Species</span> or
-            <span class="font-bold">Hobby</span>. These attributes are going to be required when
-            adding characters to this group. You will be able to search and filter the group by
-            these attributes later.
+            {{ $t('CharacterGroupFormModal.groupAttributes.text1') }}
+            <span class="font-bold">{{ $t('CharacterGroupFormModal.groupAttributes.text2') }}</span>
+            {{ $t('CharacterGroupFormModal.groupAttributes.text3') }}
+            <span class="font-bold">{{ $t('CharacterGroupFormModal.groupAttributes.text4') }}</span
+            >{{ $t('CharacterGroupFormModal.groupAttributes.text5') }}
           </p>
           <div class="col-span-3">
             <button
@@ -82,7 +81,7 @@ onBeforeUnmount(() => {
               @click="characterGroupFormData.fields = [...characterGroupFormData.fields, '']"
             >
               <PlusCircleIcon class="h-5 w-5" />
-              Add attribute
+              {{ $t('CharacterGroupFormModal.groupAttributes.buttons.addAttribute') }}
             </button>
           </div>
           <div
@@ -92,7 +91,7 @@ onBeforeUnmount(() => {
           >
             <TextInput
               :model-value="row"
-              label="Attribute"
+              :label="$t('CharacterGroupFormModal.groupAttributes.inputs.attribute.label')"
               class="w-full"
               @update:model-value="onUpdateKey($event, i)"
             />
@@ -119,7 +118,7 @@ onBeforeUnmount(() => {
           class="rounded-md bg-gray-200 px-10 py-2 font-bold text-gray-400"
           @click="close"
         >
-          Cancel
+          {{ $t('CharacterGroupFormModal.groupAttributes.buttons.cancel') }}
         </button>
         <button
           type="button"
@@ -127,7 +126,7 @@ onBeforeUnmount(() => {
           :disabled="!characterGroupFormData.title"
           @click="onSaveNewCharacterGroup(close)"
         >
-          Done
+          {{ $t('CharacterGroupFormModal.groupAttributes.buttons.done') }}
         </button>
       </div>
     </template>

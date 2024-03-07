@@ -80,7 +80,7 @@ function onSearchToggle() {
   <div class="flex flex-col gap-2">
     <div class="flex items-center gap-4">
       <DropdownInput
-        label="Character group"
+        :label="$t('GroupActionsBar.characterGroup.label')"
         :show-label="false"
         :model-value="selectedCharacterGroup.selectedGroupId"
         :options="customCharacterGroupOptions"
@@ -99,8 +99,8 @@ function onSearchToggle() {
       :show-label="false"
       focus
       autocomplete="off"
-      label="Character search"
-      placeholder="Search for a character"
+      :label="$t('GroupActionsBar.characterSearch.label')"
+      :placeholder="$t('GroupActionsBar.characterSearch.placeholder')"
       :debounce="300"
     />
 
@@ -111,7 +111,7 @@ function onSearchToggle() {
         @click="onCreateNewCharacter"
       >
         <PlusCircleIcon class="h-4 w-4" />
-        New character
+        {{ $t('GroupActionsBar.newCharacter') }}
       </button>
 
       <button
@@ -120,7 +120,7 @@ function onSearchToggle() {
         @click="onCreateNewCharacterGroup"
       >
         <PlusCircleIcon class="h-4 w-4" />
-        New group
+        {{ $t('GroupActionsBar.newGroup') }}
       </button>
 
       <div>

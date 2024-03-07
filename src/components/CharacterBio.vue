@@ -68,10 +68,10 @@ function onInvalidFileDrop(message: string) {
             v-if="editable"
             v-model="imageModel"
             crop
-            label="Upload image"
+            :label="$t('CharacterBio.inputs.uploadImage.label')"
             shape="circle"
-            @invalid-image="onInvalidFileDrop('Invalid image format')"
-            @invalid-size="onInvalidFileDrop('The image size is too big')"
+            @invalid-image="onInvalidFileDrop($t('CharacterBio.validations.image.invalidFormat'))"
+            @invalid-size="onInvalidFileDrop($t('CharacterBio.validations.image.invalidSize'))"
           />
           <template v-else>
             <img

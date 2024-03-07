@@ -1,0 +1,334 @@
+enums:
+  languages:
+    es: 'Español'
+    pt: 'Português'
+    fr: 'Français'
+    de: 'Deutsch'
+    af: 'Afrikaans'
+  StoryStructure:
+    SIMPLE: 'Simple'
+    MULTI_CHAPTER: 'Multi chapter'
+    OPEN_ENDING: 'Open ending'
+  StoryLength:
+    SHORT: '1 min'
+    MEDIUM: '3 min'
+    LONG: '5 min'
+  StoryStyle:
+    all: 'All styles'
+    NARRATIVE: 'Narrative'
+    SCRIPT: 'Script'
+  StoryMode:
+    NORMAL: 'Normal'
+    DECISION_MAKING: 'Decision Making'
+  StoryGenre:
+    FANTASY: 'Fantasy'
+    SCI_FI: 'Sci-Fi'
+    ROMANCE: 'Romance'
+    MYSTERY: 'Mystery'
+    HISTORICAL: 'Historical'
+    FUTURISTIC: 'Futuristic'
+    COMEDY: 'Comedy'
+    ACTION: 'Action'
+    ADVENTURE: 'Adventure'
+    DRAMA: 'Drama'
+    AI: 'AI decide'
+layout:
+  default:
+    nav:
+      home: 'Home'
+      stories: 'Stories'
+      new: 'New story'
+home:
+  header:
+    title: 'Write, publish and share your stories with the world'
+    subtitle: 'Plotty is a simple, easy to use, AI text creation tool. It is designed to help you create beautiful texts based on character selections and customizations in a matter of minutes. It is perfect to create stunning content to share with your friends and family'
+    cta: 'Start writing'
+  features:
+    title: 'Features'
+    items:
+      1:
+        title: 'Simple and easy to use'
+        description: 'Designed to be simple and easy to use. You can create beautiful texts in a matter of seconds'
+      2:
+        title: 'AI powered'
+        description: 'Uses AI to create beautiful texts based on character selections and customizations'
+      3:
+        title: 'Customizable'
+        description: 'You can customize your characters and the text to create the perfect story'
+  howItWorks:
+    title: 'How it works'
+    text: 'You can start by creating a new story and selecting the characters you want to include as main or secondary roles. Then you can select between text modes like script, story or article. Once you are done, click on "generate story" and you will be able to read your story.'
+  exampleStory:
+    title: 'Example story...'
+  getStarted:
+    title: 'Get started'
+    text: 'Ready to get started? Create a story and share it with your friends and family.'
+    cta: 'Create a story'
+GroupActionsBar:
+  characterSearch:
+    label: 'Character search'
+    placeholder: 'Search for a character'
+  characterGroup:
+    label: 'Character group'
+  newCharacter: 'New character'
+  newGroup: 'New group'
+StoryForm:
+  modals:
+    settingsWelcome:
+      title: 'Welcome to Plotty! 🥳'
+      content: 'Your character selection looks great. Now, we will help you set up your story for the first time...'
+      buttons:
+        ok: Ok
+  mainRoles:
+    label: 'Main roles'
+  secondaryRoles:
+    label: 'Secondary roles'
+StoryFormStickyButtons:
+  cta: 'Generate {style}'
+  loadingCta: 'Generating {style}...'
+  story: 'story'
+  script: 'script'
+CharacterSelectionList:
+  placeholder: 'Drag and drop characters here...'
+CharacterDetailsModal:
+  title: 'Character details'
+  buttons:
+    close: 'Close'
+    secondaryRoles:
+      add: 'Add to secondary roles'
+      full: 'Secondary roles are full'
+    mainRoles:
+      add: 'Add to main roles'
+      full: 'Main roles are full'
+StorySettingsModal:
+  title: 'Story settings'
+  buttons:
+    wizard: 'Use story wizard'
+    close: Close
+    cta: 'Generate story'
+  inputs:
+    structure:
+      label: 'Structure'
+    length:
+      perChapterLabel: 'Reading time per chapter'
+      label: 'Reading time'
+    chapters:
+      label: Chapters
+    style:
+      label: Style
+    genres:
+      label: Genres
+    mode:
+      label: 'Decision Making Mode'
+    customInstructions:
+      label: 'Special instructions'
+      placeholder: 'Special instructions for the AI, e.g. tone, extra characters, situations to cover, etc.'
+    apiKey:
+      label: 'API Key'
+      placeholder: 'Enter key'
+      extendedLabel:
+        text1: 'OpenAI API key, get one'
+        text2: 'here'
+StoryWizardModal:
+  buttons:
+    exit: Exit
+    prev: Prev
+    next: Next
+    generateStory: 'Generate story'
+StoryWizardGenresStep:
+  title: 'Which of these genres describe your story?'
+StoryWizardChaptersStep:
+  title: 'How many chapters will your story have?'
+  inputs:
+    chapters:
+      label: Chapters
+  text: 'When generating each chapter, AI will consider the total amount of chapters your story is divided in, and will generate the text based on this length.'
+StoryWizardCharacterStep:
+  title: 'Who of the main characters will need to take the decisions?'
+  text: 'The characters you select here will be the ones that will need to take a decision at the end of each chapter.'
+StoryWizardLengthStep:
+  chapterLengthTitle: 'What will the reading time for each chapter be?'
+  storyLengthTitle: 'What will the reading time for the story be?'
+  text: 'AI will use an approximate amount of words to match the reading time you set.'
+StoryWizardModeStep:
+  title: 'Do you want to use Decision Making Mode?'
+  text1: 'By enabling Decision Making Mode, AI will indicate three possible actions at the end of each chapter for you to take on behalf of the main characters to continue the story.'
+  text2: 'Unexpected twists may arise from your decisions, until the end of the story!'
+StoryWizardSpecialInstructionsStep:
+  title: 'Would you like to add any final indications?'
+  inputs:
+    specialInstructions:
+      label: 'Special instructions'
+      placeholder: 'Include in the story a magic tree in the middle of a forest. The story teaches a lesson about the importance of preserving the environment.'
+  text: 'If you have any special instructions for the AI, you can add them here. For example, you can specify the tone, extra characters, situations to cover, etc.'
+StoryWizardStructureStep:
+  title: 'Choose a text structure for the story'
+  simpleStructureText: 'A single chapter story, AI will generate the whole story at once.'
+  multiChapterStructureText: 'Specify a fixed number of chapters for your story, AI will generate the first chapter and suggest three distinct ideas to continue generating the next chapter until your story ends.'
+  openEndingStructureText: 'AI will generate the first chapter, and suggest three ideas to continue generating the next chapter until you decide when to end the story.'
+StoryWizardStyleStep:
+  title: 'What style would you like your story to be written in?'
+  narrativeStyleText: 'AI will generate a story in a narrative style, with a focus on the plot and characters.'
+  scriptStyleText: 'AI will generate a story in a script format, with a focus on the dialogues and actions.'
+StoriesPage:
+  emptyText: "You don''t have any stories yet..."
+  emptyCta: 'Create a new story'
+  noResultsText: 'No results found...'
+  recentStoryText: 'Most recent story...'
+StoryCard:
+  buttons:
+    delete: Delete
+StoryFilters:
+  inputs:
+    search:
+      label: 'Story search'
+      placeholder: 'Search for a story'
+    style:
+      label: 'Story type'
+CustomGroupFilters:
+  selectText: 'Select {title}'
+CharacterFormModal:
+  CreateTitle: 'Create a new character'
+  EditTitle: 'Edit character'
+  inputs:
+    name:
+      label: Name
+    group:
+      label: Group
+  characterAttributes:
+    title: 'Character attributes'
+    customText1: 'Add attributes or characteristics of your character that are relevant to know as context for your stories, like'
+    customText2: 'Origin: Planet Earth'
+    customText3: 'Species: Human'
+    customText4: 'Hobby: Likes to read'
+    groupText1: 'Complete the attributes required for'
+    groupText2: 'group, these will be relevant to know as context for your stories, and to filter your characters'
+    emptyText1: 'There are no special attributes required for'
+    emptyText2: group
+    inputs:
+      attribute:
+        label: Attribute
+    buttons:
+      addRow: 'Add row'
+      cancel: Cancel
+      done: Done
+CharacterGroupFormModal:
+  inputs:
+    title:
+      label: 'Title'
+    description:
+      label: Description
+      placeholder: 'This group is about...'
+  title: 'Create a new character group'
+  groupAttributes:
+    title: 'Group attributes'
+    text1: 'Add attributes for the character on this group that are relevant to know as context for your stories, like'
+    text2: 'Origin, Species'
+    text3: or
+    text4: Hobby
+    text5: '. These attributes are going to be required when adding characters to this group. You will be able to search and filter the group by these attributes later.'
+    buttons:
+      addAttribute: 'Add attribute'
+      cancel: Cancel
+      done: Done
+    inputs:
+      attribute:
+        label: Attribute
+CharacterBio:
+  inputs:
+    uploadImage:
+      label: 'Upload image'
+  validations:
+    image:
+      invalidFormat: 'Invalid image format'
+      invalidSize: 'The image size is too big'
+StoryChapter:
+  title: 'Chapter {index}: {title}'
+  continuedText: 'To be continued...'
+  customContinuationText: 'Suddenly a dragon appeared...'
+  someoneText: 'Someone'
+  makesLastDecisionText: '{name} makes the last decision...'
+  makesDecisionText: '{name} makes a decision to continue...'
+  chooseEndingText: 'Choose an ending...'
+  chooseContinuationText: 'Choose a continuation twist...'
+  hasChosenText: '{name} has chosen...'
+  youChosenText: 'You have chosen...'
+  revertText: 'Revert this decision...'
+  buttons:
+    customLabel: 'Write your own!'
+  endText: 'The end'
+  modals:
+    writeOwnContinuation:
+      title: 'Write your own continuation'
+      buttons:
+        submit: 'Submit'
+StoryId:
+  mainRolesTitle: 'Main roles'
+  secondaryRolesTitle: 'Secondary roles'
+  genres:
+    title: Genres
+  style:
+    title: Style
+  structure:
+    title: Structure
+  length:
+    perChapterTitle: 'Reading time per chapter'
+    perStoryTitle: 'Reading time'
+  mode:
+    title: Mode
+  createdAt: 'Created {date}'
+AppModal:
+  buttons:
+    close: Close
+ApiKeyModal:
+  title: 'API key not found'
+  text1: 'An OpenAI API key is required to generate stories.'
+  text2: 'Please enter a valid key, we will only store it in your browser for now.'
+  text3: 'You can create an API key from your'
+  text4: 'OpenAI account'
+  inputs:
+    apiKey:
+      label: 'OpenAI API key'
+      placeholder: 'Enter key'
+  buttons:
+    ok: Ok
+WhoDecidesModal:
+  buttons:
+    done: Done
+CharacterActions:
+  buttons:
+    remove: Remove
+    edit: Edit
+CharacterCardList:
+  noResultsText: 'No results found...'
+CharacterCardListHorizontal:
+  noResultsText: 'No results found...'
+CropperModal:
+  title: 'Crop the image'
+  buttons:
+    cancel: Cancel
+    done: Done
+useAi:
+  generatingText: 'Generating a story, please do not close or refresh the page...'
+  generatingContinuationText: 'Generating a story continuation, please do not close or refresh the page...'
+  ready:
+    title: 'Your new story is ready! 🥳'
+    content: 'The story {title} has been generated successfully, you can find it in the stories list.'
+    buttons:
+      readNow: 'Read it now!'
+  continuationReady:
+    title: 'Continuation ready!'
+    content: 'The continuation for {title} is ready'
+    buttons:
+      readNow: 'Read it now!'
+  buttons:
+    cancel:
+      label: Cancel
+      title: 'Are you sure?'
+      content: 'If you cancel now, the text will not be generated.'
+      confirm: 'Yes, cancel'
+  errors:
+    storyNotFoundText: 'Story not found. Please try again later.'
+    errorFetchingCharactersText: 'An error occurred while fetching the characters. Please try again later.'
+    invalidKeyText: 'Invalid API key. Please check your API key and try again.'
+    errorGeneratingText: 'An error occurred while generating the text. Please try again later.'

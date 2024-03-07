@@ -2,6 +2,7 @@
 import { StoryStyle } from '@/constants/rules'
 import { computed } from 'vue'
 import CogIcon from '@/components/icons/CogIcon.vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   disabled: boolean
@@ -15,10 +16,17 @@ const emit = defineEmits<{
   generateStory: [void]
 }>()
 
-const generateButtonLabel = computed(
-  () =>
-    `Generate ${{ [StoryStyle.NARRATIVE]: 'story', [StoryStyle.SCRIPT]: 'script' }[props.storyStyle]}`
-)
+const { t } = useI18n()
+
+const generateButtonLabel = computed(() => {
+  const style = {
+    [StoryStyle.NARRATIVE]: t('StoryFormStickyButtons.story'),
+    [StoryStyle.SCRIPT]: t('StoryFormStickyButtons.script')
+  }[props.storyStyle]
+  return props.isAiLoading
+    ? t('StoryFormStickyButtons.loadingCta', { style })
+    : t('StoryFormStickyButtons.cta', { style })
+})
 
 function onOpenSettings() {
   emit('openSettings')
@@ -49,7 +57,7 @@ function onGenerateStory() {
           <CogIcon class="transition-transform group-hover:scale-125" />
         </button>
         <span class="block h-12 w-[2px] bg-white"></span>
-        <span>{{ isAiLoading ? 'Generating...' : generateButtonLabel }}</span>
+        <span>{{ generateButtonLabel }}</span>
       </button>
     </div>
   </div>

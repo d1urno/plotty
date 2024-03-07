@@ -12,10 +12,12 @@ import useStoryFormActions from '@/composables/useStoryFormActions'
 import useStoryAi from '@/composables/useStoryAi'
 import useModal from '@/composables/useModal'
 import useStoryForm from '@/composables/useStoryForm'
+import { useI18n } from 'vue-i18n'
 
 const { isFirstTimeSettings, apiKey } = storeToRefs(useStore())
 const { onRoleDrop, onRoleRemove } = useStoryFormActions()
 const { getStoryPrompt, generateStory, isPromptLoading, isAiLoading } = useStoryAi()
+const { t } = useI18n()
 const { showModal } = useModal()
 const { formData: storyFormData } = useStoryForm()
 
@@ -38,12 +40,12 @@ function openWizard() {
 function openFirstTimeModal() {
   isFirstTimeSettings.value = false
   showModal({
-    title: `<p class="text-blue-500">Welcome to Plotty! 🥳</p>`,
-    content: `<p class="font-semibold text-gray-800 text-lg">Your character selection looks great. Now, let's set up your story settings for the very first time...</p>`,
+    title: `<p class="text-blue-500">${t('StoryForm.modals.settingsWelcome.title')}</p>`,
+    content: `<p class="font-semibold text-gray-800 text-lg">${t('StoryForm.modals.settingsWelcome.content')}</p>`,
     maxWidthClass: 'max-w-xl',
     buttons: [
       {
-        label: 'Ok',
+        label: t('StoryForm.modals.settingsWelcome.buttons.ok'),
         type: 'success',
         callbackOrLink: (close) => {
           close()
@@ -106,7 +108,7 @@ async function onGenerateStory() {
   <div class="flex flex-col gap-4 lg:gap-10 lg:overflow-y-auto">
     <div class="grid h-full grid-cols-2 gap-4 lg:h-auto lg:grid-cols-1 lg:flex-col lg:gap-10">
       <CharacterSelectionList
-        label="Main roles"
+        :label="$t('StoryForm.mainRoles.label')"
         selection-name="main-characters"
         cache-only
         :loading="loading"
@@ -118,7 +120,7 @@ async function onGenerateStory() {
       />
 
       <CharacterSelectionList
-        label="Secondary roles"
+        :label="$t('StoryForm.secondaryRoles.label')"
         selection-name="secondary-characters"
         cache-only
         :loading="loading"

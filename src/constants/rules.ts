@@ -55,6 +55,27 @@ export enum StoryGenre {
   AI = 'Let AI decide'
 }
 
+export enum StoryLanguage {
+  ENGLISH = 'English from United States',
+  SPANISH = 'Spanish from Argentina',
+  FRENCH = 'French from France',
+  GERMAN = 'German from Germany',
+  PORTUGUESE = 'Portuguese from Brazil',
+  AFRIKAANS = 'Afrikaans from South Africa'
+}
+
+// To have access to the translation keys in useEnum composable
+export const ENUMS: Record<string, unknown> = {
+  StoryStyle,
+  StoryMode,
+  StoryStructure,
+  StoryLength,
+  StoryGenre,
+  StoryLanguage
+}
+
+export const ENUMS_TRANSLATION_KEY = 'enums'
+
 export enum PresetCharacterGroups {
   RICK_AND_MORTY = 'Rick and Morty'
 }

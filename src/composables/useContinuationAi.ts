@@ -11,11 +11,13 @@ import useCharacterItemsByIds from '@/composables/useCharacterItemsByIds'
 import buildContinuationPrompt from '@/functions/buildContinuationPrompt'
 import type { GetCharacterItemsByIdsQueryVariables } from '@/types/generated'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 function useContinuationAi(storyId?: Ref<string | undefined>) {
   const { stories, isPromptLoading, isAiLoading, apiKey } = storeToRefs(useStore())
   const { showModal } = useModal()
   const { showToast, hideToast } = useToast()
+  const { t } = useI18n()
   const route = useRoute()
 
   const story = computed(() => stories.value.find((s) => s.id === storyId?.value))
@@ -31,7 +33,7 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
     try {
       if (!story.value) {
         showToast({
-          content: 'Story not found. Please try again later.',
+          content: t('useAi.errors.storyNotFoundText'),
           type: 'error',
           duration: 5000,
           closable: true
@@ -42,7 +44,7 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
       const characters = await fetchOrRefetch()
       if (!characters) {
         showToast({
-          content: 'An error occurred while fetching the characters. Please try again later.',
+          content: t('useAi.errors.errorFetchingCharactersText'),
           type: 'error',
           duration: 5000,
           closable: true
@@ -86,7 +88,7 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
 
     if (!story.value) {
       showToast({
-        content: 'Story not found. Please try again later.',
+        content: t('useAi.errors.storyNotFoundText'),
         type: 'error',
         duration: 5000,
         closable: true
@@ -99,19 +101,19 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
     let toastId
     const toastTimeout = setTimeout(() => {
       toastId = showToast({
-        content: `Generating a continuation, please do not close or refresh the page...`,
+        content: t('useAi.generatingText'),
         type: 'info',
         duration: 0,
         buttons: [
           {
-            label: 'Cancel',
+            label: t('useAi.buttons.cancel.label'),
             callbackOrLink: (closeToast) => {
               showModal({
-                title: 'Are you sure?',
-                content: `If you cancel now, the continuation will not be generated.`,
+                title: t('useAi.buttons.cancel.title'),
+                content: t('useAi.buttons.cancel.content'),
                 buttons: [
                   {
-                    label: 'Yes, cancel',
+                    label: t('useAi.buttons.cancel.confirm'),
                     type: 'info',
                     callbackOrLink: (closeModal) => {
                       stopFetchGPT()
@@ -166,9 +168,15 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
 
       if (storyPath !== route.path) {
         showModal({
-          title: `<span class="text-blue-500">Your continuation is ready!</span>`,
-          content: `The continuation for <b>${updatedStory.title}</b> is ready`,
-          buttons: [{ label: 'Read it now!', type: 'success', callbackOrLink: storyPath }]
+          title: `<span class="text-blue-500">${t('useAi.continuationReady.title')}</span>`,
+          content: t('useAi.continuationReady.content', { title: `<b>${updatedStory.title}</b>` }),
+          buttons: [
+            {
+              label: t('useAi.continuationReady.buttons.readNow'),
+              type: 'success',
+              callbackOrLink: storyPath
+            }
+          ]
         })
       }
       return updatedStory
@@ -178,14 +186,14 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
       if (!(e instanceof Error)) return null
       if (e.message === 'Unauthorized') {
         showToast({
-          content: 'Invalid API key. Please check your API key and try again.',
+          content: t('useAi.errors.invalidKeyText'),
           type: 'error',
           duration: 5000,
           closable: true
         })
       } else if (e.message !== 'The user aborted a request.') {
         showToast({
-          content: `An error occurred while generating the continuation. Please try again later.`,
+          content: t('useAi.errors.errorGeneratingText'),
           type: 'error',
           closable: true
         })

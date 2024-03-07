@@ -9,23 +9,20 @@ const { formData: storyFormData } = useStoryForm()
 <template>
   <div>
     <h1 class="text-center text-lg font-bold text-gray-800">
-      How many chapters will your story have?
+      {{ $t('StoryWizardChaptersStep.title') }}
     </h1>
     <div class="mb-12 mt-6 flex items-baseline justify-center gap-2 text-3xl text-gray-800">
       <NumberInput
         v-model="storyFormData.totalChapters"
-        label="Chapters"
+        :label="$t('StoryWizardChaptersStep.inputs.chapters.label')"
         :show-label="false"
         class="w-20 pt-1 text-center text-3xl font-semibold"
         :max="MAX_CHAPTERS"
         :min="2"
       />
-      Chapters
+      {{ $t('StoryWizardChaptersStep.inputs.chapters.label') }}
     </div>
-    <p class="mx-auto mb-8 max-w-xl">
-      When generating each chapter, AI will consider the total amount of chapters your story is
-      divided in, and will generate the text based on this length.
-    </p>
+    <p class="mx-auto mb-8 max-w-xl">{{ $t('StoryWizardChaptersStep.text') }}</p>
   </div>
 </template>
 

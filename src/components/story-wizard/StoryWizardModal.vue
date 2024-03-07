@@ -163,37 +163,46 @@ const stepComponent = computed(() => {
     </div>
 
     <template #footer="{ close }">
-      <div class="flex justify-end md:justify-center">
-        <div class="md:-ml-12">
-          <button class="mr-6 text-sm font-bold text-gray-500" type="button" @click="close">
-            Exit
-          </button>
-          <button
-            type="button"
-            :disabled="step <= 1"
-            class="rounded-l-full bg-gray-300 px-10 py-2 font-bold text-gray-800 disabled:bg-gray-200 disabled:text-gray-500"
-            @click="onPrevStep"
-          >
-            Prev
-          </button>
-          <button
-            v-if="stepComponent !== StoryWizardSpecialInstructionsStep"
-            type="button"
-            class="rounded-r-full bg-blue-500 px-10 py-2 font-bold text-white hover:bg-blue-700"
-            @click="onNextStep"
-          >
-            Next
-          </button>
-          <button
-            v-else
-            type="button"
-            class="rounded-r-full bg-blue-500 px-7 py-2 font-bold text-white hover:bg-blue-700"
-            @click="onGenerateStory(close)"
-          >
-            Generate story
-          </button>
-        </div>
+      <div class="relative flex md:items-center justify-center">
+        <button
+          class="absolute left-0 mx-auto hidden text-xs font-bold text-gray-500 md:block"
+          type="button"
+          @click="close"
+        >
+          {{ $t('StoryWizardModal.buttons.exit') }}
+        </button>
+        <button
+          type="button"
+          :disabled="step <= 1"
+          class="rounded-l-full bg-gray-300 px-10 py-2 font-bold text-gray-800 disabled:bg-gray-200 disabled:text-gray-500"
+          @click="onPrevStep"
+        >
+          {{ $t('StoryWizardModal.buttons.prev') }}
+        </button>
+        <button
+          v-if="stepComponent !== StoryWizardSpecialInstructionsStep"
+          type="button"
+          class="rounded-r-full bg-blue-500 px-10 py-2 font-bold text-white hover:bg-blue-700"
+          @click="onNextStep"
+        >
+          {{ $t('StoryWizardModal.buttons.next') }}
+        </button>
+        <button
+          v-else
+          type="button"
+          class="rounded-r-full bg-blue-500 px-7 py-2 font-bold text-white hover:bg-blue-700"
+          @click="onGenerateStory(close)"
+        >
+          {{ $t('StoryWizardModal.buttons.generateStory') }}
+        </button>
       </div>
+      <button
+        class="mx-auto mt-3 block text-xs font-bold text-gray-500 md:hidden"
+        type="button"
+        @click="close"
+      >
+        {{ $t('StoryWizardModal.buttons.exit') }}
+      </button>
     </template>
   </GenericModal>
 </template>
