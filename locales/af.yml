@@ -289,6 +289,7 @@ StoryId:
   audience:
     title: Gehoor
   createdAt: 'Geskep {date}'
+  noTranslationText: "Hierdie storie is in 'n ander taal geskep en daar is nog geen vertaling beskikbaar nie."
 AppModal:
   buttons:
     close: Sluit

@@ -289,6 +289,7 @@ StoryId:
   audience:
     title: Audience
   createdAt: 'Created {date}'
+  noTranslationText: "This story was created in a different language and there's no translation available yet."
 AppModal:
   buttons:
     close: Close

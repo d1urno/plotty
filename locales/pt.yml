@@ -289,6 +289,7 @@ StoryId:
   audience:
     title: Público
   createdAt: 'Criado {date}'
+  noTranslationText: 'Esta história foi criada em um idioma diferente e ainda não há tradução disponível.'
 AppModal:
   buttons:
     close: Fechar

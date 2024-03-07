@@ -289,6 +289,7 @@ StoryId:
   audience:
     title: Zielgruppe
   createdAt: 'Erstellt {date}'
+  noTranslationText: 'Diese Geschichte wurde in einer anderen Sprache erstellt und es gibt noch keine Übersetzung.'
 AppModal:
   buttons:
     close: Schließen

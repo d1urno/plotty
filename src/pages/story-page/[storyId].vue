@@ -23,10 +23,13 @@ import {
 } from '@/constants/rules'
 import useEnum from '@/composables/useEnum'
 import useDate from '@/composables/useDate'
+import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
+import { useI18n } from 'vue-i18n'
 
 const route = useRoute<'/story/[storyId]'>()
 const storyId = computed(() => route.params.storyId)
 
+const { locale } = useI18n()
 const { stories, apiKey } = storeToRefs(useStore())
 const story = computed<Story | undefined>(() => stories.value.find((s) => s.id === storyId.value))
 
@@ -207,8 +210,17 @@ function onDecisionRevert(chapterIndex: number) {
         </time>
       </div>
 
-      <div class="order-0 mx-auto flex flex-col px-6 py-6 xl:order-1 xl:px-10 xl:py-16">
-        <article class="prose prose-lg mx-auto max-w-3xl font-garamond prose-p:font-sans">
+      <div class="order-0 mx-auto flex flex-col px-6 xl:order-1 xl:px-10">
+        <span
+          v-if="story.storyLanguage !== getLanguageFromLocale(locale)"
+          class="rounded-md bg-orange-50 p-6 text-orange-600 ring-2 ring-orange-400"
+        >
+          {{ $t('StoryId.noTranslationText') }}
+        </span>
+
+        <article
+          class="prose prose-lg mx-auto max-w-3xl py-6 font-garamond prose-p:font-sans xl:py-16"
+        >
           <h1 class="mb-16 text-center text-blue-600">{{ story.title }}</h1>
           <StoryChapter
             v-for="(chapter, i) in story.chapters"
