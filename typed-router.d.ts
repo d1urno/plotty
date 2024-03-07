@@ -43,7 +43,7 @@ declare module 'vue-router/auto/routes' {
     '/[...notFound]': RouteRecordInfo<'/[...notFound]', '/:notFound(.*)', { notFound: ParamValue<true> }, { notFound: ParamValue<false> }>,
     '/new': RouteRecordInfo<'/new', '/new', Record<never, never>, Record<never, never>>,
     '/stories': RouteRecordInfo<'/stories', '/stories', Record<never, never>, Record<never, never>>,
-    '/story/[storyId]': RouteRecordInfo<'/story/[storyId]', '/story/:storyId', { storyId: ParamValue<true> }, { storyId: ParamValue<false> }>,
+    '/story/[storySlug]': RouteRecordInfo<'/story/[storySlug]', '/story/:storySlug', { storySlug: ParamValue<true> }, { storySlug: ParamValue<false> }>,
   }
 }
 

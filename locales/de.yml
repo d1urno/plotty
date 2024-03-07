@@ -279,7 +279,7 @@ StoryChapter:
       title: 'Schreiben Sie Ihre eigene Fortsetzung'
       buttons:
         submit: 'Einreichen'
-StoryId:
+StorySlug:
   mainRolesTitle: 'Hauptrollen'
   secondaryRolesTitle: 'Nebenrollen'
   genres:

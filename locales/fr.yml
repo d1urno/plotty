@@ -279,7 +279,7 @@ StoryChapter:
       title: 'Écrivez votre propre continuation'
       buttons:
         submit: 'Soumettre'
-StoryId:
+StorySlug:
   mainRolesTitle: 'Rôles principaux'
   secondaryRolesTitle: 'Rôles secondaires'
   genres:

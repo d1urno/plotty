@@ -279,7 +279,7 @@ StoryChapter:
       title: 'Escreva sua própria continuação'
       buttons:
         submit: 'Enviar'
-StoryId:
+StorySlug:
   mainRolesTitle: 'Papéis principais'
   secondaryRolesTitle: 'Papéis secundários'
   genres:

@@ -279,7 +279,7 @@ StoryChapter:
       title: 'Escribe tu propia continuación'
       buttons:
         submit: 'Enviar'
-StoryId:
+StorySlug:
   mainRolesTitle: 'Roles principales'
   secondaryRolesTitle: 'Roles secundarios'
   genres:

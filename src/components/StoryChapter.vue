@@ -10,6 +10,7 @@ import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import useModal from '@/composables/useModal'
 import AppLink from '@/components/AppLink.vue'
 import { useI18n } from 'vue-i18n'
+import { slugify } from '@/utils'
 
 const props = defineProps<{
   storyId: string
@@ -134,7 +135,7 @@ function onWriteCustomContinuation() {
     <VueMarkdown :source="chapter.content" />
 
     <h2 v-if="showToBeContinued" class="mt-10 text-center font-garamond text-3xl font-bold">
-      <AppLink :to="`/story/${story.id}`" class="font-semibold text-blue-500">
+      <AppLink :to="`/story/${slugify(story.title)}`" class="font-semibold text-blue-500">
         {{ $t('StoryChapter.continuedText') }}
       </AppLink>
     </h2>

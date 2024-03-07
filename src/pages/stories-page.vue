@@ -10,6 +10,7 @@ import StoryChapter from '@/components/StoryChapter.vue'
 import AppLink from '@/components/AppLink.vue'
 import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
 import { useI18n } from 'vue-i18n'
+import { slugify } from '@/utils'
 
 const { showModal } = useModal()
 const { stories } = storeToRefs(useStore())
@@ -87,7 +88,11 @@ function onDeleteStory(id: string) {
           <div v-if="!filteredStories?.length">{{ $t('StoriesPage.noResultsText') }}</div>
           <ul v-else class="grid max-h-[31rem] w-full 3xl:grid-cols-2">
             <transition-group name="list" appear>
-              <AppLink v-for="story in filteredStories" :key="story.id" :to="`/story/${story.id}`">
+              <AppLink
+                v-for="story in filteredStories"
+                :key="story.id"
+                :to="`/story/${slugify(story.title)}`"
+              >
                 <StoryCard :story="story" :loading="loading" @delete="onDeleteStory" />
               </AppLink>
             </transition-group>

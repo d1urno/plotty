@@ -8,11 +8,11 @@ const props = defineProps<{
 }>()
 
 const router = useRouter()
-const route = useRoute<'/story/[storyId]'>()
+const route = useRoute<'/story/[storySlug]'>()
 const optionCount = computed(() => props.options.length)
 const buttonWidth = computed(() => 100 / optionCount.value)
 
-const currentValue = computed(() => (route.params.storyId ? '/stories' : route.path))
+const currentValue = computed(() => (route.params.storySlug ? '/stories' : route.path))
 const showHighlight = computed(() =>
   props.options.some(({ value }) => value === currentValue.value)
 )

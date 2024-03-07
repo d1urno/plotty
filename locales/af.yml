@@ -279,7 +279,7 @@ StoryChapter:
       title: 'Skryf jou eie voortsetting'
       buttons:
         submit: 'Indien'
-StoryId:
+StorySlug:
   mainRolesTitle: 'Hoofrolle'
   secondaryRolesTitle: 'Byrolle'
   genres:

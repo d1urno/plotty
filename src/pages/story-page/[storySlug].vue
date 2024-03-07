@@ -26,12 +26,14 @@ import useEnum from '@/composables/useEnum'
 import useDate from '@/composables/useDate'
 import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
 import { useI18n } from 'vue-i18n'
+import { slugify } from '@/utils'
 
-const route = useRoute<'/story/[storyId]'>()
-const storyId = computed(() => route.params.storyId)
+const route = useRoute<'/story/[storySlug]'>()
+const storySlug = computed(() => route.params.storySlug)
 
 const { locale } = useI18n()
 const { stories, apiKey } = storeToRefs(useStore())
+const storyId = computed(() => stories.value.find((s) => slugify(s.title) === storySlug.value)?.id)
 const story = computed<Story | undefined>(() => stories.value.find((s) => s.id === storyId.value))
 
 const variables = computed(
@@ -124,7 +126,7 @@ function onDecisionRevert(chapterIndex: number) {
         class="xl:order-0 order-1 flex h-min max-w-xl basis-1/3 flex-col gap-10 rounded-md bg-white/50 p-4 ring-2 ring-gray-500 ring-offset-4"
       >
         <div>
-          <h2 class="mb-4 text-left text-xl font-bold">{{ $t('StoryId.mainRolesTitle') }}</h2>
+          <h2 class="mb-4 text-left text-xl font-bold">{{ $t('StorySlug.mainRolesTitle') }}</h2>
           <CharacterSelectionList
             cache-only
             :loading="loading"
@@ -137,7 +139,9 @@ function onDecisionRevert(chapterIndex: number) {
         </div>
 
         <div v-if="story.secondaryCharacters.length">
-          <h2 class="mb-4 text-left text-xl font-bold">{{ $t('StoryId.secondaryRolesTitle') }}</h2>
+          <h2 class="mb-4 text-left text-xl font-bold">
+            {{ $t('StorySlug.secondaryRolesTitle') }}
+          </h2>
           <CharacterSelectionList
             cache-only
             :loading="loading"
@@ -148,7 +152,7 @@ function onDecisionRevert(chapterIndex: number) {
         </div>
 
         <div>
-          <h2 class="mb-4 text-left text-xl font-bold">{{ $t('StoryId.genres.title') }}</h2>
+          <h2 class="mb-4 text-left text-xl font-bold">{{ $t('StorySlug.genres.title') }}</h2>
           <ul class="grid list-inside grid-cols-3 text-lg">
             <li v-for="genre in story.storyGenres" :key="genre">
               <GenericCard
@@ -168,13 +172,13 @@ function onDecisionRevert(chapterIndex: number) {
         <div>
           <ul class="ml-2 flex list-inside flex-wrap gap-6 text-lg">
             <li>
-              <span class="block text-xs font-semibold">{{ $t('StoryId.style.title') }}</span>
+              <span class="block text-xs font-semibold">{{ $t('StorySlug.style.title') }}</span>
               <span class="pointer-events-none text-gray-500">
                 {{ useEnum(StoryStyle).toLabel(story.storyStyle) }}
               </span>
             </li>
             <li>
-              <span class="block text-xs font-semibold">{{ $t('StoryId.structure.title') }}</span>
+              <span class="block text-xs font-semibold">{{ $t('StorySlug.structure.title') }}</span>
               <span class="pointer-events-none text-gray-500">
                 {{ useEnum(StoryStructure).toLabel(story.storyStructure) }}
               </span>
@@ -183,8 +187,8 @@ function onDecisionRevert(chapterIndex: number) {
               <span class="block text-xs font-semibold">
                 {{
                   story.storyStructure !== StoryStructure.SIMPLE
-                    ? $t('StoryId.length.perChapterTitle')
-                    : $t('StoryId.length.perStoryTitle')
+                    ? $t('StorySlug.length.perChapterTitle')
+                    : $t('StorySlug.length.perStoryTitle')
                 }}
               </span>
               <span class="pointer-events-none text-gray-500">
@@ -192,13 +196,13 @@ function onDecisionRevert(chapterIndex: number) {
               </span>
             </li>
             <li>
-              <span class="block text-xs font-semibold">{{ $t('StoryId.mode.title') }}</span>
+              <span class="block text-xs font-semibold">{{ $t('StorySlug.mode.title') }}</span>
               <span class="pointer-events-none text-gray-500">
                 {{ useEnum(StoryMode).toLabel(story.storyMode) }}
               </span>
             </li>
             <li>
-              <span class="block text-xs font-semibold">{{ $t('StoryId.audience.title') }}</span>
+              <span class="block text-xs font-semibold">{{ $t('StorySlug.audience.title') }}</span>
               <span class="pointer-events-none text-gray-500">
                 {{ useEnum(StoryAudience).toLabel(story.storyAudience) }}
               </span>
@@ -207,7 +211,7 @@ function onDecisionRevert(chapterIndex: number) {
         </div>
 
         <time class="mx-auto block text-xs text-gray-500">
-          {{ $t('StoryId.createdAt', { date: formattedDate }) }}
+          {{ $t('StorySlug.createdAt', { date: formattedDate }) }}
         </time>
       </div>
 
@@ -217,7 +221,7 @@ function onDecisionRevert(chapterIndex: number) {
           class="rounded-md bg-orange-50 p-6 text-orange-600 ring-2 ring-orange-400"
         >
           {{
-            $t('StoryId.noTranslationText', {
+            $t('StorySlug.noTranslationText', {
               language: useEnum(StoryLanguage).toLabel(story.storyLanguage)
             })
           }}

@@ -7,7 +7,7 @@ import { storeToRefs } from 'pinia'
 import { createSharedComposable } from '@vueuse/core'
 import type { Chapter, Story } from '@/types/local'
 import { useStore } from '@/stores'
-import { generateUniqueId } from '@/utils'
+import { generateUniqueId, slugify } from '@/utils'
 import useCharacterItemsByIds from '@/composables/useCharacterItemsByIds'
 import type { GetCharacterItemsByIdsQueryVariables } from '@/types/generated'
 import useStoryForm from '@/composables/useStoryForm'
@@ -155,7 +155,7 @@ function useStoryAi() {
           {
             label: t('useAi.ready.buttons.readNow'),
             type: 'success',
-            callbackOrLink: `/story/${newStory.id}`
+            callbackOrLink: `/story/${slugify(newStory.title)}`
           }
         ]
       })
