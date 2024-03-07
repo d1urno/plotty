@@ -20,6 +20,13 @@ enums:
   StoryMode:
     NORMAL: 'Normaal'
     DECISION_MAKING: 'Besluitneming'
+  StoryLanguage:
+    ENGLISH: 'Engels'
+    SPANISH: 'Spaans'
+    FRENCH: 'Frans'
+    GERMAN: 'Duits'
+    PORTUGUESE: 'Portugees'
+    AFRIKAANS: 'Afrikaans'
   StoryGenre:
     FANTASY: 'Fantasie'
     SCI_FI: 'Wetenskapfiksie'
@@ -289,7 +296,7 @@ StoryId:
   audience:
     title: Gehoor
   createdAt: 'Geskep {date}'
-  noTranslationText: "Hierdie storie is in 'n ander taal geskep en daar is nog geen vertaling beskikbaar nie."
+  noTranslationText: "Hierdie storie is in {language} geskep en daar is nog geen vertaling beskikbaar nie."
 AppModal:
   buttons:
     close: Sluit

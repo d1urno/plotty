@@ -16,6 +16,7 @@ import GenericCard from '@/components/GenericCard.vue'
 import {
   StoryAudience,
   StoryGenre,
+  StoryLanguage,
   StoryLength,
   StoryMode,
   StoryStructure,
@@ -215,7 +216,11 @@ function onDecisionRevert(chapterIndex: number) {
           v-if="story.storyLanguage !== getLanguageFromLocale(locale)"
           class="rounded-md bg-orange-50 p-6 text-orange-600 ring-2 ring-orange-400"
         >
-          {{ $t('StoryId.noTranslationText') }}
+          {{
+            $t('StoryId.noTranslationText', {
+              language: useEnum(StoryLanguage).toLabel(story.storyLanguage)
+            })
+          }}
         </span>
 
         <article

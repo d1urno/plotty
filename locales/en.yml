@@ -20,6 +20,13 @@ enums:
   StoryMode:
     NORMAL: 'Normal'
     DECISION_MAKING: 'Decision Making'
+  StoryLanguage:
+    ENGLISH: 'English'
+    SPANISH: 'Spanish'
+    FRENCH: 'French'
+    GERMAN: 'German'
+    PORTUGUESE: 'Portuguese'
+    AFRIKAANS: 'Afrikaans'
   StoryGenre:
     FANTASY: 'Fantasy'
     SCI_FI: 'Sci-Fi'
@@ -289,7 +296,7 @@ StoryId:
   audience:
     title: Audience
   createdAt: 'Created {date}'
-  noTranslationText: "This story was created in a different language and there's no translation available yet."
+  noTranslationText: "This story was created in {language} and there's no translation available yet."
 AppModal:
   buttons:
     close: Close

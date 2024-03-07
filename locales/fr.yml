@@ -20,6 +20,13 @@ enums:
   StoryMode:
     NORMAL: 'Normal'
     DECISION_MAKING: 'Prise de décision'
+  StoryLanguage:
+    ENGLISH: 'Anglais'
+    SPANISH: 'Espagnol'
+    FRENCH: 'Français'
+    GERMAN: 'Allemand'
+    PORTUGUESE: 'Portugais'
+    AFRIKAANS: 'Afrikaans'
   StoryGenre:
     FANTASY: 'Fantaisie'
     SCI_FI: 'Science-fiction'
@@ -289,7 +296,7 @@ StoryId:
   audience:
     title: Public
   createdAt: 'Créé {date}'
-  noTranslationText: "Cette histoire a été créée dans une autre langue et il n'y a pas encore de traduction disponible."
+  noTranslationText: "Cette histoire a été créée dans {language} et il n'y a pas encore de traduction disponible."
 AppModal:
   buttons:
     close: Fermer
