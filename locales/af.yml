@@ -241,6 +241,9 @@ CharacterGroupFormModal:
       addAttribute: 'Voeg eienskap by'
       cancel: Kanselleer
       done: Klaar
+    inputs:
+      attribute:
+        label: Eienskap
 CharacterBio:
   inputs:
     uploadImage:
