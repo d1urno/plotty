@@ -15,7 +15,9 @@ import { slugify } from '@/utils'
 const { showModal } = useModal()
 const { stories } = storeToRefs(useStore())
 const { locale } = useI18n()
-const lastStory = computed(() => stories.value[0])
+const lastStory = computed(
+  () => stories.value.filter((s) => s.storyLanguage === getLanguageFromLocale(locale.value))[0]
+)
 const filter = ref({ name: '', style: '' })
 
 const variables = computed(() => ({
