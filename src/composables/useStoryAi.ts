@@ -109,9 +109,9 @@ function useStoryAi() {
 
     const payload: Story = {
       ...storyFormData.value,
-      id: generateUniqueId(),
       created: new Date().toISOString(),
       storyLanguage: getLanguageFromLocale(locale.value),
+      slug: storyFormData.value.id,
       title: ''
     }
 
@@ -143,7 +143,12 @@ function useStoryAi() {
         }
       ]
 
-      const newStory: Story = { ...payload, title: aiResult.title, chapters }
+      const newStory: Story = {
+        ...payload,
+        title: aiResult.title,
+        slug: slugify(aiResult.title),
+        chapters
+      }
       if (aiResult.genre) newStory.storyGenres = [aiResult.genre]
       stories.value = [newStory, ...stories.value]
       if (toastId) hideToast(toastId)
@@ -155,7 +160,7 @@ function useStoryAi() {
           {
             label: t('useAi.ready.buttons.readNow'),
             type: 'success',
-            callbackOrLink: `/story/${slugify(newStory.title)}`
+            callbackOrLink: `/story/${newStory.slug}`
           }
         ]
       })

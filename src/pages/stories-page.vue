@@ -10,7 +10,6 @@ import StoryChapter from '@/components/StoryChapter.vue'
 import AppLink from '@/components/AppLink.vue'
 import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
 import { useI18n } from 'vue-i18n'
-import { slugify } from '@/utils'
 
 const { showModal } = useModal()
 const { stories } = storeToRefs(useStore())
@@ -93,7 +92,7 @@ function onDeleteStory(id: string) {
               <AppLink
                 v-for="story in filteredStories"
                 :key="story.id"
-                :to="`/story/${slugify(story.title)}`"
+                :to="`/story/${story.slug}`"
               >
                 <StoryCard :story="story" :loading="loading" @delete="onDeleteStory" />
               </AppLink>

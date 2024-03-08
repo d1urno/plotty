@@ -26,14 +26,13 @@ import useEnum from '@/composables/useEnum'
 import useDate from '@/composables/useDate'
 import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
 import { useI18n } from 'vue-i18n'
-import { slugify } from '@/utils'
 
 const route = useRoute<'/story/[storySlug]'>()
 const storySlug = computed(() => route.params.storySlug)
 
 const { locale } = useI18n()
 const { stories, apiKey } = storeToRefs(useStore())
-const storyId = computed(() => stories.value.find((s) => slugify(s.title) === storySlug.value)?.id)
+const storyId = computed(() => stories.value.find((s) => s.slug === storySlug.value)?.id)
 const story = computed<Story | undefined>(() => stories.value.find((s) => s.id === storyId.value))
 
 const variables = computed(

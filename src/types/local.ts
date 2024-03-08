@@ -61,6 +61,7 @@ export interface Story {
   updated?: string
   __typename?: string
   title: string
+  slug: string
   mainCharacters: string[]
   secondaryCharacters: string[]
   decisionMakers: string[]

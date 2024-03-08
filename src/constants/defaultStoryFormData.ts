@@ -11,6 +11,7 @@ import type { StoryFormData } from '@/types/local'
 export default {
   id: '',
   title: '',
+  slug: '',
   mainCharacters: [] as string[],
   secondaryCharacters: [] as string[],
   totalChapters: 3,

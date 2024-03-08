@@ -4,6 +4,7 @@ export default [
   {
     id: '0f4f7f7d-9093-47ff-8a3e-7f48f18a9088',
     title: 'The Extraterrestrial Prank War',
+    slug: 'the-extraterrestrial-prank-war',
     mainCharacters: ['2', '3'],
     secondaryCharacters: ['36'],
     totalChapters: 3,
@@ -30,6 +31,7 @@ export default [
   {
     id: '9ec6fd5e-5180-4515-9f28-ef6683c8dcd7',
     title: 'Aventuras cómicas en la Ciudadela de Ricks',
+    slug: 'aventuras-comicas-en-la-ciudadela-de-ricks',
     mainCharacters: ['2', '3'],
     secondaryCharacters: ['36'],
     totalChapters: 3,
@@ -56,6 +58,7 @@ export default [
   {
     id: '100dc541-7793-4015-934a-1f75d54cb538',
     title: 'Interdimensionale Irrungen und Wirrungen',
+    slug: 'iterdimensionale-irrungen-und-wirrungen',
     mainCharacters: ['2', '3'],
     secondaryCharacters: ['36'],
     totalChapters: 3,
@@ -82,6 +85,7 @@ export default [
   {
     id: '115163c1-c92b-4f32-bb60-39e850ff9133',
     title: 'Aventuras Cósmicas de Morty e Summer',
+    slug: 'aventuras-cosmicas-de-morty-e-summer',
     mainCharacters: ['2', '3'],
     secondaryCharacters: ['36'],
     totalChapters: 3,
@@ -108,6 +112,7 @@ export default [
   {
     id: '98c9a35f-ebdb-44da-8f40-5df9bda8f24b',
     title: 'Mésaventures interdimensionnelles: Morty, Summer et Beta-Seven',
+    slug: 'mesaventures-interdimensionnelles-morty-summer-et-betaseven',
     mainCharacters: ['2', '3'],
     secondaryCharacters: ['36'],
     totalChapters: 3,
@@ -134,6 +139,7 @@ export default [
   {
     id: '06ded394-a717-4d66-9d6e-88ee9a18f784',
     title: 'Ondeunde Avonture by die Citadel van Ricks',
+    slug: 'ondeunde-avonture-by-die-citadel-van-ricks',
     mainCharacters: ['2', '3'],
     secondaryCharacters: ['36'],
     totalChapters: 3,
