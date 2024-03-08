@@ -83,7 +83,7 @@ function onDeleteStory(id: string) {
 
       <template v-else>
         <div
-          class="flex basis-1/3 flex-col gap-10 overflow-y-auto rounded-md bg-white p-4 ring-2 ring-gray-500 ring-offset-4 3xl:basis-1/2"
+          class="flex flex-none basis-1/3 flex-col gap-10 overflow-y-auto rounded-md bg-white p-4 ring-2 ring-gray-500 ring-offset-4 3xl:basis-1/2"
         >
           <StoryFilters v-model="filter" />
           <div v-if="!filteredStories?.length">{{ $t('StoriesPage.noResultsText') }}</div>
