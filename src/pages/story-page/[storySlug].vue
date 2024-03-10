@@ -27,12 +27,14 @@ import useDate from '@/composables/useDate'
 import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
 import { useI18n } from 'vue-i18n'
 import StoryContinuationBoxes from '@/components/StoryContinuationBoxes.vue'
+import useStoryApi from '@/composables/useStoryApi'
 
 const route = useRoute<'/story/[storySlug]'>()
 const storySlug = computed(() => route.params.storySlug)
 
 const { locale } = useI18n()
 const { stories, apiKey } = storeToRefs(useStore())
+const { saveStory } = useStoryApi()
 const storyId = computed(() => stories.value.find((s) => s.slug === storySlug.value)?.id)
 const story = computed<Story | undefined>(() => stories.value.find((s) => s.id === storyId.value))
 
@@ -101,7 +103,7 @@ async function revertDecision(chapterIndex: number) {
   story.value.chapters[chapterIndex].selectedChoiceIndex = undefined
   story.value.chapters[chapterIndex].customChoice = undefined
   story.value.chapters = story.value.chapters.slice(0, chapterIndex + 1)
-  stories.value = stories.value.map((s) => (s.id === story.value?.id ? story.value : s))
+  saveStory(story.value)
 }
 
 function onDecisionRevert(chapterIndex: number) {

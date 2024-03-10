@@ -11,9 +11,11 @@ import AppLink from '@/components/AppLink.vue'
 import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
 import { useI18n } from 'vue-i18n'
 import { StoryStructure } from '@/constants/rules'
+import useStoryApi from '@/composables/useStoryApi'
 
 const { showModal } = useModal()
 const { stories } = storeToRefs(useStore())
+const { deleteStory } = useStoryApi()
 const { locale } = useI18n()
 const lastStory = computed(
   () => stories.value.filter((s) => s.storyLanguage === getLanguageFromLocale(locale.value))[0]
@@ -62,7 +64,7 @@ function onDeleteStory(id: string) {
         label: 'Delete',
         type: 'warning',
         callbackOrLink: (close) => {
-          stories.value = stories.value.filter((s) => s.id !== id)
+          deleteStory(id)
           close()
         }
       }
