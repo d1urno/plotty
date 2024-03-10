@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { type Ref, ref } from 'vue'
-import type { CustomCharacterGroup, Story } from '@/types/local'
+import type { Chapter, CustomCharacterGroup, Story } from '@/types/local'
 import { useLocalStorage } from '@vueuse/core'
 import type { GenericToast } from '@/components/GenericToast.vue'
 import defaultStories from '@/constants/defaultStories'
@@ -18,6 +18,8 @@ export const useStore = defineStore('store', () => {
   const isAiLoading = ref(false)
   const isFirstTimeSettings: Ref<boolean> = useLocalStorage<boolean>('firstTimeSettings', true)
   const apiKey: Ref<string | undefined> = useLocalStorage<string | undefined>('apiKey', undefined)
+
+  const chaptersLoadingData = ref<Map<string, Partial<Record<keyof Chapter, boolean>>>>(new Map())
 
   const baseSelectedCharacterGroup: Ref<{ selectedGroupId: PresetCharacterGroups | string }> =
     useLocalStorage<{ selectedGroupId: PresetCharacterGroups | string }>('selectedGroupId', {
@@ -54,6 +56,7 @@ export const useStore = defineStore('store', () => {
     appToasts,
     isFirstTimeSettings,
     selectedCharacterGroup,
-    customCharacterGroups
+    customCharacterGroups,
+    chaptersLoadingData
   }
 })

@@ -1,4 +1,5 @@
 [build]
+functions = "netlify/functions/"
 publish = "dist"
 command = "pnpm run build"
 
@@ -9,6 +10,15 @@ NODE_VERSION = "20"
 from = "/*"
 to = "/index.html"
 status = 200
+
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/:splat"
+status = 200
+
+[dev]
+port = 3000
+autoLaunch = false
 
 #[[headers]]
 #for = "/manifest.webmanifest"

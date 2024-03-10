@@ -2,22 +2,29 @@ import { ref } from 'vue'
 import useModal from '@/composables/useModal'
 import useToast from '@/composables/useToast'
 import buildStoryPrompt from '@/functions/buildStoryPrompt'
-import { fetchGPT, stopFetchGPT } from '@/functions/fetchGpt'
+import { stopFetchGPT, streamGPT } from '@/functions/fetchGpt'
 import { storeToRefs } from 'pinia'
 import { createSharedComposable } from '@vueuse/core'
-import type { Chapter, Story } from '@/types/local'
+import type { Story } from '@/types/local'
 import { useStore } from '@/stores'
-import { generateUniqueId, slugify } from '@/utils'
+import { generateUniqueId, isDeepEqual, slugify } from '@/utils'
 import useCharacterItemsByIds from '@/composables/useCharacterItemsByIds'
 import type { GetCharacterItemsByIdsQueryVariables } from '@/types/generated'
 import useStoryForm from '@/composables/useStoryForm'
 import type { StoryGenre } from '@/constants/rules'
+import { StoryStructure } from '@/constants/rules'
 import { useI18n } from 'vue-i18n'
 import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
+import { useRoute, useRouter } from 'vue-router'
+import { parse } from 'best-effort-json-parser'
+import useStoryApi from '@/composables/useStoryApi'
 
 function useStoryAi() {
-  const { stories, isPromptLoading, isAiLoading, apiKey } = storeToRefs(useStore())
+  const router = useRouter()
+  const route = useRoute()
+  const { isPromptLoading, isAiLoading, apiKey, chaptersLoadingData } = storeToRefs(useStore())
   const { formData: storyFormData } = useStoryForm()
+  const { saveStory } = useStoryApi()
   const { showModal } = useModal()
   const { t, locale } = useI18n()
   const { showToast, hideToast } = useToast()
@@ -107,64 +114,108 @@ function useStoryAi() {
       })
     }, 2000) // Fired with time out to avoid flickering on api key error
 
-    const payload: Story = {
-      ...storyFormData.value,
-      created: new Date().toISOString(),
-      storyLanguage: getLanguageFromLocale(locale.value),
-      slug: storyFormData.value.id,
-      title: ''
-    }
-
     try {
-      const result = await fetchGPT(prompt, apiKey.value)
-      const aiResult: {
-        title: string
-        content?: string
-        chapters?: { title: string; content: string }[]
-        nextChapterSuggestions?: string[]
-        nextChapterActionDecisions?: { characterName: string; actions: string[] }
-        genre?: StoryGenre
-      } = JSON.parse(result.choices[0].message.content)
-
-      const chapters: Chapter[] = aiResult.chapters?.map((c) => ({
-        id: generateUniqueId(),
+      const payload: Story = {
+        ...storyFormData.value,
+        slug: storyFormData.value.id,
         created: new Date().toISOString(),
-        title: c.title,
-        content: c.content,
-        decidingCharacterName: aiResult.nextChapterActionDecisions?.characterName,
-        nextChapterChoices:
-          aiResult.nextChapterSuggestions ?? aiResult.nextChapterActionDecisions?.actions
-      })) ?? [
-        {
-          id: generateUniqueId(),
-          created: new Date().toISOString(),
-          title: aiResult.title,
-          content: aiResult.content ?? ''
-        }
-      ]
-
-      const newStory: Story = {
-        ...payload,
-        title: aiResult.title,
-        slug: slugify(aiResult.title),
-        chapters
+        storyLanguage: getLanguageFromLocale(locale.value),
+        title: '',
+        chapters: [
+          { id: generateUniqueId(), created: new Date().toISOString(), title: '', content: '' }
+        ]
       }
-      if (aiResult.genre) newStory.storyGenres = [aiResult.genre]
-      stories.value = [newStory, ...stories.value]
+
+      saveStory(payload)
+
+      chaptersLoadingData.value.set(payload.chapters[0].id, {
+        title: true,
+        content: true,
+        nextChapterChoices: true,
+        decidingCharacterName: true
+      })
+
+      await router.push(`/story/${payload.slug}`)
+
+      type PartialAiResult = {
+        title?: string
+        content?: string
+        chapters?: { title?: string; content?: string }[]
+        nextChapterSuggestions?: string[]
+        nextChapterActionDecisions?: { characterName?: string; actions?: string[] }
+        genre?: StoryGenre
+      }
+
+      let aiResult: PartialAiResult = {}
+      let partial = ''
+      await streamGPT(prompt, apiKey.value, async (res) => {
+        if (res === '[DONE]') return
+
+        if (res.choices[0].delta.content) {
+          partial += res.choices[0].delta.content
+          try {
+            aiResult = parse(partial)
+          } catch (e) {
+            return
+          }
+        }
+
+        chaptersLoadingData.value.set(payload.chapters[0].id, {
+          title: aiResult.chapters?.[0]?.title !== payload.chapters[0].title,
+          content: aiResult.chapters?.[0]?.content !== payload.chapters[0].content,
+          nextChapterChoices: !isDeepEqual(
+            aiResult.nextChapterSuggestions ?? aiResult.nextChapterActionDecisions?.actions,
+            payload.chapters[0].nextChapterChoices
+          ),
+          decidingCharacterName:
+            aiResult.nextChapterActionDecisions?.characterName !==
+            payload.chapters[0].decidingCharacterName
+        })
+
+        payload.title = aiResult.title ?? ''
+        if (aiResult.genre) payload.storyGenres = [aiResult.genre]
+        if (payload.storyStructure === StoryStructure.SIMPLE) {
+          payload.chapters[0].title = aiResult.title ?? ''
+          payload.chapters[0].content = aiResult.content ?? ''
+        } else {
+          payload.chapters[0].title = aiResult.chapters?.[0]?.title ?? ''
+          payload.chapters[0].content = aiResult.chapters?.[0]?.content ?? ''
+          payload.chapters[0].nextChapterChoices =
+            aiResult.nextChapterSuggestions ?? aiResult.nextChapterActionDecisions?.actions
+          payload.chapters[0].decidingCharacterName =
+            aiResult.nextChapterActionDecisions?.characterName
+        }
+
+        saveStory(payload)
+      })
+
+      if (`/story/${payload.slug}` === route.path) {
+        payload.slug = slugify(payload.title)
+        saveStory(payload)
+        await router.replace(`/story/${payload.slug}`)
+      } else {
+        payload.slug = slugify(payload.title)
+        saveStory(payload)
+      }
+
+      chaptersLoadingData.value.delete(payload.chapters[0].id)
+
       if (toastId) hideToast(toastId)
 
-      showModal({
-        title: `<span class="text-blue-500">${t('useAi.ready.title')}</span>`,
-        content: t('useAi.ready.content', { title: `<b>${newStory.title}</b>` }),
-        buttons: [
-          {
-            label: t('useAi.ready.buttons.readNow'),
-            type: 'success',
-            callbackOrLink: `/story/${newStory.slug}`
-          }
-        ]
-      })
-      return newStory
+      if (`/story/${payload.slug}` !== route.path) {
+        showModal({
+          title: `<span class="text-blue-500">${t('useAi.ready.title')}</span>`,
+          content: t('useAi.ready.content', { title: `<b>${payload.title}</b>` }),
+          buttons: [
+            {
+              label: t('useAi.ready.buttons.readNow'),
+              type: 'success',
+              callbackOrLink: `/story/${payload.slug}`
+            }
+          ]
+        })
+      }
+      return payload
     } catch (e) {
       console.error(e)
       if (!(e instanceof Error)) return null

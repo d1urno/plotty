@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "netlify-dev": "netlify dev",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
@@ -18,7 +19,9 @@
     "@headlessui/vue": "^1.7.19",
     "@vue/apollo-composable": "^4.0.1",
     "@vueuse/core": "^10.7.2",
+    "best-effort-json-parser": "^1.0.1",
     "date-fns": "^3.3.1",
+    "eventsource-parser": "^1.1.2",
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
     "pinia": "^2.1.7",

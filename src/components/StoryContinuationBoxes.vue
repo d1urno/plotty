@@ -3,6 +3,8 @@ import CharacterThumb from '@/components/CharacterThumb.vue'
 import { StoryMode, StoryStructure } from '@/constants/rules'
 import type { BaseCharacter, Story } from '@/types/local'
 import { computed, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useStore } from '@/stores'
 import { useI18n } from 'vue-i18n'
 import useModal from '@/composables/useModal'
 
@@ -16,12 +18,14 @@ const emit = defineEmits<{
   applyContinuation: [{ choiceIndex?: number; customChoice?: string }]
 }>()
 
+const { chaptersLoadingData } = storeToRefs(useStore())
 const { t } = useI18n()
 const { showModal } = useModal()
 
 const customContinuation = ref<string>(t('StoryChapter.customContinuationText'))
 
 const lastChapter = computed(() => props.story.chapters[props.story.chapters.length - 1])
+const loadingData = computed(() => chaptersLoadingData.value.get(lastChapter.value.id))
 
 const nextDecidingCharacter = computed(() =>
   props.characterList?.find((c) => c.name === lastChapter.value.decidingCharacterName)
@@ -96,13 +100,16 @@ function onWriteCustomContinuation() {
           :key="i"
           type="button"
           class="rounded bg-blue-500 p-3 font-semibold text-blue-100 shadow-md ring-2 ring-white transition hover:scale-105"
+          :disabled="loadingData?.nextChapterChoices"
           @click="onApplyContinuation(i)"
         >
           {{ choice }}
         </button>
         <button
+          v-if="!loadingData?.nextChapterChoices"
           type="button"
           class="rounded bg-blue-500 p-3 font-semibold text-blue-100 shadow-md ring-2 ring-white transition hover:scale-105"
+          :disabled="loadingData?.nextChapterChoices"
           @click="onWriteCustomContinuation"
         >
           {{ $t('StoryChapter.buttons.customLabel') }}

@@ -11,9 +11,11 @@ import AppLink from '@/components/AppLink.vue'
 import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
 import { useI18n } from 'vue-i18n'
 import { StoryStructure } from '@/constants/rules'
+import useStoryApi from '@/composables/useStoryApi'
 
 const { showModal } = useModal()
-const { stories } = storeToRefs(useStore())
+const { stories, chaptersLoadingData } = storeToRefs(useStore())
+const { deleteStory } = useStoryApi()
 const { locale } = useI18n()
 const lastStory = computed(
   () => stories.value.filter((s) => s.storyLanguage === getLanguageFromLocale(locale.value))[0]
@@ -62,7 +64,7 @@ function onDeleteStory(id: string) {
         label: 'Delete',
         type: 'warning',
         callbackOrLink: (close) => {
-          stories.value = stories.value.filter((s) => s.id !== id)
+          deleteStory(id)
           close()
         }
       }
@@ -113,12 +115,14 @@ function onDeleteStory(id: string) {
           </h2>
           <article class="prose prose-lg mx-auto max-w-3xl font-garamond prose-p:font-sans">
             <h1 class="mb-16 text-center text-blue-600">{{ lastStory.title }}</h1>
+
+            <!-- Need to spread chapter object, otherwise reactivity is lost when streaming 😟 -->
             <StoryChapter
               v-for="(chapter, i) in lastStory.chapters"
               :key="chapter.id"
               is-preview
-              :story-id="lastStory.id"
-              :chapter="chapter"
+              :story-structure="lastStory.storyStructure"
+              :chapter="{ ...chapter }"
               :index="i + 1"
             />
 
@@ -128,7 +132,10 @@ function onDeleteStory(id: string) {
               </AppLink>
             </h2>
 
-            <h2 v-else class="mt-10 text-center font-garamond text-3xl font-bold">
+            <h2
+              v-else-if="!chaptersLoadingData.size"
+              class="mt-10 text-center font-garamond text-3xl font-bold"
+            >
               {{ $t('StoryChapter.endText') }}
             </h2>
           </article>
