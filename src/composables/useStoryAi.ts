@@ -219,8 +219,8 @@ function useStoryAi() {
     } catch (e) {
       console.error(e)
       if (!(e instanceof Error)) return null
+      clearTimeout(toastTimeout)
       if (e.message === 'Unauthorized') {
-        clearTimeout(toastTimeout)
         showToast({
           content: t('useAi.errors.unauthorizedText'),
           type: 'error',
