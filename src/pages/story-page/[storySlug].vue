@@ -33,7 +33,7 @@ const route = useRoute<'/story/[storySlug]'>()
 const storySlug = computed(() => route.params.storySlug)
 
 const { locale } = useI18n()
-const { stories, apiKey } = storeToRefs(useStore())
+const { stories, apiKey, chaptersLoadingData } = storeToRefs(useStore())
 const { saveStory } = useStoryApi()
 const storyId = computed(() => stories.value.find((s) => s.slug === storySlug.value)?.id)
 const story = computed<Story | undefined>(() => stories.value.find((s) => s.id === storyId.value))
@@ -44,8 +44,7 @@ const variables = computed(
     undefined
 )
 const { characterList, loading } = useCharacterListByIds(variables)
-const { getContinuationPrompt, generateContinuation, isPromptLoading, isAiLoading } =
-  useContinuationAi(storyId)
+const { getContinuationPrompt, generateContinuation } = useContinuationAi(storyId)
 const { showModal } = useModal()
 
 const { formattedDate } = useDate(story.value?.created)
@@ -53,8 +52,10 @@ const { formattedDate } = useDate(story.value?.created)
 const apiKeyModal = ref<{ visible: boolean }>()
 const characterModal = ref<{ visible: boolean; character: BaseCharacter }>()
 
+const lastChapter = computed(() => story.value?.chapters[story.value.chapters.length - 1])
+
 const showContinuationBoxes = computed(() => {
-  if (!story.value) return false
+  if (!story.value || !lastChapter.value?.nextChapterChoices?.some((c) => c.length)) return false
   return (
     story.value.storyStructure !== StoryStructure.SIMPLE &&
     (story.value.storyStructure === StoryStructure.OPEN_ENDING ||
@@ -242,14 +243,14 @@ function onDecisionRevert(chapterIndex: number) {
           class="prose prose-lg mx-auto !w-full max-w-3xl py-6 font-garamond prose-p:font-sans xl:py-16"
         >
           <h1 class="mb-16 text-center text-blue-600">{{ story.title }}</h1>
+
+          <!-- Need to spread chapter object, otherwise reactivity is lost when streaming 😟 -->
           <StoryChapter
             v-for="(chapter, i) in story.chapters"
             :key="chapter.id"
-            :chapter="chapter"
             :story-structure="story.storyStructure"
+            :chapter="{ ...chapter }"
             :index="i + 1"
-            :is-loading="isPromptLoading || isAiLoading"
-            :character-list="characterList"
             @decision-revert="onDecisionRevert(i)"
           />
 
@@ -261,7 +262,10 @@ function onDecisionRevert(chapterIndex: number) {
             @character-thumb-click="onCardClick"
           />
 
-          <h2 v-else class="mt-10 text-center font-garamond text-3xl font-bold">
+          <h2
+            v-else-if="!chaptersLoadingData.size"
+            class="mt-10 text-center font-garamond text-3xl font-bold"
+          >
             {{ $t('StoryChapter.endText') }}
           </h2>
         </article>

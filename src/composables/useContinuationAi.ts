@@ -1,7 +1,7 @@
 import { computed, ref, type Ref } from 'vue'
 import useModal from '@/composables/useModal'
 import useToast from '@/composables/useToast'
-import { fetchGPT, stopFetchGPT } from '@/functions/fetchGpt'
+import { stopFetchGPT, streamGPT } from '@/functions/fetchGpt'
 import { storeToRefs } from 'pinia'
 import { createSharedComposable } from '@vueuse/core'
 import type { Chapter, Story } from '@/types/local'
@@ -12,9 +12,15 @@ import buildContinuationPrompt from '@/functions/buildContinuationPrompt'
 import type { GetCharacterItemsByIdsQueryVariables } from '@/types/generated'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { parse } from 'best-effort-json-parser'
+import useStoryApi from '@/composables/useStoryApi'
+import useChapterApi from '@/composables/useChapterApi'
 
 function useContinuationAi(storyId?: Ref<string | undefined>) {
-  const { stories, isPromptLoading, isAiLoading, apiKey } = storeToRefs(useStore())
+  const { stories, isPromptLoading, isAiLoading, apiKey, chaptersLoadingData } =
+    storeToRefs(useStore())
+  const { saveStory } = useStoryApi()
+  const { saveChapter } = useChapterApi()
   const { showModal } = useModal()
   const { showToast, hideToast } = useToast()
   const { t } = useI18n()
@@ -130,39 +136,75 @@ function useContinuationAi(storyId?: Ref<string | undefined>) {
     }, 2000) // Fired with time out to avoid flickering on api key error
 
     try {
-      const result = await fetchGPT(prompt, apiKey.value)
-      const aiResult: {
-        chapter: Chapter
-        nextChapterSuggestions?: string[]
-        nextChapterActionDecisions?: { characterName: string; actions: string[] }
-      } = JSON.parse(result.choices[0].message.content)
+      const updatedStory: Story = { ...story.value }
 
-      // Have the result, so we can save the choice made in the previous chapter
+      // Save the choice made in the previous chapter
       if (typeof choiceIndex === 'number') {
-        const previousChapter = story.value.chapters[story.value.chapters.length - 1]
+        const previousChapter = { ...updatedStory.chapters[updatedStory.chapters.length - 1] }
         if (previousChapter) previousChapter.selectedChoiceIndex = choiceIndex
-        story.value.chapters[story.value.chapters.length - 1] = previousChapter
+        updatedStory.chapters[updatedStory.chapters.length - 1] = { ...previousChapter }
       } else if (typeof customChoice === 'string') {
-        const previousChapter = story.value.chapters[story.value.chapters.length - 1]
+        const previousChapter = { ...updatedStory.chapters[updatedStory.chapters.length - 1] }
         if (previousChapter) previousChapter.customChoice = customChoice
-        story.value.chapters[story.value.chapters.length - 1] = previousChapter
+        updatedStory.chapters[updatedStory.chapters.length - 1] = { ...previousChapter }
+      }
+      saveStory(updatedStory)
+
+      const payload: Chapter = {
+        id: generateUniqueId(),
+        created: new Date().toISOString(),
+        title: '',
+        content: ''
+      }
+      saveChapter(payload, updatedStory)
+
+      chaptersLoadingData.value.set(payload.id, {
+        title: true,
+        content: true,
+        nextChapterChoices: true,
+        decidingCharacterName: true
+      })
+
+      type PartialAiResult = {
+        chapter?: Pick<Chapter, 'title' | 'content'>
+        nextChapterSuggestions?: string[]
+        nextChapterActionDecisions?: { characterName?: string; actions?: string[] }
       }
 
-      // And then save the new chapter
-      const updatedStory: Story = {
-        ...story.value,
-        chapters: story.value.chapters.concat({
-          id: generateUniqueId(),
-          created: new Date().toISOString(),
-          title: aiResult.chapter.title,
-          content: aiResult.chapter.content,
-          decidingCharacterName: aiResult.nextChapterActionDecisions?.characterName,
+      let aiResult: PartialAiResult = {}
+      let partial = ''
+      await streamGPT(prompt, apiKey.value, async (res) => {
+        if (res === '[DONE]') return
+
+        if (res.choices[0].delta.content) {
+          partial += res.choices[0].delta.content
+          try {
+            aiResult = parse(partial)
+          } catch (e) {
+            return
+          }
+        }
+
+        chaptersLoadingData.value.set(payload.id, {
+          title: aiResult.chapter?.title !== payload.title,
+          content: aiResult.chapter?.content !== payload.content,
           nextChapterChoices:
-            aiResult.nextChapterSuggestions || aiResult.nextChapterActionDecisions?.actions
+            (aiResult.nextChapterSuggestions ?? aiResult.nextChapterActionDecisions?.actions) !==
+            payload.nextChapterChoices,
+          decidingCharacterName:
+            aiResult.nextChapterActionDecisions?.characterName !== payload.decidingCharacterName
         })
-      }
-      // Persist both
-      stories.value = stories.value.map((s) => (s.id === updatedStory.id ? updatedStory : s))
+
+        payload.title = aiResult.chapter?.title ?? ''
+        payload.content = aiResult.chapter?.content ?? ''
+        payload.nextChapterChoices =
+          aiResult.nextChapterSuggestions ?? aiResult.nextChapterActionDecisions?.actions
+        payload.decidingCharacterName = aiResult.nextChapterActionDecisions?.characterName
+
+        saveChapter(payload, updatedStory)
+      })
+
+      chaptersLoadingData.value.delete(payload.id)
 
       if (toastId) hideToast(toastId)
 
