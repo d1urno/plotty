@@ -31,7 +31,7 @@ const exampleStory = computed(() =>
             </p>
             <AppLink
               to="/new"
-              class="block w-max rounded-md bg-blue-500 px-20 py-2 text-center text-2xl font-bold text-white transition hover:scale-110"
+              class="block rounded-md bg-blue-500 px-10 py-2 text-center text-2xl font-bold text-white transition hover:scale-110"
             >
               {{ $t('home.header.cta') }}
             </AppLink>
@@ -96,7 +96,7 @@ const exampleStory = computed(() =>
         <p class="mb-8 text-lg sm:text-xl">{{ $t('home.getStarted.text') }}</p>
         <AppLink
           to="/new"
-          class="mx-auto block w-max rounded-md bg-blue-500 px-20 py-2 text-center text-xl font-bold text-white transition hover:scale-110"
+          class="rounded-md bg-blue-500 px-10 py-2 text-xl font-bold text-white transition hover:scale-110"
         >
           {{ $t('home.getStarted.cta') }}
         </AppLink>
