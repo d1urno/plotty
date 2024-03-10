@@ -26,6 +26,7 @@ import useEnum from '@/composables/useEnum'
 import useDate from '@/composables/useDate'
 import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
 import { useI18n } from 'vue-i18n'
+import StoryContinuationBoxes from '@/components/StoryContinuationBoxes.vue'
 
 const route = useRoute<'/story/[storySlug]'>()
 const storySlug = computed(() => route.params.storySlug)
@@ -49,6 +50,15 @@ const { formattedDate } = useDate(story.value?.created)
 
 const apiKeyModal = ref<{ visible: boolean }>()
 const characterModal = ref<{ visible: boolean; character: BaseCharacter }>()
+
+const showContinuationBoxes = computed(() => {
+  if (!story.value) return false
+  return (
+    story.value.storyStructure !== StoryStructure.SIMPLE &&
+    (story.value.storyStructure === StoryStructure.OPEN_ENDING ||
+      story.value.chapters.length < story.value.totalChapters)
+  )
+})
 
 function onCardClick(character: BaseCharacter) {
   characterModal.value = { visible: true, character }
@@ -233,15 +243,25 @@ function onDecisionRevert(chapterIndex: number) {
           <StoryChapter
             v-for="(chapter, i) in story.chapters"
             :key="chapter.id"
-            :story-id="story.id"
             :chapter="chapter"
+            :story-structure="story.storyStructure"
             :index="i + 1"
             :is-loading="isPromptLoading || isAiLoading"
             :character-list="characterList"
             @decision-revert="onDecisionRevert(i)"
+          />
+
+          <StoryContinuationBoxes
+            v-if="showContinuationBoxes"
+            :story="story"
+            :character-list="characterList"
             @apply-continuation="onApplyContinuation"
             @character-thumb-click="onCardClick"
           />
+
+          <h2 v-else class="mt-10 text-center font-garamond text-3xl font-bold">
+            {{ $t('StoryChapter.endText') }}
+          </h2>
         </article>
       </div>
     </div>

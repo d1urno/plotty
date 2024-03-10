@@ -83,9 +83,10 @@ const exampleStory = computed(() =>
           <StoryChapter
             v-for="(chapter, i) in exampleStory.chapters"
             :key="chapter.id"
-            :story-id="exampleStory.id"
+            :story-structure="exampleStory.storyStructure"
             :chapter="chapter"
             :index="i + 1"
+            is-preview
           />
         </article>
       </section>

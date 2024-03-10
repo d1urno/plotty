@@ -10,6 +10,7 @@ import StoryChapter from '@/components/StoryChapter.vue'
 import AppLink from '@/components/AppLink.vue'
 import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
 import { useI18n } from 'vue-i18n'
+import { StoryStructure } from '@/constants/rules'
 
 const { showModal } = useModal()
 const { stories } = storeToRefs(useStore())
@@ -43,6 +44,12 @@ const filteredStories = computed(() => {
     return !(style && s.storyStyle !== style)
   })
 })
+
+const showToBeContinued = computed(
+  () =>
+    lastStory.value.storyStructure !== StoryStructure.SIMPLE &&
+    lastStory.value.chapters.length < lastStory.value.totalChapters
+)
 
 function onDeleteStory(id: string) {
   const story = stories.value.find((s) => s.id === id)
@@ -114,6 +121,16 @@ function onDeleteStory(id: string) {
               :chapter="chapter"
               :index="i + 1"
             />
+
+            <h2 v-if="showToBeContinued" class="mt-10 text-center font-garamond text-3xl font-bold">
+              <AppLink :to="`/story/${lastStory.slug}`" class="font-semibold text-blue-500">
+                {{ $t('StoryChapter.continuedText') }}
+              </AppLink>
+            </h2>
+
+            <h2 v-else class="mt-10 text-center font-garamond text-3xl font-bold">
+              {{ $t('StoryChapter.endText') }}
+            </h2>
           </article>
         </div>
       </template>
