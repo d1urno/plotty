@@ -198,9 +198,7 @@ function useStoryAi() {
 
       const story = stories.value.find((s) => s.id === payload.id) ?? null
       if (story) {
-        if (`/story/${story.id}` === route.path) await router.replace(`/story/${story.slug}`)
-
-        if (`/story/${story.slug}` !== route.path) {
+        if (`/story/${story.id}` !== route.path) {
           showModal({
             title: `<span class="text-blue-500">${t('useAi.ready.title')}</span>`,
             content: t('useAi.ready.content', { title: `<b>${story.title}</b>` }),
@@ -212,6 +210,9 @@ function useStoryAi() {
               }
             ]
           })
+        } else {
+          const newState = { ...window.history.state, current: `/story/${story.slug}` }
+          window.history.replaceState(newState, '', `/story/${story.slug}`)
         }
       }
       return story

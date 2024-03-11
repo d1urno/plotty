@@ -35,7 +35,13 @@ const storySlug = computed(() => route.params.storySlug)
 const { locale } = useI18n()
 const { stories, apiKey, chaptersLoadingData } = storeToRefs(useStore())
 const { saveStory } = useStoryApi()
-const storyId = computed(() => stories.value.find((s) => s.slug === storySlug.value)?.id)
+const storyId = computed(
+  () =>
+    (
+      stories.value.find((s) => s.id === storySlug.value) ??
+      stories.value.find((s) => s.slug === storySlug.value)
+    )?.id
+)
 const story = computed<Story | undefined>(() => stories.value.find((s) => s.id === storyId.value))
 
 const variables = computed(
