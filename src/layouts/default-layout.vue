@@ -9,6 +9,7 @@ import AppLink from '@/components/AppLink.vue'
 import useCharacterList from '@/composables/useCharacterList'
 import useNavLinks from '@/composables/useNavLinks'
 import AppLocaleSwitcher from '@/components/AppLocaleSwitcher.vue'
+import useScrollPosition from '@/composables/useScrollPosition'
 
 const router = useRouter()
 const breakpoints = useBreakpoints({ lg: 992 })
@@ -22,6 +23,8 @@ router.afterEach((to, from) => {
   // eslint-disable-next-line no-param-reassign
   to.meta.transition = to.meta.weight < from.meta.weight ? 'page-slide-right' : 'page-slide-left'
 })
+
+const { root, updateScrollPosition } = useScrollPosition()
 </script>
 
 <template>
@@ -68,10 +71,15 @@ router.afterEach((to, from) => {
         :src="Pattern"
         alt=""
       />
-      <router-view v-slot="{ Component, route }" class="absolute inset-0 w-full overflow-y-auto">
+      <router-view
+        ref="root"
+        v-slot="{ Component, route }"
+        class="absolute inset-0 w-full overflow-y-auto"
+      >
         <transition
           :name="(route.meta.transition as string | undefined) || 'page-scale-fade'"
           appear
+          @enter="updateScrollPosition"
         >
           <component :is="Component" />
         </transition>

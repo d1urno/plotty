@@ -15,7 +15,7 @@ const exampleStory = computed(() =>
 
 <template>
   <main
-    class="relative overflow-y-auto bg-gradient-to-r from-teal-400/20 via-blue-500/20 to-blue-400/50 pb-20 text-gray-800"
+    class="relative bg-gradient-to-r from-teal-400/20 via-blue-500/20 to-blue-400/50 pb-20 text-gray-800"
   >
     <section class="mb-10 bg-gradient-to-b from-blue-600/30 from-45% pb-40 pt-20">
       <div class="container px-4 sm:px-6 lg:px-20">
