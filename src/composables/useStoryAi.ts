@@ -7,7 +7,7 @@ import { storeToRefs } from 'pinia'
 import { createSharedComposable } from '@vueuse/core'
 import type { Story } from '@/types/local'
 import { useStore } from '@/stores'
-import { generateUniqueId, isDeepEqual, slugify } from '@/utils'
+import { generateUniqueId, isDeepEqual } from '@/utils'
 import useCharacterItemsByIds from '@/composables/useCharacterItemsByIds'
 import type { GetCharacterItemsByIdsQueryVariables } from '@/types/generated'
 import useStoryForm from '@/composables/useStoryForm'
@@ -22,7 +22,8 @@ import useStoryApi from '@/composables/useStoryApi'
 function useStoryAi() {
   const router = useRouter()
   const route = useRoute()
-  const { isPromptLoading, isAiLoading, apiKey, chaptersLoadingData } = storeToRefs(useStore())
+  const { stories, isPromptLoading, isAiLoading, apiKey, chaptersLoadingData } =
+    storeToRefs(useStore())
   const { formData: storyFormData } = useStoryForm()
   const { saveStory } = useStoryApi()
   const { showModal } = useModal()
@@ -126,7 +127,7 @@ function useStoryAi() {
         ]
       }
 
-      saveStory(payload)
+      saveStory(payload, false)
 
       chaptersLoadingData.value.set(payload.chapters[0].id, {
         title: true,
@@ -186,36 +187,34 @@ function useStoryAi() {
             aiResult.nextChapterActionDecisions?.characterName
         }
 
-        saveStory(payload)
+        saveStory(payload, false)
       })
-
-      if (`/story/${payload.slug}` === route.path) {
-        payload.slug = slugify(payload.title)
-        saveStory(payload)
-        await router.replace(`/story/${payload.slug}`)
-      } else {
-        payload.slug = slugify(payload.title)
-        saveStory(payload)
-      }
 
       chaptersLoadingData.value.delete(payload.chapters[0].id)
 
       if (toastId) hideToast(toastId)
 
-      if (`/story/${payload.slug}` !== route.path) {
-        showModal({
-          title: `<span class="text-blue-500">${t('useAi.ready.title')}</span>`,
-          content: t('useAi.ready.content', { title: `<b>${payload.title}</b>` }),
-          buttons: [
-            {
-              label: t('useAi.ready.buttons.readNow'),
-              type: 'success',
-              callbackOrLink: `/story/${payload.slug}`
-            }
-          ]
-        })
+      saveStory(payload)
+
+      const story = stories.value.find((s) => s.id === payload.id) ?? null
+      if (story) {
+        if (`/story/${story.id}` === route.path) await router.replace(`/story/${story.slug}`)
+
+        if (`/story/${story.slug}` !== route.path) {
+          showModal({
+            title: `<span class="text-blue-500">${t('useAi.ready.title')}</span>`,
+            content: t('useAi.ready.content', { title: `<b>${story.title}</b>` }),
+            buttons: [
+              {
+                label: t('useAi.ready.buttons.readNow'),
+                type: 'success',
+                callbackOrLink: `/story/${story.slug}`
+              }
+            ]
+          })
+        }
       }
-      return payload
+      return story
     } catch (e) {
       console.error(e)
       if (!(e instanceof Error)) return null

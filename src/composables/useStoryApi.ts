@@ -1,14 +1,25 @@
 import type { Story } from '@/types/local'
 import { storeToRefs } from 'pinia'
 import { useStore } from '@/stores'
+import { slugify } from '@/utils'
 
 export default function useStoryApi() {
   const { stories } = storeToRefs(useStore())
 
-  function saveStory(updatedStory: Story) {
+  function saveStory(updatedStory: Story, updateSlug = true) {
     const index = stories.value.findIndex((s) => s.id === updatedStory.id)
     if (index === undefined || index === -1) stories.value.unshift({ ...updatedStory })
-    else stories.value.splice(index, 1, { ...updatedStory })
+    else if (updateSlug) {
+      // Avoid duplicated slugs
+      let slug
+      const occurrences = stories.value.filter((s) => s.title === updatedStory.title)
+      if (occurrences.length > 1) {
+        slug = slugify(`${updatedStory.title}-${occurrences.length}`)
+      } else {
+        slug = slugify(updatedStory.title)
+      }
+      stories.value.splice(index, 1, { ...updatedStory, slug })
+    } else stories.value.splice(index, 1, { ...updatedStory })
   }
 
   function deleteStory(storyId: string) {
