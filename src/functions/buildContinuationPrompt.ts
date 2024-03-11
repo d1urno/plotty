@@ -98,6 +98,7 @@ ${getLineIf(checks.requiresSuggestions(), '- Suggest 3 situational ideas for the
 ${getLineIf(checks.requiresLastChapterSuggestions(), '- Suggest 3 ideas for the ending, that the user can select from to finish the story')}
 ${getLineIf(checks.requiresActions(), '- Include 3 possible specific actions for a main character to take that the user needs to select from to further continue the story')}
 ${getLineIf(checks.requiresLastChapterActions(), '- Include 3 possible specific actions for a main character to take that the user needs to select from to end the story')} 
+- IMPORTANT: Do not include in any situation in the story related to its required language, nor its origin or context, as this is just the base for the text generation
 - IMPORTANT: The length of the content should be long enough to be read in ${options.story.storyLength}
 - IMPORTANT: Generate a JSON response strictly respecting the provided typescript structure. Exclude any comments, explanations, or guidance in the provided JSON output`
   )

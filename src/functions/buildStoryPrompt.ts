@@ -98,6 +98,7 @@ ${getLineIf(options.storyMode === StoryMode.DECISION_MAKING, '- This is a decisi
 ${getLineIf(!checks.isSingleChapter(), `- IMPORTANT: Do not include the title of the chapter in the content, as it's already provided in the typescript structure`)}
 ${getLineIf(!checks.isSingleChapter(), `- IMPORTANT: Do not include the number of the chapter in the chapter's title, we are going to display the chapter number separately`)}
 - IMPORTANT: Do not include the chapter title in the suggested ideas or actions
+- IMPORTANT: Do not include in any situation in the story related to its required language, nor its origin or context, as this is just the base for the text generation
 - IMPORTANT: Separate the content with blank lines to make it easier to read
 - IMPORTANT: The length of the content should be long enough to be read in ${options.storyLength}
 - IMPORTANT: Generate a JSON response strictly respecting the provided typescript structure. Exclude any comments, explanations, or guidance in the provided JSON output`
