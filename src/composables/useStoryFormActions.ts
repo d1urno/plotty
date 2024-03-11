@@ -222,7 +222,10 @@ export default function useStoryFormActions() {
   function onGenreSelect(genre: StoryGenre | StoryGenre[]) {
     if (Array.isArray(genre)) return onMultipleGenreSelect(genre)
     if (storyFormData.value.storyGenres.includes(genre)) {
-      storyFormData.value.storyGenres = storyFormData.value.storyGenres.filter((g) => g !== genre)
+      if (storyFormData.value.storyGenres.length === 1)
+        storyFormData.value.storyGenres = [StoryGenre.AI]
+      else
+        storyFormData.value.storyGenres = storyFormData.value.storyGenres.filter((g) => g !== genre)
     } else {
       storyFormData.value.storyGenres = [
         ...storyFormData.value.storyGenres.filter((g) => g !== StoryGenre.AI),

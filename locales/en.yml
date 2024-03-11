@@ -38,7 +38,7 @@ enums:
     ACTION: 'Action'
     ADVENTURE: 'Adventure'
     DRAMA: 'Drama'
-    AI: 'AI decide'
+    AI: 'AI decides'
   StoryAudience:
     ALL: 'Everyone'
     KIDS: 'Kids'

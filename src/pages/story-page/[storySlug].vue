@@ -169,7 +169,7 @@ function onDecisionRevert(chapterIndex: number) {
           />
         </div>
 
-        <div>
+        <div v-if="!chaptersLoadingData.size">
           <h2 class="mb-4 text-left text-xl font-bold">{{ $t('StorySlug.genres.title') }}</h2>
           <ul class="grid list-inside grid-cols-3 text-lg">
             <li v-for="genre in story.storyGenres" :key="genre">

@@ -19,7 +19,7 @@ export default {
   storyStructure: StoryStructure.SIMPLE,
   storyMode: StoryMode.NORMAL,
   storyLength: StoryLength.SHORT,
-  storyGenres: [StoryGenre.COMEDY],
+  storyGenres: [StoryGenre.AI],
   storyAudience: StoryAudience.ALL,
   decisionMakers: [] as string[],
   chapters: [],
