@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import AppLink from '@/components/AppLink.vue'
-import StoryChapter from '@/components/StoryChapter.vue'
 import defaultStories from '@/constants/defaultStories'
 import { useI18n } from 'vue-i18n'
 import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
 import { computed } from 'vue'
+import StoryItem from '@/components/StoryItem.vue'
 
 const { locale } = useI18n()
 
@@ -75,20 +75,10 @@ const exampleStory = computed(() =>
         v-if="exampleStory"
         class="mx-auto mb-20 mt-10 flex flex-1 flex-col rounded-md py-8 md:bg-blue-50 md:px-10 md:shadow-lg"
       >
-        <h2 class="mb-12 text-center text-2xl italic text-blue-500">
+        <h2 class="text-center text-2xl italic text-blue-500">
           {{ $t('home.exampleStory.title') }}
         </h2>
-        <article class="prose-lg mx-auto max-w-3xl font-garamond prose-p:font-sans">
-          <h1 class="mb-16 text-center">{{ exampleStory.title }}</h1>
-          <StoryChapter
-            v-for="(chapter, i) in exampleStory.chapters"
-            :key="chapter.id"
-            :story-structure="exampleStory.storyStructure"
-            :chapter="chapter"
-            :index="i + 1"
-            is-preview
-          />
-        </article>
+        <StoryItem :story="exampleStory" is-preview />
       </section>
 
       <section class="mx-auto mb-20 max-w-2xl rounded-lg bg-blue-50 p-6 shadow-lg">

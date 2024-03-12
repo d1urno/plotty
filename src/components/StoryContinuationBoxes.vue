@@ -7,10 +7,10 @@ import { storeToRefs } from 'pinia'
 import { useStore } from '@/stores'
 import { useI18n } from 'vue-i18n'
 import useModal from '@/composables/useModal'
+import useCharacterListByIds from '@/composables/useCharacterListByIds'
 
 const props = defineProps<{
   story: Story
-  characterList?: BaseCharacter[]
 }>()
 
 const emit = defineEmits<{
@@ -21,6 +21,10 @@ const emit = defineEmits<{
 const { chaptersLoadingData } = storeToRefs(useStore())
 const { t } = useI18n()
 const { showModal } = useModal()
+const variables = computed(() => ({
+  ids: [...props.story.mainCharacters, ...props.story.secondaryCharacters]
+}))
+const { characterList } = useCharacterListByIds(variables, true)
 
 const customContinuation = ref<string>(t('StoryChapter.customContinuationText'))
 
@@ -28,7 +32,7 @@ const lastChapter = computed(() => props.story.chapters[props.story.chapters.len
 const loadingData = computed(() => chaptersLoadingData.value.get(lastChapter.value.id))
 
 const nextDecidingCharacter = computed(() =>
-  props.characterList?.find((c) => c.name === lastChapter.value.decidingCharacterName)
+  characterList.value?.find((c) => c.name === lastChapter.value.decidingCharacterName)
 )
 
 const nextDecidingCharacterName = computed(() => lastChapter.value.decidingCharacterName)

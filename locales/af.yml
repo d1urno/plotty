@@ -261,7 +261,6 @@ CharacterBio:
       invalidSize: 'Die beeldgrootte is te groot'
 StoryChapter:
   title: 'Hoofstuk {index}: {title}'
-  continuedText: 'Word vervolg...'
   customContinuationText: "Skielik verskyn 'n draak..."
   someoneText: 'Iemand'
   makesLastDecisionText: '{name} maak die laaste besluit...'
@@ -273,7 +272,6 @@ StoryChapter:
   revertText: 'Herroep hierdie besluit...'
   buttons:
     customLabel: 'Skryf jou eie!'
-  endText: 'Die einde'
   modals:
     writeOwnContinuation:
       title: 'Skryf jou eie voortsetting'
@@ -296,7 +294,10 @@ StorySlug:
   audience:
     title: Gehoor
   createdAt: 'Geskep {date}'
-  noTranslationText: "Hierdie storie is in {language} geskep en daar is nog geen vertaling beskikbaar nie."
+StoryItem:
+  noTranslationText: 'Hierdie storie is in {language} geskep en daar is nog geen vertaling beskikbaar nie.'
+  continuedText: 'Word vervolg...'
+  endText: 'Die einde'
 AppModal:
   buttons:
     close: Sluit

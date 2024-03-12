@@ -261,7 +261,6 @@ CharacterBio:
       invalidSize: 'El tamaño de la imagen es demasiado grande'
 StoryChapter:
   title: 'Capítulo {index}: {title}'
-  continuedText: 'Continuará...'
   customContinuationText: 'De repente apareció un dragón...'
   someoneText: 'Alguien'
   makesLastDecisionText: '{name} toma la última decisión...'
@@ -273,7 +272,6 @@ StoryChapter:
   revertText: 'Revertir esta decisión...'
   buttons:
     customLabel: '¡Escribe el tuyo!'
-  endText: 'El fin'
   modals:
     writeOwnContinuation:
       title: 'Escribe tu propia continuación'
@@ -296,7 +294,10 @@ StorySlug:
   audience:
     title: Audiencia
   createdAt: 'Creado {date}'
+StoryItem:
   noTranslationText: 'Esta historia fue creada en {language} y aún no hay traducción disponible.'
+  continuedText: 'Continuará...'
+  endText: 'El fin'
 AppModal:
   buttons:
     close: Cerrar

@@ -38,7 +38,7 @@ function onDecisionRevert() {
 </script>
 
 <template>
-  <section>
+  <section class="mb-20">
     <h2 v-if="storyStructure !== StoryStructure.SIMPLE && chapter.title">
       {{ $t('StoryChapter.title', { index, title: chapter.title }) }}
     </h2>

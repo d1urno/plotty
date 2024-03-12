@@ -6,15 +6,14 @@ import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import useModal from '@/composables/useModal'
 import StoryCard from '@/components/StoryCard.vue'
 import StoryFilters from '@/components/StoryFilters.vue'
-import StoryChapter from '@/components/StoryChapter.vue'
 import AppLink from '@/components/AppLink.vue'
 import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
 import { useI18n } from 'vue-i18n'
-import { StoryStructure } from '@/constants/rules'
 import useStoryApi from '@/composables/useStoryApi'
+import StoryItem from '@/components/StoryItem.vue'
 
 const { showModal } = useModal()
-const { stories, chaptersLoadingData } = storeToRefs(useStore())
+const { stories } = storeToRefs(useStore())
 const { deleteStory } = useStoryApi()
 const { locale } = useI18n()
 const lastStory = computed(
@@ -46,12 +45,6 @@ const filteredStories = computed(() => {
     return !(style && s.storyStyle !== style)
   })
 })
-
-const showToBeContinued = computed(
-  () =>
-    lastStory.value.storyStructure !== StoryStructure.SIMPLE &&
-    lastStory.value.chapters.length < lastStory.value.totalChapters
-)
 
 function onDeleteStory(id: string) {
   const story = stories.value.find((s) => s.id === id)
@@ -109,36 +102,12 @@ function onDeleteStory(id: string) {
           </ul>
         </div>
 
+        <!-- Recent story -->
         <div class="mx-auto flex flex-1 flex-col">
-          <h2 class="mb-8 text-center text-2xl italic text-blue-500">
+          <h2 class="text-center text-2xl italic text-blue-500">
             {{ $t('StoriesPage.recentStoryText') }}
           </h2>
-          <article class="prose prose-lg mx-auto max-w-3xl font-garamond prose-p:font-sans">
-            <h1 class="mb-16 text-center text-blue-600">{{ lastStory.title }}</h1>
-
-            <!-- Need to spread chapter object, otherwise reactivity is lost when streaming 😟 -->
-            <StoryChapter
-              v-for="(chapter, i) in lastStory.chapters"
-              :key="chapter.id"
-              is-preview
-              :story-structure="lastStory.storyStructure"
-              :chapter="{ ...chapter }"
-              :index="i + 1"
-            />
-
-            <h2 v-if="showToBeContinued" class="mt-10 text-center font-garamond text-3xl font-bold">
-              <AppLink :to="`/story/${lastStory.slug}`" class="font-semibold text-blue-500">
-                {{ $t('StoryChapter.continuedText') }}
-              </AppLink>
-            </h2>
-
-            <h2
-              v-else-if="!chaptersLoadingData.size"
-              class="mt-10 text-center font-garamond text-3xl font-bold"
-            >
-              {{ $t('StoryChapter.endText') }}
-            </h2>
-          </article>
+          <StoryItem :story="lastStory" is-preview />
         </div>
       </template>
     </div>

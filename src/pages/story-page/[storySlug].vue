@@ -6,17 +6,13 @@ import useCharacterListByIds from '@/composables/useCharacterListByIds'
 import CharacterSelectionList from '@/components/CharacterSelectionList.vue'
 import CharacterDetailsModal from '@/components/CharacterDetailsModal.vue'
 import { useRoute } from 'vue-router'
-import useContinuationAi from '@/composables/useContinuationAi'
-import useModal from '@/composables/useModal'
 import ApiKeyModal from '@/components/ApiKeyModal.vue'
 import type { BaseCharacter, Story } from '@/types/local'
 import getGenreImg from '@/functions/getGenreImg'
-import StoryChapter from '@/components/StoryChapter.vue'
 import GenericCard from '@/components/GenericCard.vue'
 import {
   StoryAudience,
   StoryGenre,
-  StoryLanguage,
   StoryLength,
   StoryMode,
   StoryStructure,
@@ -24,17 +20,12 @@ import {
 } from '@/constants/rules'
 import useEnum from '@/composables/useEnum'
 import useDate from '@/composables/useDate'
-import getLanguageFromLocale from '@/functions/getLanguageFromLocale'
-import { useI18n } from 'vue-i18n'
-import StoryContinuationBoxes from '@/components/StoryContinuationBoxes.vue'
-import useStoryApi from '@/composables/useStoryApi'
+import StoryItem from '@/components/StoryItem.vue'
 
 const route = useRoute<'/story/[storySlug]'>()
 const storySlug = computed(() => route.params.storySlug)
 
-const { locale } = useI18n()
 const { stories, apiKey, chaptersLoadingData } = storeToRefs(useStore())
-const { saveStory } = useStoryApi()
 const storyId = computed(
   () =>
     (
@@ -49,86 +40,14 @@ const variables = computed(
     (story.value && { ids: [...story.value.mainCharacters, ...story.value.secondaryCharacters] }) ??
     undefined
 )
-const { characterList, loading } = useCharacterListByIds(variables)
-const { getContinuationPrompt, generateContinuation } = useContinuationAi(storyId)
-const { showModal } = useModal()
-
+const { loading } = useCharacterListByIds(variables)
 const { formattedDate } = useDate(story.value?.created)
 
 const apiKeyModal = ref<{ visible: boolean }>()
 const characterModal = ref<{ visible: boolean; character: BaseCharacter }>()
 
-const lastChapter = computed(() => story.value?.chapters[story.value.chapters.length - 1])
-
-const showContinuationBoxes = computed(() => {
-  if (!story.value || !lastChapter.value?.nextChapterChoices?.some((c) => c.length)) return false
-  return (
-    story.value.storyStructure !== StoryStructure.SIMPLE &&
-    (story.value.storyStructure === StoryStructure.OPEN_ENDING ||
-      story.value.chapters.length < story.value.totalChapters)
-  )
-})
-
 function onCardClick(character: BaseCharacter) {
   characterModal.value = { visible: true, character }
-}
-
-async function onApplyContinuation(args: { choiceIndex?: number; customChoice?: string }) {
-  try {
-    const prompt = await getContinuationPrompt(args.choiceIndex, args.customChoice)
-    if (!prompt) return
-    if (import.meta.env.DEV) {
-      showModal({
-        title: 'Story prompt',
-        content: 'Edit prompt before submitting',
-        maxWidthClass: 'max-w-2xl',
-        input: prompt,
-        buttons: [
-          {
-            label: 'Generate story',
-            type: 'success',
-            callbackOrLink: async (close, output) => {
-              if (!output) return
-              close()
-              await generateContinuation(output, route.path, args.choiceIndex, args.customChoice)
-            }
-          }
-        ]
-      })
-    } else {
-      await generateContinuation(prompt, route.path, args.choiceIndex, args.customChoice)
-    }
-  } catch (error) {
-    if (error instanceof Error && error.message === 'API key not found') {
-      apiKeyModal.value = { visible: true }
-    } else console.error(error)
-  }
-}
-
-async function revertDecision(chapterIndex: number) {
-  if (!story.value) return
-  story.value.chapters[chapterIndex].selectedChoiceIndex = undefined
-  story.value.chapters[chapterIndex].customChoice = undefined
-  story.value.chapters = story.value.chapters.slice(0, chapterIndex + 1)
-  saveStory(story.value)
-}
-
-function onDecisionRevert(chapterIndex: number) {
-  showModal({
-    title: 'Revert to this decision',
-    content:
-      'Are you sure you want to revert back to this decision? This action will delete all chapters after this one, and cannot be undone.',
-    buttons: [
-      {
-        label: 'Revert',
-        type: 'warning',
-        callbackOrLink: async (close) => {
-          close()
-          await revertDecision(chapterIndex)
-        }
-      }
-    ]
-  })
 }
 </script>
 
@@ -234,47 +153,11 @@ function onDecisionRevert(chapterIndex: number) {
       </div>
 
       <div class="order-0 mx-auto flex w-full flex-col px-6 xl:order-1 xl:px-10">
-        <span
-          v-if="story.storyLanguage !== getLanguageFromLocale(locale)"
-          class="rounded-md bg-orange-50 p-6 text-orange-600 ring-2 ring-orange-400"
-        >
-          {{
-            $t('StorySlug.noTranslationText', {
-              language: useEnum(StoryLanguage).toLabel(story.storyLanguage)
-            })
-          }}
-        </span>
-
-        <article
-          class="prose prose-lg mx-auto !w-full max-w-3xl py-6 font-garamond prose-p:font-sans xl:py-16"
-        >
-          <h1 class="mb-16 text-center text-blue-600">{{ story.title }}</h1>
-
-          <!-- Need to spread chapter object, otherwise reactivity is lost when streaming 😟 -->
-          <StoryChapter
-            v-for="(chapter, i) in story.chapters"
-            :key="chapter.id"
-            :story-structure="story.storyStructure"
-            :chapter="{ ...chapter }"
-            :index="i + 1"
-            @decision-revert="onDecisionRevert(i)"
-          />
-
-          <StoryContinuationBoxes
-            v-if="showContinuationBoxes"
-            :story="story"
-            :character-list="characterList"
-            @apply-continuation="onApplyContinuation"
-            @character-thumb-click="onCardClick"
-          />
-
-          <h2
-            v-else-if="!chaptersLoadingData.size"
-            class="mt-10 text-center font-garamond text-3xl font-bold"
-          >
-            {{ $t('StoryChapter.endText') }}
-          </h2>
-        </article>
+        <StoryItem
+          :story="story"
+          @card-click="onCardClick"
+          @key-not-found="apiKeyModal = { visible: true }"
+        />
       </div>
     </div>
 
