@@ -6,6 +6,7 @@ import { storeToRefs } from 'pinia'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { readArrayBuffer, storeArrayBuffer } from '@/functions/indexedDBOperations'
 import PlayCircleIcon from '@/components/icons/PlayCircleIcon.vue'
+import { PRESET_AUDIOS } from '@/constants/rules'
 
 const props = withDefaults(
   defineProps<{
@@ -44,7 +45,13 @@ async function loadBuffer() {
         return [...(await acc), await readArrayBuffer(id)]
       } catch (e) {
         if (e instanceof Error && e.message.includes('ArrayBuffer not found')) {
-          const newBuffer = await fetchGPTSpeech(text, apiKey.value)
+          let newBuffer: ArrayBuffer
+          // If the audio is a predefined link, fetch it directly, otherwise use GPT to generate the audio
+          if (PRESET_AUDIOS[id]) {
+            newBuffer = await fetch(PRESET_AUDIOS[id]).then((res) => res.arrayBuffer())
+          } else {
+            newBuffer = await fetchGPTSpeech(text, apiKey.value)
+          }
           await storeArrayBuffer(newBuffer, id)
           return [...(await acc), newBuffer]
         }
