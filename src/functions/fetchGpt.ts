@@ -77,6 +77,24 @@ export async function streamGPT(
   await readStream() // Start reading the stream
 }
 
+export async function fetchGPTSpeech(input: string, apyKey: string) {
+  const response = await fetch('https://api.openai.com/v1/audio/speech', {
+    method: 'POST',
+    body: JSON.stringify({
+      model: 'tts-1',
+      input,
+      voice: 'nova',
+      response_format: 'opus'
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apyKey}`
+    },
+  })
+
+  return response.arrayBuffer()
+}
+
 export function stopFetchGPT() {
   if (controller) controller.abort()
 }
