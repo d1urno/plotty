@@ -1,5 +1,6 @@
 import type { Chapter, Story } from '@/types/local'
 import useStoryApi from '@/composables/useStoryApi'
+import { deleteArrayBuffer } from '@/functions/indexedDBOperations'
 
 export default function useChapterApi() {
   const { saveStory } = useStoryApi()
@@ -13,7 +14,19 @@ export default function useChapterApi() {
     saveStory(updatedStory)
   }
 
+  async function deleteChapters(chapterId: string[], story: Story) {
+    const updatedStory = { ...story }
+
+    // Delete audioBuffers
+    const promises = chapterId.map((id) => deleteArrayBuffer(id))
+    await Promise.all(promises)
+
+    updatedStory.chapters = updatedStory.chapters.filter((c) => !chapterId.includes(c.id))
+    saveStory(updatedStory)
+  }
+
   return {
-    saveChapter
+    saveChapter,
+    deleteChapters
   }
 }

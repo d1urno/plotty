@@ -277,6 +277,9 @@ StoryChapter:
       title: 'Escribe tu propia continuación'
       buttons:
         submit: 'Enviar'
+actions:
+  playAudio:
+    label: 'Reproducir audio del capítulo'
 StorySlug:
   mainRolesTitle: 'Roles principales'
   secondaryRolesTitle: 'Roles secundarios'
@@ -298,6 +301,9 @@ StoryItem:
   noTranslationText: 'Esta historia fue creada en {language} y aún no hay traducción disponible.'
   continuedText: 'Continuará...'
   endText: 'El fin'
+  actions:
+    playAudio:
+      label: 'Reproducir audio de la historia'
 AppModal:
   buttons:
     close: Cerrar
@@ -353,6 +359,8 @@ useAi:
     errorFetchingCharactersText: 'Ocurrió un error al buscar los personajes. Por favor, intenta de nuevo más tarde.'
     invalidKeyText: 'Clave de API inválida. Por favor, verifica tu clave de API e intenta de nuevo.'
     errorGeneratingText: 'Ocurrió un error al generar el texto. Por favor, intenta de nuevo más tarde.'
+AudioPlayer:
+  label: 'Reproducir audio'
 GenericToast:
   buttons:
     close: Cerrar

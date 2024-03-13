@@ -9,11 +9,13 @@ import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 import useModal from '@/composables/useModal'
 import useContinuationAi from '@/composables/useContinuationAi'
-import useStoryApi from '@/composables/useStoryApi'
 import { useRoute } from 'vue-router'
 import { useStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import AppLink from '@/components/AppLink.vue'
+import AudioPlayer from '@/components/AudioPlayer.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
+import useChapterApi from '@/composables/useChapterApi'
 
 const props = defineProps<{
   story: Story
@@ -30,7 +32,7 @@ const route = useRoute<'/story/[storySlug]'>()
 const { getContinuationPrompt, generateContinuation } = useContinuationAi(storyId)
 const { chaptersLoadingData } = storeToRefs(useStore())
 const { t, locale } = useI18n()
-const { saveStory } = useStoryApi()
+const { deleteChapters } = useChapterApi()
 const { showModal } = useModal()
 
 const nextChapterChoices = computed(
@@ -58,6 +60,20 @@ const showToBeContinued = computed(
     props.story.storyStructure !== StoryStructure.SIMPLE &&
     props.story.chapters.length < props.story.totalChapters
 )
+
+const audioTextData = computed(() => {
+  const { id, title, chapters, storyStructure } = props.story
+  if (storyStructure === StoryStructure.SIMPLE) {
+    return [{ id, text: `${title}. ${chapters[0].content}` }]
+  }
+  return [
+    { id, text: `${title}.` },
+    ...props.story.chapters.map((c, index) => ({
+      id: c.id,
+      text: `${t('StoryChapter.title', { index: index + 1, title: c.title })}. ${c.content}`
+    }))
+  ]
+})
 
 async function onApplyContinuation(args: { choiceIndex?: number; customChoice?: string }) {
   try {
@@ -93,10 +109,13 @@ async function onApplyContinuation(args: { choiceIndex?: number; customChoice?: 
 
 async function revertDecision(chapterIndex: number) {
   const updatedStory = { ...props.story }
+  // Reset the choice on the selected chapter
   updatedStory.chapters[chapterIndex].selectedChoiceIndex = undefined
   updatedStory.chapters[chapterIndex].customChoice = undefined
-  updatedStory.chapters = updatedStory.chapters.slice(0, chapterIndex + 1)
-  saveStory(updatedStory)
+
+  // Delete all chapters after the selected chapter
+  const toDeleteIds = updatedStory.chapters.slice(chapterIndex + 1).map((c) => c.id)
+  await deleteChapters(toDeleteIds, updatedStory)
 }
 
 function onDecisionRevert(chapterIndex: number) {
@@ -127,9 +146,21 @@ function onDecisionRevert(chapterIndex: number) {
       {{ noTranslationText }}
     </span>
 
+    <div class="flex items-center justify-center gap-5 font-sans md:px-10 xl:-mb-8">
+      <LoadingSpinner v-if="chaptersLoadingData.size" />
+      <AudioPlayer
+        v-else
+        :label="$t('StoryItem.actions.playAudio.label')"
+        :items="audioTextData"
+        :lang="story.storyLanguage"
+        size="large"
+        class="mx-auto"
+        @key-not-found="$emit('keyNotFound')"
+      />
+    </div>
+
     <article
-      class="prose prose-lg mx-auto mb-6 !w-full max-w-3xl font-garamond prose-p:font-sans xl:mb-16"
-      :class="{ 'mt-6 xl:mt-16': story.storyLanguage === getLanguageFromLocale(locale) }"
+      class="prose prose-lg mx-auto mb-6 mt-6 !w-full max-w-3xl font-garamond prose-p:font-sans xl:mb-16 xl:mt-16"
     >
       <h1 class="mb-16 text-center text-blue-600">{{ story.title }}</h1>
 
@@ -138,10 +169,12 @@ function onDecisionRevert(chapterIndex: number) {
         v-for="(chapter, i) in story.chapters"
         :key="chapter.id"
         :story-structure="story.storyStructure"
+        :story-language="story.storyLanguage"
         :chapter="{ ...chapter }"
         :index="i + 1"
         :is-preview="isPreview"
         @decision-revert="onDecisionRevert(i)"
+        @key-not-found="$emit('keyNotFound')"
       />
 
       <StoryContinuationBoxes

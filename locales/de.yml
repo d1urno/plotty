@@ -277,6 +277,9 @@ StoryChapter:
       title: 'Schreiben Sie Ihre eigene Fortsetzung'
       buttons:
         submit: 'Einreichen'
+actions:
+  playAudio:
+    label: 'Kapitel-Audio abspielen'
 StorySlug:
   mainRolesTitle: 'Hauptrollen'
   secondaryRolesTitle: 'Nebenrollen'
@@ -298,6 +301,9 @@ StoryItem:
   noTranslationText: 'Diese Geschichte wurde in {language} erstellt und es gibt noch keine Übersetzung.'
   continuedText: 'Fortsetzung folgt...'
   endText: 'Das Ende'
+  actions:
+    playAudio:
+      label: 'Geschichten-Audio abspielen'
 AppModal:
   buttons:
     close: Schließen
@@ -353,6 +359,8 @@ useAi:
     errorFetchingCharactersText: 'Beim Abrufen der Charaktere ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.'
     invalidKeyText: 'Ungültiger API-Schlüssel. Bitte überprüfen Sie Ihren API-Schlüssel und versuchen Sie es erneut.'
     errorGeneratingText: 'Beim Generieren des Textes ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.'
+AudioPlayer:
+  label: 'Audio abspielen'
 GenericToast:
   buttons:
     close: Schließen

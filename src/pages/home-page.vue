@@ -75,10 +75,11 @@ const exampleStory = computed(() =>
         v-if="exampleStory"
         class="mx-auto mb-20 mt-10 flex flex-1 flex-col rounded-md py-8 md:bg-blue-50 md:px-10 md:shadow-lg"
       >
-        <h2 class="text-center text-2xl italic text-blue-500">
+        <h2 class="mb-12 text-center text-2xl italic text-blue-500">
           {{ $t('home.exampleStory.title') }}
         </h2>
-        <StoryItem :story="exampleStory" is-preview />
+        <!-- Using locale key just to re-render the audio player when the locale changes -->
+        <StoryItem :key="locale" :story="exampleStory" is-preview />
       </section>
 
       <section class="mx-auto mb-20 max-w-2xl rounded-lg bg-blue-50 p-6 shadow-lg">
