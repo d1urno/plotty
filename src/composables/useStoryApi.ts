@@ -2,6 +2,7 @@ import type { Story } from '@/types/local'
 import { storeToRefs } from 'pinia'
 import { useStore } from '@/stores'
 import { slugify } from '@/utils'
+import { deleteArrayBuffer } from '@/functions/indexedDBOperations'
 
 export default function useStoryApi() {
   const { stories } = storeToRefs(useStore())
@@ -22,8 +23,17 @@ export default function useStoryApi() {
     } else stories.value.splice(index, 1, { ...updatedStory })
   }
 
-  function deleteStory(storyId: string) {
+  async function deleteStory(storyId: string) {
     const index = stories.value.findIndex((s) => s.id === storyId)
+
+    // Delete story title array buffer
+    await deleteArrayBuffer(storyId)
+
+    // Delete all chapters' audioBuffers
+    const chapterIds = stories.value[index].chapters.map((c) => c.id)
+    const promises = [...chapterIds.map((id) => deleteArrayBuffer(id))]
+    await Promise.all(promises)
+
     if (index !== undefined && index !== -1) stories.value.splice(index, 1)
   }
 
