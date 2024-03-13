@@ -353,6 +353,8 @@ useAi:
     errorFetchingCharactersText: 'Beim Abrufen der Charaktere ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.'
     invalidKeyText: 'Ungültiger API-Schlüssel. Bitte überprüfen Sie Ihren API-Schlüssel und versuchen Sie es erneut.'
     errorGeneratingText: 'Beim Generieren des Textes ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.'
+AudioPlayer:
+  label: 'Audio abspielen'
 GenericToast:
   buttons:
     close: Schließen

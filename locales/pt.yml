@@ -353,6 +353,8 @@ useAi:
     errorFetchingCharactersText: 'Ocorreu um erro ao buscar os personagens. Por favor, tente novamente mais tarde.'
     invalidKeyText: 'Chave da API inválida. Por favor, verifique sua chave da API e tente novamente.'
     errorGeneratingText: 'Ocorreu um erro ao gerar o texto. Por favor, tente novamente mais tarde.'
+AudioPlayer:
+  label: 'Reproduzir áudio'
 GenericToast:
   buttons:
     close: Fechar

@@ -353,6 +353,8 @@ useAi:
     errorFetchingCharactersText: "Une erreur s'est produite lors de la récupération des personnages. Veuillez réessayer plus tard."
     invalidKeyText: 'Clé API invalide. Veuillez vérifier votre clé API et réessayer.'
     errorGeneratingText: "Une erreur s'est produite lors de la génération du texte. Veuillez réessayer plus tard."
+AudioPlayer:
+  label: "Lire l'audio"
 GenericToast:
   buttons:
     close: Fermer
