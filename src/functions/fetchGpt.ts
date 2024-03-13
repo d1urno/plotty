@@ -89,7 +89,7 @@ export async function fetchGPTSpeech(input: string, apyKey: string) {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${apyKey}`
-    },
+    }
   })
 
   return response.arrayBuffer()

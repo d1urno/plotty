@@ -43,7 +43,7 @@
 
 .page-scale-fade-enter-active,
 .page-scale-fade-leave-active {
-  @apply transition-transform duration-200 ease-out absolute;
+  @apply absolute transition-transform duration-200 ease-out;
 }
 
 .page-scale-fade-enter-from {
