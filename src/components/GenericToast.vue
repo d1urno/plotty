@@ -18,13 +18,7 @@ export interface GenericToast {
 let timeoutId: NodeJS.Timeout
 
 const props = defineProps<{
-  type: 'info' | 'success' | 'error'
-  duration?: number
-  closable?: boolean
-  buttons?: {
-    label: string
-    callbackOrLink: ((close: () => void) => void) | string
-  }[]
+  toast: GenericToast
 }>()
 
 const emit = defineEmits<{
@@ -37,7 +31,7 @@ function close() {
 }
 
 onMounted(() => {
-  if (props.duration) timeoutId = setTimeout(close, props.duration)
+  if (props.toast.duration) timeoutId = setTimeout(close, props.toast.duration)
 })
 </script>
 
@@ -45,21 +39,21 @@ onMounted(() => {
   <div
     class="m-6 flex items-center gap-4 rounded-lg p-4 text-white"
     :class="{
-      'bg-blue-500': type === 'info',
-      'bg-red-500': type === 'error',
-      'bg-green-500': type === 'success'
+      'bg-blue-500': toast.type === 'info',
+      'bg-red-500': toast.type === 'error',
+      'bg-green-500': toast.type === 'success'
     }"
   >
-    <slot :close="close" />
+    <p v-html="toast.content" />
     <button
-      v-if="closable"
+      v-if="toast.closable"
       class="rounded-md border-2 border-white px-2 py-1 text-xs font-semibold text-white"
       type="button"
       @click="close"
     >
-      Close
+      {{ $t('GenericToast.buttons.close') }}
     </button>
-    <template v-for="button in buttons" :key="button.label">
+    <template v-for="button in toast.buttons" :key="button.label">
       <button
         v-if="typeof button.callbackOrLink !== 'string'"
         class="rounded-md border-2 border-white px-2 py-1 text-xs font-semibold text-white"

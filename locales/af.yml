@@ -353,3 +353,6 @@ useAi:
     errorFetchingCharactersText: " 'n Fout het voorgekom tydens die ophaal van die karakters. Probeer asseblief later weer."
     invalidKeyText: 'Ongeldige API sleutel. Gaan asseblief jou API sleutel na en probeer weer.'
     errorGeneratingText: " 'n Fout het voorgekom tydens die generering van die teks. Probeer asseblief later weer."
+GenericToast:
+  buttons:
+    close: Sluit

@@ -6,7 +6,7 @@ import { generateUniqueId } from '@/utils'
 export default function useToast() {
   const { appToasts } = storeToRefs(useStore())
 
-  function showToast(modal: Omit<GenericToast, 'id' | 'timestamp'>) {
+  function showToast(toast: Omit<GenericToast, 'id' | 'timestamp'>) {
     const id = generateUniqueId()
     if (!appToasts.value) appToasts.value = []
     appToasts.value.push({
@@ -14,7 +14,7 @@ export default function useToast() {
       timestamp: Date.now(),
       closable: false,
       duration: 3000,
-      ...modal
+      ...toast
     })
     return id
   }

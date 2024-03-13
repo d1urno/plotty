@@ -28,15 +28,10 @@ function onAfterLeave() {
       <GenericToast
         v-for="genericToast in sortedGenericToasts"
         :key="genericToast.id"
-        :type="genericToast.type"
-        :duration="genericToast.duration"
-        :closable="genericToast.closable"
-        :buttons="genericToast.buttons"
+        :toast="genericToast"
         class="pointer-events-auto"
         @close="onClose(genericToast.id)"
-      >
-        <p v-html="genericToast.content"></p>
-      </GenericToast>
+      />
     </transition-group>
   </div>
 </template>

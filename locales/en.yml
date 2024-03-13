@@ -353,3 +353,6 @@ useAi:
     errorFetchingCharactersText: 'An error occurred while fetching the characters. Please try again later.'
     invalidKeyText: 'Invalid API key. Please check your API key and try again.'
     errorGeneratingText: 'An error occurred while generating the text. Please try again later.'
+GenericToast:
+  buttons:
+    close: Close
