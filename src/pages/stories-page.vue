@@ -67,7 +67,7 @@ function onDeleteStory(id: string) {
 </script>
 
 <template>
-  <div class="flex h-full flex-col">
+  <div class="scrollbar-gutter flex h-full flex-col">
     <div
       class="container flex flex-col items-center gap-10 pb-20 pt-16 xl:flex-row xl:items-start xl:px-10"
     >

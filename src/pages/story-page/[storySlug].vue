@@ -53,7 +53,7 @@ function onCardClick(character: BaseCharacter) {
 
 <template>
   <div
-    class="flex h-full flex-col bg-gradient-to-l from-teal-400/10 from-80% via-blue-500/20 to-blue-400/50 xl:from-50%"
+    class="scrollbar-gutter flex h-full flex-col bg-gradient-to-l from-teal-400/10 from-80% via-blue-500/20 to-blue-400/50 xl:from-50%"
   >
     <div
       v-if="story"
