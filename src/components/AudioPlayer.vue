@@ -35,13 +35,8 @@ const audioBuffer = ref<ArrayBuffer[]>([])
 const isLoading = ref(false)
 
 async function loadBuffer() {
-  if (!apiKey.value) {
-    emit('keyNotFound')
-    return
-  }
   const promises = props.items.reduce(
     async (acc, { id, text }) => {
-      if (!apiKey.value) throw new Error('API key not found')
       try {
         return [...(await acc), await readItem(id)]
       } catch (e) {
@@ -51,11 +46,16 @@ async function loadBuffer() {
           if (PRESET_AUDIOS[id]) {
             newBuffer = await fetch(PRESET_AUDIOS[id]).then((res) => res.arrayBuffer())
           } else {
+            if (!apiKey.value) {
+              emit('keyNotFound')
+              return acc
+            }
             newBuffer = await fetchGPTSpeech(text, apiKey.value)
           }
           await storeItem(newBuffer, id)
           return [...(await acc), newBuffer]
         }
+        console.error(e)
       }
       return acc
     },
