@@ -28,7 +28,7 @@ const { timeAgo } = useDate(props.story.created)
     <time class="block text-xs">{{ timeAgo }}</time>
     <div class="mt-1 flex items-center gap-4">
       <div class="flex w-full">
-        <LoadingSpinner v-if="loading" class="-mt-4 !h-16" />
+        <LoadingSpinner v-if="loading" class="mt-3" />
         <CharacterThumb
           v-for="character in characterList"
           v-else

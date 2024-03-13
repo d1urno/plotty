@@ -50,8 +50,8 @@ function onDragEnd() {
 </script>
 
 <template>
-  <div ref="infiniteScrollRoot" class="flex flex-col overflow-x-auto">
-    <LoadingSpinner v-if="loading" class="mx-auto pt-8" />
+  <div ref="infiniteScrollRoot" class="flex h-full flex-col overflow-x-auto">
+    <LoadingSpinner v-if="loading" class="m-auto" />
 
     <div v-else-if="!filteredCharacterList?.length" class="pt-8">
       {{ $t('CharacterCardListHorizontal.noResultsText') }}
@@ -79,9 +79,9 @@ function onDragEnd() {
             <CharacterCard horizontal :character="character" @click="onCardClick(character)" />
           </Draggable>
         </transition-group>
-        <span class="row-span-2 h-full w-20">
+        <span class="row-span-2 flex h-full w-20">
           <span ref="infiniteScrollTrigger"></span>
-          <LoadingSpinner v-if="loadingNext" class="absolute top-24 !h-0" />
+          <LoadingSpinner v-if="loadingNext" class="m-auto" />
         </span>
       </Container>
     </div>

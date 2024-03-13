@@ -67,7 +67,7 @@ function onDragLeave() {
       }"
     >
       <p class="m-2 text-left font-bold lg:hidden">{{ label }}</p>
-      <div v-if="loading" class="flex h-full items-center justify-center">
+      <div v-if="loading" class="flex h-full items-center justify-center pt-6">
         <LoadingSpinner />
       </div>
 

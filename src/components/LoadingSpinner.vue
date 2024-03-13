@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="lds-ellipsis">
+  <div class="lds-ellipsis flex-none *:bg-blue-500">
     <div></div>
     <div></div>
     <div></div>
@@ -14,12 +14,11 @@
   display: inline-block;
   position: relative;
   width: 80px;
-  height: 80px;
+  height: 40px;
 }
 .lds-ellipsis div {
-  @apply bg-blue-500;
   position: absolute;
-  top: 33px;
+  top: 13px;
   width: 13px;
   height: 13px;
   border-radius: 50%;
