@@ -4,7 +4,7 @@ import { fetchGPTSpeech } from '@/functions/fetchGpt'
 import { useStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
-import { readArrayBuffer, storeArrayBuffer } from '@/functions/indexedDBOperations'
+import indexedDBOperations from '@/functions/indexedDBOperations'
 import PlayCircleIcon from '@/components/icons/PlayCircleIcon.vue'
 import { PRESET_AUDIOS } from '@/constants/rules'
 
@@ -27,6 +27,7 @@ const emit = defineEmits<{
 }>()
 
 const { apiKey } = storeToRefs(useStore())
+const { readItem, storeItem } = indexedDBOperations('arrayBuffer')
 
 const audioPlayer = ref<HTMLAudioElement | null>(null)
 const audioSrc = ref<string>()
@@ -42,9 +43,9 @@ async function loadBuffer() {
     async (acc, { id, text }) => {
       if (!apiKey.value) throw new Error('API key not found')
       try {
-        return [...(await acc), await readArrayBuffer(id)]
+        return [...(await acc), await readItem(id)]
       } catch (e) {
-        if (e instanceof Error && e.message.includes('ArrayBuffer not found')) {
+        if (e instanceof Error && e.message.includes('not found')) {
           let newBuffer: ArrayBuffer
           // If the audio is a predefined link, fetch it directly, otherwise use GPT to generate the audio
           if (PRESET_AUDIOS[id]) {
@@ -52,7 +53,7 @@ async function loadBuffer() {
           } else {
             newBuffer = await fetchGPTSpeech(text, apiKey.value)
           }
-          await storeArrayBuffer(newBuffer, id)
+          await storeItem(newBuffer, id)
           return [...(await acc), newBuffer]
         }
       }
