@@ -104,7 +104,7 @@ function onDeleteStory(id: string) {
 
         <!-- Recent story -->
         <div class="mx-auto flex flex-1 flex-col">
-          <h2 class="text-center text-2xl italic text-blue-500">
+          <h2 class="text-center text-2xl italic text-blue-500 mb-12">
             {{ $t('StoriesPage.recentStoryText') }}
           </h2>
           <StoryItem :story="lastStory" is-preview />

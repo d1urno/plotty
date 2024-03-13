@@ -277,6 +277,9 @@ StoryChapter:
       title: 'Skryf jou eie voortsetting'
       buttons:
         submit: 'Indien'
+actions:
+  playAudio:
+    label: 'Speel hoofstuk audio'
 StorySlug:
   mainRolesTitle: 'Hoofrolle'
   secondaryRolesTitle: 'Byrolle'
@@ -298,6 +301,9 @@ StoryItem:
   noTranslationText: 'Hierdie storie is in {language} geskep en daar is nog geen vertaling beskikbaar nie.'
   continuedText: 'Word vervolg...'
   endText: 'Die einde'
+  actions:
+    playAudio:
+      label: 'Speel storie audio'
 AppModal:
   buttons:
     close: Sluit

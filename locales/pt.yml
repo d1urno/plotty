@@ -277,6 +277,9 @@ StoryChapter:
       title: 'Escreva sua própria continuação'
       buttons:
         submit: 'Enviar'
+actions:
+  playAudio:
+    label: 'Reproduzir áudio do capítulo'
 StorySlug:
   mainRolesTitle: 'Papéis principais'
   secondaryRolesTitle: 'Papéis secundários'
@@ -298,6 +301,9 @@ StoryItem:
   noTranslationText: 'Esta história foi criada em {language} e ainda não há tradução disponível.'
   continuedText: 'Continua...'
   endText: 'O fim'
+  actions:
+    playAudio:
+      label: 'Reproduzir áudio da história'
 AppModal:
   buttons:
     close: Fechar

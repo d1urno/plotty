@@ -277,6 +277,9 @@ StoryChapter:
       title: 'Écrivez votre propre continuation'
       buttons:
         submit: 'Soumettre'
+actions:
+  playAudio:
+    label: "Lire l'audio du chapitre"
 StorySlug:
   mainRolesTitle: 'Rôles principaux'
   secondaryRolesTitle: 'Rôles secondaires'
@@ -298,6 +301,9 @@ StoryItem:
   noTranslationText: "Cette histoire a été créée dans {language} et il n'y a pas encore de traduction disponible."
   continuedText: 'À suivre...'
   endText: 'La fin'
+  actions:
+    playAudio:
+      label: "Lire l'audio de l'histoire"
 AppModal:
   buttons:
     close: Fermer
