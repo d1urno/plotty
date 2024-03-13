@@ -74,7 +74,7 @@ const { root, updateScrollPosition } = useScrollPosition()
       <router-view
         ref="root"
         v-slot="{ Component, route }"
-        class="scrollbar-gutter absolute inset-0 w-full overflow-y-auto"
+        class="absolute inset-0 w-full overflow-y-auto"
       >
         <transition
           :name="(route.meta.transition as string | undefined) || 'page-scale-fade'"
