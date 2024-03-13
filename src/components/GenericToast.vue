@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import AppLink from '@/components/AppLink.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 
 export interface GenericToast {
   id: string
   timestamp: number
   content: string
-  type: 'success' | 'info' | 'error'
+  type: 'success' | 'info' | 'error' | 'loading'
   duration?: number
   closable?: boolean
   buttons?: {
@@ -39,11 +40,12 @@ onMounted(() => {
   <div
     class="m-6 flex items-center gap-4 rounded-lg p-4 text-white"
     :class="{
-      'bg-blue-500': toast.type === 'info',
+      'bg-blue-500': toast.type === 'info' || toast.type === 'loading',
       'bg-red-500': toast.type === 'error',
       'bg-green-500': toast.type === 'success'
     }"
   >
+    <LoadingSpinner v-if="toast.type === 'loading'" class="*:bg-white" />
     <p v-html="toast.content" />
     <button
       v-if="toast.closable"

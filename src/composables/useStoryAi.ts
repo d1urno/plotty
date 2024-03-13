@@ -88,7 +88,7 @@ function useStoryAi() {
     const toastTimeout = setTimeout(() => {
       toastId = showToast({
         content: t('useAi.generatingText'),
-        type: 'info',
+        type: 'loading',
         duration: 0,
         buttons: [
           {
